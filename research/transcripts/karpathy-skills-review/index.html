@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Andrej Karpathy Skills — CLAUDE.md Discipline Layer — Research Intake</title>
+<meta name="description" content="REPOEVAL of forrestchang/andrej-karpathy-skills — a 14k-star CLAUDE.md instruction layer enforcing four behavioral principles on Claude Code. ADOPT+MERGE.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1E3A5F;
+    --navy-light: #2a4f7f;
+    --orange: #F59E0B;
+    --bg: #020617;
+    --bg-raised: #0a1220;
+    --bg-card: #0f1a2e;
+    --border: #1e293b;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --text-faint: #64748b;
+    --green: #10b981;
+    --red: #ef4444;
+    --yellow: #eab308;
+    --blue: #3b82f6;
+    --purple: #a855f7;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(30,58,95,0.25) 0%, transparent 50%),
+      radial-gradient(circle at 85% 90%, rgba(245,158,11,0.08) 0%, transparent 50%);
+  }
+  .container { max-width: 820px; margin: 0 auto; padding: 0 24px; }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 20px 0;
+    background: rgba(2,6,23,0.85);
+    backdrop-filter: blur(12px);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
+  .breadcrumb { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-faint); }
+  .breadcrumb a { color: var(--text-dim); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--orange); }
+  .breadcrumb span { color: var(--orange); }
+  .home-link { font-size: 12px; color: var(--text-dim); text-decoration: none; font-family: 'JetBrains Mono', monospace; }
+  .home-link:hover { color: var(--orange); }
+
+  article { padding: 60px 0 80px; }
+
+  .post-meta {
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+    margin-bottom: 24px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.1em;
+  }
+  .type-badge {
+    padding: 4px 10px;
+    background: rgba(59,130,246,0.15);
+    color: var(--blue);
+    border: 1px solid rgba(59,130,246,0.4);
+    border-radius: 4px;
+  }
+  .verdict-badge {
+    padding: 4px 10px;
+    background: rgba(16,185,129,0.15);
+    color: var(--green);
+    border: 1px solid rgba(16,185,129,0.4);
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .score-badge {
+    padding: 4px 10px;
+    background: rgba(168,85,247,0.15);
+    color: var(--purple);
+    border: 1px solid rgba(168,85,247,0.4);
+    border-radius: 4px;
+    font-weight: 600;
+  }
+
+  h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    margin-bottom: 20px;
+  }
+  .dek {
+    font-size: 19px; color: var(--text-dim);
+    margin-bottom: 32px; line-height: 1.5;
+  }
+  .source-box {
+    padding: 20px 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--orange);
+    border-radius: 6px;
+    margin-bottom: 48px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+  }
+  .source-field { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-faint); font-family: 'JetBrains Mono', monospace; margin-bottom: 4px; }
+  .source-val { font-size: 14px; color: var(--text); }
+  .source-val a { color: var(--orange); text-decoration: none; }
+  .source-val a:hover { text-decoration: underline; }
+
+  h2 {
+    font-size: 13px; font-weight: 600;
+    color: var(--orange);
+    text-transform: uppercase; letter-spacing: 0.18em;
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 56px;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--border);
+  }
+  h3 {
+    font-size: 22px; font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-top: 36px;
+    margin-bottom: 14px;
+    color: var(--text);
+  }
+  p { margin-bottom: 18px; color: var(--text-dim); font-size: 16px; }
+  p strong { color: var(--text); font-weight: 600; }
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88em;
+    background: var(--bg-card);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: var(--orange);
+    border: 1px solid var(--border);
+  }
+  pre {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin: 20px 0 28px;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  pre code { background: transparent; border: none; padding: 0; color: var(--text); }
+  ul, ol { margin: 16px 0 24px 20px; color: var(--text-dim); }
+  li { margin-bottom: 10px; }
+  li strong { color: var(--text); }
+
+  .tldr {
+    padding: 24px 28px;
+    background: linear-gradient(180deg, rgba(16,185,129,0.08) 0%, rgba(30,58,95,0.15) 100%);
+    border: 1px solid rgba(16,185,129,0.3);
+    border-radius: 8px;
+    margin: 32px 0 48px;
+  }
+  .tldr-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em;
+    color: var(--green); margin-bottom: 12px;
+  }
+  .tldr p { margin-bottom: 0; color: var(--text); font-size: 17px; line-height: 1.6; }
+
+  .principles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin: 24px 0 32px;
+  }
+  .principle {
+    padding: 22px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    border-top: 2px solid var(--orange);
+  }
+  .principle-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--orange); margin-bottom: 8px; }
+  .principle-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+  .principle-desc { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+
+  .repoeval {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 32px 0;
+  }
+  .repoeval-head {
+    padding: 18px 24px;
+    background: linear-gradient(90deg, var(--navy) 0%, transparent 100%);
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+  }
+  .repoeval-title { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--orange); text-transform: uppercase; letter-spacing: 0.12em; }
+  .repoeval-score { font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 700; color: var(--green); }
+  .repoeval-score small { font-size: 12px; color: var(--text-faint); font-weight: 400; }
+  .repoeval-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0;
+  }
+  .metric {
+    padding: 16px 20px;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .metric:last-child { border-right: none; }
+  .metric-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-faint); font-family: 'JetBrains Mono', monospace; margin-bottom: 6px; }
+  .metric-val { font-size: 15px; font-weight: 600; color: var(--text); }
+  .metric-val.good { color: var(--green); }
+  .metric-val.warn { color: var(--yellow); }
+
+  .mapping-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0 32px;
+    font-size: 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .mapping-table th {
+    text-align: left;
+    padding: 14px 18px;
+    background: var(--bg-raised);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--orange);
+    text-transform: uppercase; letter-spacing: 0.1em;
+    border-bottom: 1px solid var(--border);
+  }
+  .mapping-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-dim);
+    vertical-align: top;
+  }
+  .mapping-table tr:last-child td { border-bottom: none; }
+  .mapping-table td:first-child { color: var(--text); font-weight: 500; }
+
+  .verdict-banner {
+    padding: 28px 32px;
+    background: linear-gradient(135deg, rgba(16,185,129,0.12) 0%, rgba(245,158,11,0.08) 100%);
+    border: 1px solid rgba(16,185,129,0.3);
+    border-radius: 10px;
+    margin: 40px 0;
+  }
+  .verdict-banner-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--green); margin-bottom: 10px; }
+  .verdict-banner h3 { margin-top: 0; font-size: 24px; }
+  .verdict-banner p { font-size: 15px; }
+
+  .actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+    margin: 24px 0 32px;
+  }
+  .action {
+    padding: 18px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    border-radius: 6px;
+  }
+  .action-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--green); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+  .action-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .action-desc { font-size: 13px; color: var(--text-dim); }
+
+  .warn-box {
+    padding: 18px 22px;
+    background: rgba(234,179,8,0.08);
+    border: 1px solid rgba(234,179,8,0.3);
+    border-left: 3px solid var(--yellow);
+    border-radius: 6px;
+    margin: 24px 0;
+  }
+  .warn-box strong { color: var(--yellow); }
+
+  footer { padding: 48px 0; border-top: 1px solid var(--border); color: var(--text-faint); font-size: 12px; text-align: center; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="breadcrumb">
+      <a href="../../">research</a> / <a href="../">transcripts</a> / <span>karpathy-skills-review</span>
+    </div>
+    <a class="home-link" href="../../">← back to intake</a>
+  </div>
+</header>
+
+<article>
+  <div class="container">
+
+    <div class="post-meta">
+      <span class="type-badge">Transcript + REPOEVAL</span>
+      <span class="verdict-badge">ADOPT + MERGE</span>
+      <span class="score-badge">REPOEVAL 92</span>
+      <span>2026-04-12</span>
+    </div>
+
+    <h1>Karpathy's CLAUDE.md Discipline Layer</h1>
+    <p class="dek">A 14k-star single-file instruction layer that fixes Claude Code's worst behaviors: silent assumptions, over-engineering, off-scope edits, and unverified completion. Karpathy himself starred it. Four principles. MIT license. Adopt.</p>
+
+    <div class="source-box">
+      <div>
+        <div class="source-field">Video</div>
+        <div class="source-val"><a href="https://youtu.be/PzhTLHQfdRE" target="_blank" rel="noopener">youtu.be/PzhTLHQfdRE</a></div>
+      </div>
+      <div>
+        <div class="source-field">Repo</div>
+        <div class="source-val"><a href="https://github.com/forrestchang/andrej-karpathy-skills" target="_blank" rel="noopener">forrestchang/andrej-karpathy-skills</a></div>
+      </div>
+      <div>
+        <div class="source-field">License</div>
+        <div class="source-val" style="color:var(--green);">MIT ✓</div>
+      </div>
+      <div>
+        <div class="source-field">Stars / Forks</div>
+        <div class="source-val">~14k / ~970</div>
+      </div>
+    </div>
+
+    <div class="tldr">
+      <div class="tldr-label">◆ TL;DR</div>
+      <p>This is a single <code>CLAUDE.md</code> file (plus a Claude Code plugin wrapper) that encodes four behavioral principles to stop Claude Code from making silent assumptions, over-engineering, touching unrelated code, and claiming completion without verification. These map <strong>directly</strong> onto gaps in the current SUMMIT + AUTOLOOP discipline — particularly "surgical changes" (which AUTOLOOP V2 evolver needs as a hard constraint) and "goal-driven execution" (which Ariel already runs, but could formalize).</p>
+    </div>
+
+    <h2>// The four principles</h2>
+    <div class="principles">
+      <div class="principle">
+        <div class="principle-num">01</div>
+        <div class="principle-title">Think before coding</div>
+        <div class="principle-desc">Surface assumptions. Present multiple interpretations. Push back when warranted. Never pick silently.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-num">02</div>
+        <div class="principle-title">Simplicity first</div>
+        <div class="principle-desc">Minimum code that solves the problem. No speculative abstractions. No framework for a one-function task.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-num">03</div>
+        <div class="principle-title">Surgical changes</div>
+        <div class="principle-desc">Only touch what the task requires. No drive-by cleanups, refactors, or comment rewrites in adjacent code.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-num">04</div>
+        <div class="principle-title">Goal-driven execution</div>
+        <div class="principle-desc">Turn vague requests into verifiable success criteria. Reproduce → fix → verify → stop.</div>
+      </div>
+    </div>
+
+    <h2>// REPOEVAL</h2>
+
+    <div class="repoeval">
+      <div class="repoeval-head">
+        <div class="repoeval-title">// forrestchang/andrej-karpathy-skills</div>
+        <div class="repoeval-score">92 <small>/ 100</small></div>
+      </div>
+      <div class="repoeval-grid">
+        <div class="metric"><div class="metric-label">License</div><div class="metric-val good">MIT</div></div>
+        <div class="metric"><div class="metric-label">Size</div><div class="metric-val good">~27 KB</div></div>
+        <div class="metric"><div class="metric-label">Social Proof</div><div class="metric-val good">14k★ · Karpathy-starred</div></div>
+        <div class="metric"><div class="metric-label">Relevance</div><div class="metric-val good">Direct SUMMIT/AUTOLOOP</div></div>
+        <div class="metric"><div class="metric-label">Integration cost</div><div class="metric-val good">&lt; 10 min</div></div>
+        <div class="metric"><div class="metric-label">Maintenance</div><div class="metric-val warn">Single-file, low churn</div></div>
+      </div>
+    </div>
+
+    <h3>Install paths</h3>
+    <p>Two options documented in the repo:</p>
+    <pre><code># Option A: Claude Code plugin (global)
+/plugin marketplace add forrestchang/andrej-karpathy-skills
+/plugin install andrej-karpathy-skills@karpathy-skills
+
+# Option B: per-project CLAUDE.md append
+curl https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md >> CLAUDE.md</code></pre>
+
+    <h2>// Cross-pollination to the Everest stack</h2>
+
+    <table class="mapping-table">
+      <thead>
+        <tr><th>Karpathy principle</th><th>Everest equivalent</th><th>Delta</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Think before coding (surface assumptions)</td>
+          <td>HONESTY PROTOCOL (VERIFIED/UNTESTED/INFERRED)</td>
+          <td>Already covered. External validation.</td>
+        </tr>
+        <tr>
+          <td>Simplicity first (minimum code)</td>
+          <td>XGBoost efficiency (90min/chat cap)</td>
+          <td>Complementary axis. Karpathy enforces per-diff, Everest enforces per-session.</td>
+        </tr>
+        <tr>
+          <td>Surgical changes (only touch the ask)</td>
+          <td><strong>Gap.</strong> Not explicit in AUTOLOOP V2 evolver.</td>
+          <td><strong>ADOPT as hard constraint.</strong> Evolver currently can bloat the prompt — this is literally the Dylan warning from the previous transcript.</td>
+        </tr>
+        <tr>
+          <td>Goal-driven execution (verify → stop)</td>
+          <td>EG14 quality gate + SUMMIT verdict phase</td>
+          <td>Already mature. Karpathy's version is the single-agent equivalent.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="warn-box">
+      <strong>Warning — merge, don't replace.</strong> Everest's CLAUDE.md files already carry PAIRING RULE, HONESTY PROTOCOL, COST DISCIPLINE, and CLI-anything mandates. Wholesale <code>curl … &gt;&gt; CLAUDE.md</code> would duplicate the assumption-surfacing rule and bury Everest-specific invariants under Karpathy's prose. Merge semantically, not byte-concatenate.
+    </div>
+
+    <h2>// Verdict</h2>
+
+    <div class="verdict-banner">
+      <div class="verdict-banner-label">◆ ADOPT + MERGE</div>
+      <h3>Principles 02 and 03 fill real gaps. Ship them as a named section.</h3>
+      <p>The specific win is making "surgical changes" an explicit hard constraint on the AUTOLOOP V2 evolver — which right now has no guardrail against prompt bloat. This is the exact failure mode Dylan warned about in the previous intake entry. Two independent sources converging on the same gap = ship it.</p>
+    </div>
+
+    <h2>// Concrete actions</h2>
+    <div class="actions">
+      <div class="action">
+        <div class="action-tag">MERGE · P1</div>
+        <div class="action-title">Add Karpathy section to CLAUDE.md</div>
+        <div class="action-desc">New section "## Behavioral Discipline (Karpathy)" in the canonical CLAUDE.md template, propagated to all 11 Everest repos. Link source + license attribution.</div>
+      </div>
+      <div class="action">
+        <div class="action-tag">AUTOLOOP · P1</div>
+        <div class="action-title">Surgical diff constraint on evolver</div>
+        <div class="action-desc">AUTOLOOP V2 evolver must reject prompt updates &gt; N lines without explicit justification. Closes the bloat failure mode.</div>
+      </div>
+      <div class="action">
+        <div class="action-tag">PLUGIN · P3</div>
+        <div class="action-title">Evaluate Claude Code plugin path</div>
+        <div class="action-desc">Test <code>/plugin install</code> flow on one dev machine before fleet-wide adoption. Plugin vs per-repo CLAUDE.md is a governance question.</div>
+      </div>
+      <div class="action">
+        <div class="action-tag">CONTENT · P2</div>
+        <div class="action-title">LinkedIn: two-source convergence</div>
+        <div class="action-desc">"Dylan and Karpathy landed on the same bloat warning in the same week. Here's how Everest enforces it." PAIRING RULE applies.</div>
+      </div>
+    </div>
+
+    <h2>// Related intake</h2>
+    <p>This entry echoes the <a href="../dylan-extraction-funnel/" style="color:var(--orange);">Dylan extraction funnel</a> warning about "minimal surgical" prompt updates. Two independent practitioners, one week apart, same conclusion. Strong signal.</p>
+
+  </div>
+</article>
+
+<footer>
+  <div class="container">
+    Everest Capital USA · Research Intake · <code>breverdbidder/everest-battle-cards</code>
+  </div>
+</footer>
+
+</body>
+</html>
