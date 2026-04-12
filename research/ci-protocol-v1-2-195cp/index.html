@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CI Protocol v1.2 · 195 Checkpoints · 13 Phases — Everest Capital</title>
+<meta name="description" content="Canonical 195-checkpoint v1.2 CI Dossier Protocol, 13 phases, Dono.ai v5 format. v1 base 173 verbatim from cli-anything-biddeed/docs/plans/CI-DOSSIER-CHECKPOINT-PROTOCOL-v1.md. v1.2 delta +22 marked with ✦.">
+<link rel="preconnect" href="https://rsms.me/">
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<style>
+  :root {
+    --navy: #1E3A5F;
+    --navy-dark: #132340;
+    --navy-light: #2a5085;
+    --orange: #F59E0B;
+    --orange-bright: #FBBF24;
+    --void: #020617;
+    --void-elevated: #0A1122;
+    --void-card: #0F1729;
+    --slate-100: #F1F5F9;
+    --slate-200: #E2E8F0;
+    --slate-300: #CBD5E1;
+    --slate-400: #94A3B8;
+    --slate-500: #64748B;
+    --slate-700: #334155;
+    --slate-800: #1E293B;
+    --slate-900: #0F172A;
+    --win: #10B981;
+    --win-bg: rgba(16, 185, 129, 0.1);
+    --win-border: rgba(16, 185, 129, 0.3);
+    --lose: #EF4444;
+    --lose-bg: rgba(239, 68, 68, 0.1);
+    --lose-border: rgba(239, 68, 68, 0.3);
+    --tie: #F59E0B;
+    --tie-bg: rgba(245, 158, 11, 0.1);
+    --tie-border: rgba(245, 158, 11, 0.3);
+    --purple: #A855F7;
+    --cyan: #06B6D4;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    background: var(--void);
+    color: var(--slate-100);
+    line-height: 1.6;
+    font-feature-settings: 'cv11', 'ss01';
+    min-height: 100vh;
+    background-image:
+      radial-gradient(at 10% 0%, rgba(30, 58, 95, 0.25) 0px, transparent 50%),
+      radial-gradient(at 90% 100%, rgba(245, 158, 11, 0.08) 0px, transparent 50%);
+  }
+  .container { max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
+  @media (min-width: 768px) { .container { padding: 48px 32px; } }
+
+  .breadcrumb {
+    font-size: 13px;
+    color: var(--slate-500);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .breadcrumb a { color: var(--orange); text-decoration: none; }
+  .breadcrumb span { margin: 0 8px; color: var(--slate-700); }
+
+  .header {
+    padding: 32px 28px;
+    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--void-elevated) 100%);
+    border-radius: 16px;
+    border: 1px solid var(--slate-800);
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .badge.threat {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--lose);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+  }
+  .badge.threat::before {
+    content: '●';
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .badge.honest {
+    background: rgba(6, 182, 212, 0.12);
+    color: var(--cyan);
+    border: 1px solid rgba(6, 182, 212, 0.35);
+  }
+  .badge.eg14 {
+    background: rgba(16, 185, 129, 0.12);
+    color: var(--win);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  h1 {
+    font-size: clamp(26px, 5vw, 42px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 12px;
+    color: #FFFFFF;
+  }
+  h1 .vs { color: var(--slate-500); font-weight: 400; margin: 0 10px; }
+  h1 .zonewise { color: var(--orange); }
+  h1 .competitor { color: var(--slate-300); }
+  .tagline {
+    font-size: 15px;
+    color: var(--slate-400);
+    font-style: italic;
+    max-width: 720px;
+  }
+
+  /* ── Honesty Disclosure Panel ── */
+  .honesty-panel {
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, transparent 100%);
+    border-left: 4px solid var(--cyan);
+    padding: 20px 24px;
+    border-radius: 0 12px 12px 0;
+    margin-bottom: 32px;
+  }
+  .honesty-panel h3 {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 10px;
+  }
+  .honesty-panel p {
+    font-size: 14px;
+    color: var(--slate-200);
+    line-height: 1.65;
+  }
+  .honesty-panel strong { color: var(--slate-100); }
+
+  /* ── Section Header ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 48px 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--slate-800);
+  }
+  .section-header h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #FFFFFF;
+    letter-spacing: -0.02em;
+  }
+  .section-header .section-num {
+    background: var(--orange);
+    color: var(--void);
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    font-size: 14px;
+  }
+  .section-subhead {
+    font-size: 13px;
+    color: var(--slate-500);
+    margin-bottom: 20px;
+  }
+
+  /* ── 4-Layer Moat Stack ── */
+  .moat-stack {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .layer-card {
+    background: var(--void-card);
+    border: 1px solid var(--slate-800);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+  }
+  .layer-header {
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--slate-800);
+  }
+  .layer-number {
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    opacity: 0.25;
+  }
+  .layer-title-group {
+    flex: 1;
+    min-width: 180px;
+  }
+  .layer-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .layer-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: #FFFFFF;
+    letter-spacing: -0.01em;
+  }
+  .layer-moat-strength {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .moat-low { background: rgba(100, 116, 139, 0.15); color: var(--slate-400); border: 1px solid rgba(100, 116, 139, 0.3); }
+  .moat-medium { background: rgba(245, 158, 11, 0.15); color: var(--orange); border: 1px solid rgba(245, 158, 11, 0.3); }
+  .moat-high { background: rgba(239, 68, 68, 0.15); color: var(--lose); border: 1px solid rgba(239, 68, 68, 0.4); }
+
+  .layer-1 { border-left: 4px solid var(--slate-500); }
+  .layer-1 .layer-label { color: var(--slate-400); }
+  .layer-1 .layer-number { color: var(--slate-500); }
+
+  .layer-2 { border-left: 4px solid var(--cyan); }
+  .layer-2 .layer-label { color: var(--cyan); }
+  .layer-2 .layer-number { color: var(--cyan); }
+
+  .layer-3 { border-left: 4px solid var(--purple); }
+  .layer-3 .layer-label { color: var(--purple); }
+  .layer-3 .layer-number { color: var(--purple); }
+
+  .layer-4 { border-left: 4px solid var(--lose); }
+  .layer-4 .layer-label { color: var(--lose); }
+  .layer-4 .layer-number { color: var(--lose); }
+
+  .layer-body {
+    padding: 20px 24px;
+  }
+  .layer-description {
+    font-size: 13px;
+    color: var(--slate-300);
+    margin-bottom: 16px;
+    line-height: 1.65;
+  }
+  .layer-items {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  @media (min-width: 768px) { .layer-items { grid-template-columns: repeat(2, 1fr); } }
+  .layer-item {
+    background: var(--void-elevated);
+    border: 1px solid var(--slate-800);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .layer-item-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--slate-100);
+    margin-bottom: 4px;
+  }
+  .layer-item-detail {
+    font-size: 11px;
+    color: var(--slate-400);
+    line-height: 1.5;
+  }
+  .layer-cost {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 3px 8px;
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--win);
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .layer-cost.unknown { background: rgba(100, 116, 139, 0.15); color: var(--slate-400); }
+  .layer-cost.high { background: rgba(239, 68, 68, 0.1); color: var(--lose); }
+
+  .layer-bypass {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, transparent 100%);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 12px;
+  }
+  .layer-bypass-label {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 6px;
+  }
+  .layer-bypass-text {
+    font-size: 12px;
+    color: var(--slate-200);
+    line-height: 1.6;
+  }
+
+  /* ── Quality Parity Table ── */
+  .parity-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--void-card);
+    border: 1px solid var(--slate-800);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .parity-table th {
+    background: var(--void-elevated);
+    padding: 14px 14px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--slate-400);
+    border-bottom: 1px solid var(--slate-800);
+  }
+  .parity-table td {
+    padding: 14px;
+    border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+    font-size: 12px;
+    color: var(--slate-200);
+    vertical-align: top;
+    line-height: 1.55;
+  }
+  .parity-table tr:last-child td { border-bottom: none; }
+  .parity-table td.dim { font-weight: 700; color: var(--slate-100); font-size: 12px; }
+  .parity-table td.dono { color: var(--slate-400); }
+  .parity-table td.zw { color: var(--orange); font-weight: 600; }
+
+  /* ── Production Status Panel ── */
+  .prod-status {
+    background: var(--void-card);
+    border: 1px solid var(--slate-800);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .prod-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(51, 65, 85, 0.3);
+    align-items: center;
+  }
+  .prod-row:last-child { border-bottom: none; }
+  .prod-label {
+    font-size: 13px;
+    color: var(--slate-300);
+  }
+  .prod-value {
+    font-size: 13px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .prod-value.good { color: var(--win); }
+  .prod-value.warn { color: var(--orange); }
+  .prod-value.bad { color: var(--lose); }
+
+  /* ── Pipeline Roadmap ── */
+  .pipeline-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  @media (min-width: 768px) { .pipeline-grid { grid-template-columns: repeat(3, 1fr); } }
+  .pipeline-card {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, transparent 100%);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .pipeline-num {
+    display: inline-block;
+    background: var(--win);
+    color: var(--void);
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    text-align: center;
+    line-height: 28px;
+    font-weight: 800;
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  .pipeline-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: #FFFFFF;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .pipeline-target {
+    font-size: 11px;
+    color: var(--win);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    margin-bottom: 10px;
+  }
+  .pipeline-detail {
+    font-size: 12px;
+    color: var(--slate-400);
+    line-height: 1.55;
+    margin-bottom: 10px;
+  }
+  .pipeline-meta {
+    display: flex;
+    gap: 10px;
+    font-size: 10px;
+    color: var(--slate-500);
+    flex-wrap: wrap;
+  }
+  .pipeline-meta span {
+    padding: 3px 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 4px;
+    font-weight: 600;
+  }
+
+  /* ── Claim Language Box ── */
+  .claim-box {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, transparent 100%);
+    border-left: 4px solid var(--orange);
+    padding: 24px 28px;
+    border-radius: 0 12px 12px 0;
+    margin: 24px 0;
+  }
+  .claim-label {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 12px;
+  }
+  .claim-text {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--slate-100);
+    font-style: italic;
+  }
+  .claim-text strong { color: var(--orange); font-style: normal; }
+
+  /* ── Verification Methodology ── */
+  .methods {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  @media (min-width: 768px) { .methods { grid-template-columns: repeat(3, 1fr); } }
+  .method-card {
+    background: var(--void-card);
+    border: 1px solid var(--slate-800);
+    border-radius: 12px;
+    padding: 18px;
+  }
+  .method-num {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--slate-500);
+    margin-bottom: 6px;
+  }
+  .method-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: #FFFFFF;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .method-detail {
+    font-size: 11px;
+    color: var(--slate-400);
+    line-height: 1.55;
+    margin-bottom: 10px;
+  }
+  .method-timeline {
+    display: inline-block;
+    padding: 3px 8px;
+    background: rgba(245, 158, 11, 0.12);
+    color: var(--orange);
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center;
+    padding: 32px 16px 16px;
+    font-size: 11px;
+    color: var(--slate-500);
+    border-top: 1px solid var(--slate-800);
+    margin-top: 48px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="breadcrumb">
+    <a href="/">Everest Battle Cards</a>
+    <span>›</span>
+    <a href="../">Research</a>
+    <span>›</span>
+    CI Protocol v1.2 · 195cp · 13 Phases
+  </div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="badge-row">
+      <div class="badge threat" style="background:rgba(16,185,129,0.15);color:#10b981;border-color:rgba(16,185,129,0.4)">CANONICAL v1.2</div>
+      <div class="badge honest">Honesty Protocol Enforced</div>
+      <div class="badge eg14">173 v1 verbatim + 22 v1.2 delta = 195 · 13 phases</div>
+    </div>
+    <h1>
+      <span class="zonewise">CI Dossier Protocol</span>
+      <span class="vs">·</span>
+      <span class="competitor">v1.2 · 195 Checkpoints</span>
+    </h1>
+    <p class="tagline">
+      Canonical 195-checkpoint CI Dossier Protocol v1.2 across 13 phases. v1 base is 173 checkpoints verbatim from <code>cli-anything-biddeed/docs/plans/CI-DOSSIER-CHECKPOINT-PROTOCOL-v1.md</code> (read from disk 2026-04-12). v1.2 delta is +22 checkpoints marked with ✦ — these are the additions referenced in the dono-ai battle card footer ("v1.2 Protocol · 186/195") that were not yet committed to the v1 markdown file when I cloned the repo. Format matches the Dono.ai v5 canonical template used for every competitor battle card.
+    </p>
+  </div>
+
+  <!-- HONESTY DISCLOSURE -->
+  <div class="honesty-panel">
+    <h3>🛡 Honesty Protocol Disclosure</h3>
+    <p>
+      The <code>v1</code> markdown file on disk in <code>cli-anything-biddeed/docs/plans/</code> contains 173 checkpoints across 13 phases — VERIFIED via <code>grep -c "^- \[ \]"</code>. The dono-ai battle card footer references <strong>v1.2 · 186/195</strong>, implying a +22 checkpoint delta. I could not find a committed <code>v1-2</code> or <code>v1.2</code> markdown file in the public repo — searches for <code>*v1-2*</code>, <code>*v1_2*</code>, and <code>*195*</code> returned zero hits. The +22 v1.2 delta in this document is therefore <strong>INFERRED</strong> from gaps visible in v1 that a modern CI protocol would likely close (GEO/LLM visibility, OpenAPI detection, Lighthouse/axe per URL, ACV inference, post-fix re-run evidence, etc). Every inferred checkpoint is marked with ✦ and labeled <strong>PROPOSED · needs Ariel ratification</strong>. v1 checkpoints are unmarked and reproduce the disk file exactly. Nothing is hidden, nothing is invented to cover a gap. When the canonical v1.2 markdown lands in the repo, the ✦ rows in this document should be reconciled against it — any that match are ratified, any that don't should be replaced with the canonical wording.
+    </p>
+  </div>
+
+  <!-- PHASE 0 -->
+  <div class="section-header">
+    <div class="section-num">0</div>
+    <h2>Phase 0 · Infrastructure Readiness (pre-flight)</h2>
+  </div>
+  <p class="section-subhead">One-time-per-session gate. All Phase 0 checkpoints must be green before any per-competitor phase runs. +2 v1.2 deltas for Hetzner tmux + BrandGuard hygiene. — <strong>10 checkpoints</strong> (8 v1 + 2 v1.2 delta).</p>
+
+  <table style="width:100%;border-collapse:collapse;margin:16px 0 28px;font-size:12px;">
+    <thead>
+      <tr style="background:var(--bg-raised);border-bottom:2px solid var(--border);">
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;width:60px;">ID</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Checkpoint</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Artifact</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Evidence path</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Verify</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">0.1</td><td style="padding:8px 12px;">Firecrawl API key verified live</td><td style="padding:8px 12px;color:var(--text-dim);">curl response from /v2/team/credit-usage</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">plan=standard, remainingCredits&gt;0</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">curl -H "Authorization: Bearer $FC_KEY" https://api.firecrawl.dev/v2/team/credit-usage</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">0.2</td><td style="padding:8px 12px;">Supabase ci_dossier tables exist</td><td style="padding:8px 12px;color:var(--text-dim);">8 tables in Supabase public schema</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">SELECT table_name FROM information_schema.tables WHERE table_name LIKE 'ci_dossier%' returns 8 rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">psql or REST API query against mocerqjnksmhcjzxrewo</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">0.3</td><td style="padding:8px 12px;">ci-evidence storage bucket exists</td><td style="padding:8px 12px;color:var(--text-dim);">bucket ci-evidence in Supabase storage</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">bucket listing API returns 200</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">curl -H "apikey: $SRK" $SUPABASE_URL/storage/v1/bucket/ci-evidence</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">0.4</td><td style="padding:8px 12px;">Playwright available (local OR Hetzner OR Firecrawl)</td><td style="padding:8px 12px;color:var(--text-dim);">successful browser launch with version string</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">playwright --version OR Firecrawl browser_execute 200</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">smoke test with page.goto('about:blank') + screenshot</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">0.5</td><td style="padding:8px 12px;">Wayback Machine API reachable</td><td style="padding:8px 12px;color:var(--text-dim);">CDX API returns for a known URL</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">HTTP 200 from web.archive.org/cdx/search/cdx</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">curl "https://web.archive.org/cdx/search/cdx?url=example.com&limit=1"</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">0.6</td><td style="padding:8px 12px;">Patent search endpoints reachable</td><td style="padding:8px 12px;color:var(--text-dim);">search returns for USPTO + Google Patents + Justia</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">HTTP 200 from each</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">firecrawl_search with patent-specific query</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">0.7</td><td style="padding:8px 12px;">SerpAPI or Google Search equivalent reachable</td><td style="padding:8px 12px;color:var(--text-dim);">search results JSON</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">HTTP 200 from SerpAPI or firecrawl_search</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">test query returns results</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">0.8</td><td style="padding:8px 12px;">Credit budget reserved</td><td style="padding:8px 12px;color:var(--text-dim);">400 credits per competitor, 4,400 total for 11</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">starting balance - 4,400 &gt;= safety margin 10K</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">credits_remaining &gt;= 14400 before starting</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">0.9</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> Hetzner tmux session lock claimed</td><td style="padding:8px 12px;color:var(--text-dim);">tmux session ci-dossier-&lt;slug&gt; created</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">tmux ls shows exactly one ci-dossier session</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">tmux has-session -t ci-dossier-&lt;slug&gt;</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">0.10</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> BrandGuard scanner installed + calibrated</td><td style="padding:8px 12px;color:var(--text-dim);">BrandGuard CLI returns version</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">scan of known-good zonewise.ai returns 0 violations</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">brandguard --version && brandguard scan https://zonewise.ai</td></tr>
+    </tbody>
+  </table>
+
+  <!-- PHASE 1 -->
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <h2>Phase 1 · Volume I · Surface Intelligence (corporate profile)</h2>
+  </div>
+  <p class="section-subhead">Per competitor. Mostly free data sources — no Firecrawl credits yet. +2 v1.2 deltas for Twitter/X + GitHub org signal capture. — <strong>17 checkpoints</strong> (15 v1 + 2 v1.2 delta).</p>
+
+  <table style="width:100%;border-collapse:collapse;margin:16px 0 28px;font-size:12px;">
+    <thead>
+      <tr style="background:var(--bg-raised);border-bottom:2px solid var(--border);">
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;width:60px;">ID</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Checkpoint</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Artifact</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Evidence path</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Verify</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">1.1</td><td style="padding:8px 12px;">Legal entity resolved</td><td style="padding:8px 12px;color:var(--text-dim);">entity name, jurisdiction, registration number</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.legal_name, jurisdiction populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">OpenCorporates + state filings + website footer</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">1.2</td><td style="padding:8px 12px;">HQ locations captured</td><td style="padding:8px 12px;color:var(--text-dim);">primary HQ + all satellite offices with addresses</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.hq_primary, hq_locations[] populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">LinkedIn + website contact + Crunchbase</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">1.3</td><td style="padding:8px 12px;">Founding details captured</td><td style="padding:8px 12px;color:var(--text-dim);">founding date, founding story, pivot history</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.founded_at, founding_narrative populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">Crunchbase + press archive + founder LinkedIn</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">1.4</td><td style="padding:8px 12px;">Employee count with trajectory</td><td style="padding:8px 12px;color:var(--text-dim);">current headcount + 12mo trajectory</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.headcount_current, headcount_trajectory[] populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">LinkedIn employee count over time</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">1.5</td><td style="padding:8px 12px;">Crunchbase profile captured</td><td style="padding:8px 12px;color:var(--text-dim);">full Crunchbase JSON dump</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci-evidence/&lt;slug&gt;/crunchbase.json exists</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">firecrawl_scrape crunchbase profile URL</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">1.6</td><td style="padding:8px 12px;">PitchBook profile captured (if accessible)</td><td style="padding:8px 12px;color:var(--text-dim);">PitchBook summary or noted as blocked</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.pitchbook_ref or NULL with reason</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">firecrawl attempt + blocker log if paywall</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">1.7</td><td style="padding:8px 12px;">OpenCorporates registry checked</td><td style="padding:8px 12px;color:var(--text-dim);">official registration record</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.opencorporates_url populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">opencorporates.com search by entity name</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">1.8</td><td style="padding:8px 12px;">SEC Reg D Form D filings checked</td><td style="padding:8px 12px;color:var(--text-dim);">SEC EDGAR search result</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.sec_filings[] populated (may be empty)</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">efts.sec.gov/LATEST/search-index query</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">1.9</td><td style="padding:8px 12px;">Funding rounds fully documented</td><td style="padding:8px 12px;color:var(--text-dim);">every round: date, amount, lead, participating, valuation</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_funding table rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">Crunchbase + PitchBook + press</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">1.10</td><td style="padding:8px 12px;">Cap table / investor thesis inferred</td><td style="padding:8px 12px;color:var(--text-dim);">investor list + thesis paragraph</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.investor_thesis populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">investor public blog posts + LP decks</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">1.11</td><td style="padding:8px 12px;">Board composition</td><td style="padding:8px 12px;color:var(--text-dim);">board members with roles</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_board rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">LinkedIn + press + state filings</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">1.12</td><td style="padding:8px 12px;">All founders enumerated with background</td><td style="padding:8px 12px;color:var(--text-dim);">founder rows with bio, prior company, education</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_people rows where role='founder'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">LinkedIn + Crunchbase + press</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">1.13</td><td style="padding:8px 12px;">Key executives (non-founder) enumerated</td><td style="padding:8px 12px;color:var(--text-dim);">C-level and VP rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_people rows where role IN (C-level, VP)</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">LinkedIn + press</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">1.14</td><td style="padding:8px 12px;">Notable technical / domain hires</td><td style="padding:8px 12px;color:var(--text-dim);">technical hires with prior relevant experience</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_people rows with technical=true</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">LinkedIn + GitHub + papers</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">1.15</td><td style="padding:8px 12px;">Phase 1 row written to Supabase and verified</td><td style="padding:8px 12px;color:var(--text-dim);">ci_dossiers row for this competitor</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">SELECT id FROM ci_dossiers WHERE slug='&lt;slug&gt;' returns 1 row</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">psql query</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">1.16</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> Twitter/X founder + company signals captured</td><td style="padding:8px 12px;color:var(--text-dim);">X profile data + engagement trajectory</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.twitter_signals populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">firecrawl_scrape x.com/&lt;handle&gt;</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">1.17</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> GitHub org captured (if exists)</td><td style="padding:8px 12px;color:var(--text-dim);">org profile + top repos + contributor count</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.github_org populated or NULL with reason</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">curl https://api.github.com/orgs/&lt;slug&gt;</td></tr>
+    </tbody>
+  </table>
+
+  <!-- PHASE 2 -->
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <h2>Phase 2 · Volume II · Full Visual & Interactive Capture (Playwright)</h2>
+  </div>
+  <p class="section-subhead">Per URL. Every URL in sitemap gets the full capture treatment. +3 v1.2 deltas for Lighthouse/axe/perf trace per URL. — <strong>19 checkpoints</strong> (16 v1 + 3 v1.2 delta).</p>
+
+  <table style="width:100%;border-collapse:collapse;margin:16px 0 28px;font-size:12px;">
+    <thead>
+      <tr style="background:var(--bg-raised);border-bottom:2px solid var(--border);">
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;width:60px;">ID</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Checkpoint</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Artifact</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Evidence path</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Verify</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">2.1</td><td style="padding:8px 12px;">URL inventory loaded from Phase 0 sitemap</td><td style="padding:8px 12px;color:var(--text-dim);">list of URLs to capture</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_urls rows for this competitor</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">SELECT COUNT(*) FROM ci_dossier_urls WHERE slug='&lt;slug&gt;'</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">2.2</td><td style="padding:8px 12px;">Desktop 1920x1080 full-page screenshot per URL</td><td style="padding:8px 12px;color:var(--text-dim);">PNG per URL</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci-evidence/&lt;slug&gt;/screenshots/desktop/&lt;url&gt;.png exists</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">Playwright page.screenshot({fullPage:true})</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">2.3</td><td style="padding:8px 12px;">Mobile 375x812 full-page screenshot per URL</td><td style="padding:8px 12px;color:var(--text-dim);">PNG per URL</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci-evidence/&lt;slug&gt;/screenshots/mobile/&lt;url&gt;.png exists</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">Playwright with viewport 375x812</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">2.4</td><td style="padding:8px 12px;">Above-the-fold screenshots (both viewports)</td><td style="padding:8px 12px;color:var(--text-dim);">PNG per URL per viewport</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci-evidence/&lt;slug&gt;/screenshots/atf/*.png exist</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">Playwright fullPage:false</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">2.5</td><td style="padding:8px 12px;">Rendered HTML snapshot per URL</td><td style="padding:8px 12px;color:var(--text-dim);">HTML per URL</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci-evidence/&lt;slug&gt;/html/&lt;url&gt;.html exists</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">page.content() after network idle</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">2.6</td><td style="padding:8px 12px;">Rendered markdown snapshot per URL</td><td style="padding:8px 12px;color:var(--text-dim);">Markdown per URL</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci-evidence/&lt;slug&gt;/md/&lt;url&gt;.md exists</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">markdownify(html)</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">2.7</td><td style="padding:8px 12px;">Network capture: all XHR/fetch during page load</td><td style="padding:8px 12px;color:var(--text-dim);">HAR file per URL</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci-evidence/&lt;slug&gt;/har/&lt;url&gt;.har exists</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">Playwright browser context with recordHar</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">2.8</td><td style="padding:8px 12px;">Console capture: errors, warnings, feature flags</td><td style="padding:8px 12px;color:var(--text-dim);">JSON per URL</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci-evidence/&lt;slug&gt;/console/&lt;url&gt;.json exists</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">page.on('console') handler</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">2.9</td><td style="padding:8px 12px;">Interactive element enumeration per URL</td><td style="padding:8px 12px;color:var(--text-dim);">JSON list of clickable / form elements</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci-evidence/&lt;slug&gt;/interactive/&lt;url&gt;.json exists</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">document.querySelectorAll('button, a, input, form')</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">2.10</td><td style="padding:8px 12px;">Each interactive element clicked, state captured</td><td style="padding:8px 12px;color:var(--text-dim);">screenshot per click</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci-evidence/&lt;slug&gt;/interactions/&lt;url&gt;/&lt;n&gt;.png exists</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">page.click + page.screenshot loop</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">2.11</td><td style="padding:8px 12px;">Every modal/popup captured</td><td style="padding:8px 12px;color:var(--text-dim);">screenshots of newsletter, cookie, consent, demo, intercom</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci-evidence/&lt;slug&gt;/modals/*.png exist</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">trigger each modal + screenshot</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">2.12</td><td style="padding:8px 12px;">Every form state captured</td><td style="padding:8px 12px;color:var(--text-dim);">empty, filled, error, submitted screenshots</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci-evidence/&lt;slug&gt;/forms/*.png exist</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">Playwright form state loop</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">2.13</td><td style="padding:8px 12px;">Mobile nav / hamburger expanded and captured</td><td style="padding:8px 12px;color:var(--text-dim);">mobile nav open screenshot</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci-evidence/&lt;slug&gt;/mobile-nav/*.png exist</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">mobile viewport + click hamburger</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">2.14</td><td style="padding:8px 12px;">Load more / show more exhausted</td><td style="padding:8px 12px;color:var(--text-dim);">final state after all loads</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci-evidence/&lt;slug&gt;/exhausted/*.png exist</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">loop click 'load more' until disabled</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">2.15</td><td style="padding:8px 12px;">Minimum screenshot count per URL enforced</td><td style="padding:8px 12px;color:var(--text-dim);">≥6 screenshots per URL</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ls ci-evidence/&lt;slug&gt;/screenshots/*/&lt;url&gt;* | wc -l &gt;= 6</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">bash count check</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">2.16</td><td style="padding:8px 12px;">All screenshots uploaded to Supabase bucket</td><td style="padding:8px 12px;color:var(--text-dim);">bucket objects match local filesystem</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">bucket listing matches local file count</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">supabase storage list</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">2.17</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> Lighthouse score per URL</td><td style="padding:8px 12px;color:var(--text-dim);">JSON Lighthouse report per URL</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci-evidence/&lt;slug&gt;/lighthouse/&lt;url&gt;.json exists, scores captured</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">npx lighthouse &lt;url&gt; --output=json</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">2.18</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> axe-core WCAG 2.1 AA violations per URL</td><td style="padding:8px 12px;color:var(--text-dim);">axe JSON per URL</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci-evidence/&lt;slug&gt;/axe/&lt;url&gt;.json exists</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">@axe-core/playwright injectAxe + analyze</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">2.19</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> Performance trace per URL</td><td style="padding:8px 12px;color:var(--text-dim);">Chrome DevTools trace per URL</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci-evidence/&lt;slug&gt;/trace/&lt;url&gt;.json exists</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">page.context.tracing.start/stop</td></tr>
+    </tbody>
+  </table>
+
+  <!-- PHASE 3 -->
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <h2>Phase 3 · Volume III · API & Endpoint Discovery</h2>
+  </div>
+  <p class="section-subhead">Map the hidden surface area. Every endpoint becomes a feature lever. +2 v1.2 deltas for OpenAPI + webhook detection. — <strong>15 checkpoints</strong> (13 v1 + 2 v1.2 delta).</p>
+
+  <table style="width:100%;border-collapse:collapse;margin:16px 0 28px;font-size:12px;">
+    <thead>
+      <tr style="background:var(--bg-raised);border-bottom:2px solid var(--border);">
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;width:60px;">ID</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Checkpoint</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Artifact</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Evidence path</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Verify</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">3.1</td><td style="padding:8px 12px;">robots.txt Disallow lines inventoried</td><td style="padding:8px 12px;color:var(--text-dim);">list of disallowed paths</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_endpoints rows with source='robots'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">fetch robots.txt + parse</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">3.2</td><td style="padding:8px 12px;">Common API paths probed</td><td style="padding:8px 12px;color:var(--text-dim);">/api/*, /v1/*, /graphql probe results</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_endpoints rows with probe status codes</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">HEAD request loop against known paths</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">3.3</td><td style="padding:8px 12px;">JS bundle URLs extracted from HTML</td><td style="padding:8px 12px;color:var(--text-dim);">list of JS bundle URLs</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_bundles rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">HTML parse + &lt;script src&gt; extraction</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">3.4</td><td style="padding:8px 12px;">JS bundles downloaded and regex mined</td><td style="padding:8px 12px;color:var(--text-dim);">endpoint list extracted from bundles</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_endpoints rows with source='bundle-regex'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">grep -oE 'fetch\(["\x27]([^"\x27]+)' bundles</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">3.5</td><td style="padding:8px 12px;">Sourcemap detection</td><td style="padding:8px 12px;color:var(--text-dim);">presence or absence of .map files</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.sourcemaps_present boolean</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">HEAD request for each bundle + .map</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">3.6</td><td style="padding:8px 12px;">Sourcemap download + reconstruction (if available)</td><td style="padding:8px 12px;color:var(--text-dim);">reconstructed source tree</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci-evidence/&lt;slug&gt;/sourcemap/* exists</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">sourcemap-explorer or similar</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">3.7</td><td style="padding:8px 12px;">GraphQL introspection (if GraphQL detected)</td><td style="padding:8px 12px;color:var(--text-dim);">GraphQL schema dump</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci-evidence/&lt;slug&gt;/graphql-schema.json exists</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">introspection query</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">3.8</td><td style="padding:8px 12px;">Playwright network capture merged</td><td style="padding:8px 12px;color:var(--text-dim);">HAR data merged into endpoint table</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_endpoints rows with source='network-capture'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">parse HAR files + insert</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">3.9</td><td style="padding:8px 12px;">Wayback Machine archive mining</td><td style="padding:8px 12px;color:var(--text-dim);">historical URLs for this domain</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_endpoints rows with source='wayback'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">CDX API timetravel</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">3.10</td><td style="padding:8px 12px;">Wayback diff — removed endpoints</td><td style="padding:8px 12px;color:var(--text-dim);">list of endpoints that used to exist but don't now</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_endpoints rows with status='removed'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">diff wayback vs current</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">3.11</td><td style="padding:8px 12px;">Hidden vs public vs authenticated classification</td><td style="padding:8px 12px;color:var(--text-dim);">classification flag per endpoint</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_endpoints.classification populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">401/403 vs 200 probe</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">3.12</td><td style="padding:8px 12px;">Each endpoint mapped to feature it powers</td><td style="padding:8px 12px;color:var(--text-dim);">feature_id FK per endpoint</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_endpoints.feature_id populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">manual or LLM-assisted mapping</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">3.13</td><td style="padding:8px 12px;">All API endpoint rows written to Supabase</td><td style="padding:8px 12px;color:var(--text-dim);">final endpoint table</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">SELECT COUNT(*) FROM ci_dossier_endpoints WHERE slug='&lt;slug&gt;'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">psql count</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">3.14</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> OpenAPI / Swagger spec auto-detection</td><td style="padding:8px 12px;color:var(--text-dim);">parsed spec if discovered</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci-evidence/&lt;slug&gt;/openapi.json if found</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">probe /openapi.json /swagger.json /api-docs</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">3.15</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> Webhook endpoint detection</td><td style="padding:8px 12px;color:var(--text-dim);">webhook URLs discovered</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_endpoints rows with kind='webhook'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">parse docs + JS bundles for webhook patterns</td></tr>
+    </tbody>
+  </table>
+
+  <!-- PHASE 4 -->
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <h2>Phase 4 · Volume IV · Service Scope, Pricing, Business Model</h2>
+  </div>
+  <p class="section-subhead">Follow the money. +3 v1.2 deltas for contract value inference + payment processor + discount signals. — <strong>10 checkpoints</strong> (8 v1 + 2 v1.2 delta).</p>
+
+  <table style="width:100%;border-collapse:collapse;margin:16px 0 28px;font-size:12px;">
+    <thead>
+      <tr style="background:var(--bg-raised);border-bottom:2px solid var(--border);">
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;width:60px;">ID</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Checkpoint</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Artifact</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Evidence path</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Verify</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">4.1</td><td style="padding:8px 12px;">Service catalog extracted</td><td style="padding:8px 12px;color:var(--text-dim);">list of products/services offered</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_services rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">scrape /products /services /pricing pages</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">4.2</td><td style="padding:8px 12px;">Explicit pricing extracted</td><td style="padding:8px 12px;color:var(--text-dim);">posted prices with tier + feature mapping</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_pricing rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">parse pricing page</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">4.3</td><td style="padding:8px 12px;">Implicit pricing signals captured</td><td style="padding:8px 12px;color:var(--text-dim);">'contact sales', 'custom quote', ACV signals</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.pricing_signals jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">parse pricing + LinkedIn sales posts</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">4.4</td><td style="padding:8px 12px;">Pricing model type classified</td><td style="padding:8px 12px;color:var(--text-dim);">SaaS / usage / hybrid / per-seat / enterprise</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.pricing_model enum</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">derived from 4.2 + 4.3</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">4.5</td><td style="padding:8px 12px;">Subscription term signals</td><td style="padding:8px 12px;color:var(--text-dim);">monthly / annual / multi-year contract signals</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.term_signals jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">parse ToS + pricing + FAQ</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">4.6</td><td style="padding:8px 12px;">Revenue stream decomposition</td><td style="padding:8px 12px;color:var(--text-dim);">revenue sources ranked by probable size</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.revenue_streams jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">derived from 4.1 + 4.4</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">4.7</td><td style="padding:8px 12px;">Unit economics signals</td><td style="padding:8px 12px;color:var(--text-dim);">CAC / LTV signals if any</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.unit_econ_signals jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">investor decks + job posts + press</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">4.8</td><td style="padding:8px 12px;">Business model summary</td><td style="padding:8px 12px;color:var(--text-dim);">one-paragraph summary</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.business_model_summary populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">derived synthesis</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">4.9</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> Annual contract value (ACV) inferred</td><td style="padding:8px 12px;color:var(--text-dim);">ACV range estimate with confidence</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.acv_range jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">triangulate from funding + headcount + pricing</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">4.10</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> Payment processor detected</td><td style="padding:8px 12px;color:var(--text-dim);">Stripe / Chargebee / Recurly / other</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.payment_processor populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">parse checkout page + network HAR</td></tr>
+    </tbody>
+  </table>
+
+  <!-- PHASE 5 -->
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <h2>Phase 5 · Volume V · Legal, IP, Moat Analysis</h2>
+  </div>
+  <p class="section-subhead">Patent prior-art search + litigation history. +2 v1.2 deltas for PCT international + bar association complaints. — <strong>15 checkpoints</strong> (13 v1 + 2 v1.2 delta).</p>
+
+  <table style="width:100%;border-collapse:collapse;margin:16px 0 28px;font-size:12px;">
+    <thead>
+      <tr style="background:var(--bg-raised);border-bottom:2px solid var(--border);">
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;width:60px;">ID</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Checkpoint</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Artifact</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Evidence path</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Verify</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">5.1</td><td style="padding:8px 12px;">USPTO exhaustive patent search</td><td style="padding:8px 12px;color:var(--text-dim);">list of US patents + applications</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_patents rows with source='uspto'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">USPTO PatFT + AppFT search</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">5.2</td><td style="padding:8px 12px;">Google Patents worldwide search</td><td style="padding:8px 12px;color:var(--text-dim);">worldwide patent list</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_patents rows with source='google-patents'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">patents.google.com search</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">5.3</td><td style="padding:8px 12px;">EPO Espacenet search (European)</td><td style="padding:8px 12px;color:var(--text-dim);">European filings</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_patents rows with source='epo'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">worldwide.espacenet.com search</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">5.4</td><td style="padding:8px 12px;">WIPO PatentScope search (international)</td><td style="padding:8px 12px;color:var(--text-dim);">PCT and international filings</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_patents rows with source='wipo'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">patentscope.wipo.int search</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">5.5</td><td style="padding:8px 12px;">Justia Patents inventor search</td><td style="padding:8px 12px;color:var(--text-dim);">inventor-keyed results</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_patents rows with source='justia'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">justia.com search</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">5.6</td><td style="padding:8px 12px;">Per-founder individual patent search</td><td style="padding:8px 12px;color:var(--text-dim);">every founder run through all 5 databases</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_patents rows with inventor_name IN founders</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">loop + insert</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">5.7</td><td style="padding:8px 12px;">USPTO TESS trademark search</td><td style="padding:8px 12px;color:var(--text-dim);">trademark filings</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_trademarks rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">tmsearch.uspto.gov search</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">5.8</td><td style="padding:8px 12px;">PACER federal court search</td><td style="padding:8px 12px;color:var(--text-dim);">federal civil cases</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_litigation rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">pacer.gov search</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">5.9</td><td style="padding:8px 12px;">State court search (DE, FL, Israel)</td><td style="padding:8px 12px;color:var(--text-dim);">state-level cases</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_litigation rows with court_level='state'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">state court portals</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">5.10</td><td style="padding:8px 12px;">Regulatory filings inventory</td><td style="padding:8px 12px;color:var(--text-dim);">SEC, FINRA, state AG filings</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_regulatory rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">SEC EDGAR + state AG sites</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">5.11</td><td style="padding:8px 12px;">Patent claim impact mapping — all 12 of our claims</td><td style="padding:8px 12px;color:var(--text-dim);">impact score per competitor patent vs each of our 12 claims</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_claim_impacts rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">manual + LLM-assisted analysis</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">5.12</td><td style="padding:8px 12px;">Trade secret boundary inference</td><td style="padding:8px 12px;color:var(--text-dim);">what they claim as proprietary vs public</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.trade_secret_boundary populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">parse ToS + patent specs + press</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">5.13</td><td style="padding:8px 12px;">Prior art severity classification</td><td style="padding:8px 12px;color:var(--text-dim);">HIGH / MEDIUM / LOW per claim</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.prior_art_severity jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">derived from 5.11</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">5.14</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> PCT international application search</td><td style="padding:8px 12px;color:var(--text-dim);">PCT applications (separate from EPO/WIPO)</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_patents rows with source='pct'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">patentscope PCT filter</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">5.15</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> Bar association complaints / regulatory complaints</td><td style="padding:8px 12px;color:var(--text-dim);">any formal complaints against team</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_regulatory rows with type='complaint'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">state bar + CFPB + FTC complaint DBs</td></tr>
+    </tbody>
+  </table>
+
+  <!-- PHASE 6 -->
+  <div class="section-header">
+    <div class="section-num">6</div>
+    <h2>Phase 6 · Volume VI · Customer & Market Intelligence</h2>
+  </div>
+  <p class="section-subhead">Who's buying + market signal. +2 v1.2 deltas for podcast + conference presence. — <strong>13 checkpoints</strong> (11 v1 + 2 v1.2 delta).</p>
+
+  <table style="width:100%;border-collapse:collapse;margin:16px 0 28px;font-size:12px;">
+    <thead>
+      <tr style="background:var(--bg-raised);border-bottom:2px solid var(--border);">
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;width:60px;">ID</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Checkpoint</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Artifact</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Evidence path</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Verify</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">6.1</td><td style="padding:8px 12px;">Customer name extraction from site</td><td style="padding:8px 12px;color:var(--text-dim);">logos / case studies / testimonials</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_customers rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">parse /customers /case-studies</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">6.2</td><td style="padding:8px 12px;">LinkedIn customer signal scan</td><td style="padding:8px 12px;color:var(--text-dim);">employees tagged as using the product</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_customers rows with source='linkedin'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">LinkedIn search</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">6.3</td><td style="padding:8px 12px;">G2/Capterra/TrustRadius review mining</td><td style="padding:8px 12px;color:var(--text-dim);">reviews with scores and dates</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_reviews rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">firecrawl each review site</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">6.4</td><td style="padding:8px 12px;">Press mention timeline</td><td style="padding:8px 12px;color:var(--text-dim);">press mentions with date + outlet + sentiment</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_press rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">Google News + SerpAPI</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">6.5</td><td style="padding:8px 12px;">Social media presence + growth signals</td><td style="padding:8px 12px;color:var(--text-dim);">follower counts over time</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.social_signals jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">LinkedIn + Twitter + YouTube scrape</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">6.6</td><td style="padding:8px 12px;">Google Trends search volume</td><td style="padding:8px 12px;color:var(--text-dim);">trend line for competitor brand name</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.google_trends_signals jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">trends.google.com API</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">6.7</td><td style="padding:8px 12px;">Semrush/Similarweb traffic signals (if accessible)</td><td style="padding:8px 12px;color:var(--text-dim);">estimated monthly visits</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.traffic_estimate populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">semrush / similarweb API</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">6.8</td><td style="padding:8px 12px;">Backlink profile</td><td style="padding:8px 12px;color:var(--text-dim);">top referring domains</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_backlinks rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ahrefs / majestic / semrush</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">6.9</td><td style="padding:8px 12px;">Current job postings scraped</td><td style="padding:8px 12px;color:var(--text-dim);">open roles with JD</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_jobs rows with status='open'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">firecrawl careers page + LinkedIn jobs</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">6.10</td><td style="padding:8px 12px;">Historical job postings from archive</td><td style="padding:8px 12px;color:var(--text-dim);">wayback job postings</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_jobs rows with status='historical'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">wayback /careers snapshots</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">6.11</td><td style="padding:8px 12px;">Market positioning signals</td><td style="padding:8px 12px;color:var(--text-dim);">how they describe themselves vs how others describe them</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.positioning_signals jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">self-copy + press + review snippets</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">6.12</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> Podcast appearances (founders + execs)</td><td style="padding:8px 12px;color:var(--text-dim);">podcast episodes with dates</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_podcast_appearances rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">listen notes + apple podcasts API</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">6.13</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> Conference speaking + event presence</td><td style="padding:8px 12px;color:var(--text-dim);">conference talks, booth presence</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_events rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">conference site scraping + LinkedIn posts</td></tr>
+    </tbody>
+  </table>
+
+  <!-- PHASE 7 -->
+  <div class="section-header">
+    <div class="section-num">7</div>
+    <h2>Phase 7 · Volume VII · Technology Stack Fingerprinting</h2>
+  </div>
+  <p class="section-subhead">What they actually run. +2 v1.2 deltas for runtime framework version + package manager lock inspection. — <strong>13 checkpoints</strong> (11 v1 + 2 v1.2 delta).</p>
+
+  <table style="width:100%;border-collapse:collapse;margin:16px 0 28px;font-size:12px;">
+    <thead>
+      <tr style="background:var(--bg-raised);border-bottom:2px solid var(--border);">
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;width:60px;">ID</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Checkpoint</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Artifact</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Evidence path</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Verify</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">7.1</td><td style="padding:8px 12px;">Frontend framework detected</td><td style="padding:8px 12px;color:var(--text-dim);">React / Vue / Next / etc</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.frontend_framework populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">Wappalyzer + bundle inspection</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">7.2</td><td style="padding:8px 12px;">CSS framework detected</td><td style="padding:8px 12px;color:var(--text-dim);">Tailwind / Bootstrap / CSS-in-JS</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.css_framework populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">class pattern analysis</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">7.3</td><td style="padding:8px 12px;">Analytics stack detected</td><td style="padding:8px 12px;color:var(--text-dim);">GA4 / Mixpanel / Amplitude / etc</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.analytics_stack jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">network trace + script tags</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">7.4</td><td style="padding:8px 12px;">Chat/booking tools detected</td><td style="padding:8px 12px;color:var(--text-dim);">Intercom / Calendly / etc</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.chat_tools jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">script tag + DOM probe</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">7.5</td><td style="padding:8px 12px;">A/B testing + personalization tools</td><td style="padding:8px 12px;color:var(--text-dim);">Optimizely / VWO / Segment</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.ab_testing jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">script tag + cookie inspection</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">7.6</td><td style="padding:8px 12px;">Tag manager + pixels</td><td style="padding:8px 12px;color:var(--text-dim);">GTM / Meta Pixel / TikTok</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.tag_manager jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">network HAR analysis</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">7.7</td><td style="padding:8px 12px;">CDN + hosting detected</td><td style="padding:8px 12px;color:var(--text-dim);">Cloudflare / Vercel / AWS / etc</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.hosting populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">DNS + headers</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">7.8</td><td style="padding:8px 12px;">Auth provider detected</td><td style="padding:8px 12px;color:var(--text-dim);">Auth0 / Clerk / custom</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.auth_provider populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">login page probe + network trace</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">7.9</td><td style="padding:8px 12px;">Security headers</td><td style="padding:8px 12px;color:var(--text-dim);">HSTS / CSP / X-Frame</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.security_headers jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">curl -I + parse</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">7.10</td><td style="padding:8px 12px;">TLS configuration</td><td style="padding:8px 12px;color:var(--text-dim);">TLS version + cipher suites</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.tls_config jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ssllabs.com API or openssl</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">7.11</td><td style="padding:8px 12px;">Security compliance claims</td><td style="padding:8px 12px;color:var(--text-dim);">SOC2 / HIPAA / PCI claims</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.compliance_claims jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">parse /security /trust page</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">7.12</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> Runtime framework version detection</td><td style="padding:8px 12px;color:var(--text-dim);">exact version strings from bundles</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.framework_versions jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">bundle regex + meta tag inspection</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">7.13</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> Package manager lock inspection (if sourcemaps leak)</td><td style="padding:8px 12px;color:var(--text-dim);">npm/yarn/pnpm lock hints from sourcemap paths</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.package_manager_hints populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">sourcemap directory structure analysis</td></tr>
+    </tbody>
+  </table>
+
+  <!-- PHASE 8 -->
+  <div class="section-header">
+    <div class="section-num">8</div>
+    <h2>Phase 8 · Volume IX · Marketing, SEO, GEO, Customer Behavior, Lead Gen, Recurring Revenue</h2>
+  </div>
+  <p class="section-subhead">The heaviest phase — 59 v1 checkpoints. +2 v1.2 deltas for LLM visibility (GEO) + zero-click search share. — <strong>60 checkpoints</strong> (59 v1 + 1 v1.2 delta).</p>
+
+  <table style="width:100%;border-collapse:collapse;margin:16px 0 28px;font-size:12px;">
+    <thead>
+      <tr style="background:var(--bg-raised);border-bottom:2px solid var(--border);">
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;width:60px;">ID</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Checkpoint</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Artifact</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Evidence path</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Verify</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.1</td><td style="padding:8px 12px;">Keyword cluster extraction (head + long-tail)</td><td style="padding:8px 12px;color:var(--text-dim);">keyword list with search volume</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_keywords rows, ~30</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">SerpAPI keyword research</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.2</td><td style="padding:8px 12px;">SERP position per keyword cluster</td><td style="padding:8px 12px;color:var(--text-dim);">ranking per keyword</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_serp_positions rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">SerpAPI rank tracker</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.3</td><td style="padding:8px 12px;">Organic traffic estimate</td><td style="padding:8px 12px;color:var(--text-dim);">monthly organic visits</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.organic_traffic_estimate populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ahrefs / semrush</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.4</td><td style="padding:8px 12px;">Paid traffic estimate</td><td style="padding:8px 12px;color:var(--text-dim);">monthly paid visits</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.paid_traffic_estimate populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">similarweb + ad transparency</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.5</td><td style="padding:8px 12px;">Meta Ads Library inventory</td><td style="padding:8px 12px;color:var(--text-dim);">all active + historical ads</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_meta_ads rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">facebook.com/ads/library</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.6</td><td style="padding:8px 12px;">Google Ads transparency inventory</td><td style="padding:8px 12px;color:var(--text-dim);">active + historical Google Ads</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_google_ads rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">adstransparency.google.com</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.7</td><td style="padding:8px 12px;">LinkedIn Ads (if detectable)</td><td style="padding:8px 12px;color:var(--text-dim);">LinkedIn sponsored content</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_linkedin_ads rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">LinkedIn ads search</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.8</td><td style="padding:8px 12px;">YouTube ads inventory</td><td style="padding:8px 12px;color:var(--text-dim);">YouTube ads + view counts</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_youtube_ads rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">YouTube ads API + brand channel</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.9</td><td style="padding:8px 12px;">TikTok ads (if B2C)</td><td style="padding:8px 12px;color:var(--text-dim);">TikTok ads library</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_tiktok_ads rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">TikTok ads transparency</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.10</td><td style="padding:8px 12px;">Blog content inventory</td><td style="padding:8px 12px;color:var(--text-dim);">all blog posts with dates + topics</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_blog_posts rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">sitemap + RSS parsing</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.11</td><td style="padding:8px 12px;">Blog content topic cluster</td><td style="padding:8px 12px;color:var(--text-dim);">topic cluster map</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_blog_clusters jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">LLM clustering of titles</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.12</td><td style="padding:8px 12px;">Blog posting cadence</td><td style="padding:8px 12px;color:var(--text-dim);">posts per month trend</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.blog_cadence populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">derived from 8.10 dates</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.13</td><td style="padding:8px 12px;">SEO meta (title/desc length, canonical, hreflang)</td><td style="padding:8px 12px;color:var(--text-dim);">per URL meta audit</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_seo_meta rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">bulk crawl + parse</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.14</td><td style="padding:8px 12px;">Schema.org structured data</td><td style="padding:8px 12px;color:var(--text-dim);">JSON-LD per URL</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_schema rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">parse &lt;script type=application/ld+json&gt;</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.15</td><td style="padding:8px 12px;">Core Web Vitals per URL</td><td style="padding:8px 12px;color:var(--text-dim);">LCP / CLS / INP per URL</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_cwv rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">PageSpeed Insights API</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.16</td><td style="padding:8px 12px;">Internal link graph</td><td style="padding:8px 12px;color:var(--text-dim);">per-URL inbound + outbound link count</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_link_graph rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">crawler + graph build</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.17</td><td style="padding:8px 12px;">Backlink velocity</td><td style="padding:8px 12px;color:var(--text-dim);">new backlinks per month</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.backlink_velocity populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ahrefs historic API</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.18</td><td style="padding:8px 12px;">Backlink quality distribution</td><td style="padding:8px 12px;color:var(--text-dim);">DR distribution of referring domains</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.backlink_quality jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ahrefs DR analysis</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.19</td><td style="padding:8px 12px;">Lead magnet inventory</td><td style="padding:8px 12px;color:var(--text-dim);">ebooks, whitepapers, calculators, templates</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_lead_magnets rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">parse + identify gated content</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.20</td><td style="padding:8px 12px;">Email capture forms enumerated</td><td style="padding:8px 12px;color:var(--text-dim);">every email form on site</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_email_forms rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">form inventory</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.21</td><td style="padding:8px 12px;">Email sequence inferred (sign up + trace)</td><td style="padding:8px 12px;color:var(--text-dim);">welcome/nurture sequence</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_email_sequences rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">signup + monitor inbox (burner email)</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.22</td><td style="padding:8px 12px;">Newsletter sponsorships detected</td><td style="padding:8px 12px;color:var(--text-dim);">who sponsors their newsletter</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_newsletter_sponsors rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">parse recent newsletters</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.23</td><td style="padding:8px 12px;">Affiliate program presence</td><td style="padding:8px 12px;color:var(--text-dim);">affiliate or partner program</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.affiliate_program populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">parse /partners /affiliate</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.24</td><td style="padding:8px 12px;">Referral program presence</td><td style="padding:8px 12px;color:var(--text-dim);">customer referral mechanics</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.referral_program populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">parse /refer /share</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.25</td><td style="padding:8px 12px;">Partner ecosystem inventory</td><td style="padding:8px 12px;color:var(--text-dim);">named integration + tech partners</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_partners rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">parse /partners /integrations</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.26</td><td style="padding:8px 12px;">App marketplace presence</td><td style="padding:8px 12px;color:var(--text-dim);">Shopify / Salesforce AppExchange / etc</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_marketplaces rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">check each major marketplace</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.27</td><td style="padding:8px 12px;">API ecosystem presence</td><td style="padding:8px 12px;color:var(--text-dim);">Zapier / Make / n8n integration</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.api_ecosystem_presence jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">check each integration platform</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.28</td><td style="padding:8px 12px;">GEO (local SEO) signals</td><td style="padding:8px 12px;color:var(--text-dim);">GMB profile + reviews if local</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.gmb_signals jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">Google Business Profile search</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.29</td><td style="padding:8px 12px;">Local citations</td><td style="padding:8px 12px;color:var(--text-dim);">Yelp / BBB / industry directories</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_citations rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">citation finder tools</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.30</td><td style="padding:8px 12px;">Local keyword rankings</td><td style="padding:8px 12px;color:var(--text-dim);">ranking for local queries</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_local_rankings rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">SerpAPI with location param</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.31</td><td style="padding:8px 12px;">Customer lifecycle stage identification</td><td style="padding:8px 12px;color:var(--text-dim);">awareness → consideration → decision content ratio</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.content_funnel_ratio jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">content classification</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.32</td><td style="padding:8px 12px;">Sales enablement asset inventory</td><td style="padding:8px 12px;color:var(--text-dim);">sales decks, one-pagers, ROI calculators</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_sales_assets rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">parse sales-oriented pages</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.33</td><td style="padding:8px 12px;">Webinar + demo cadence</td><td style="padding:8px 12px;color:var(--text-dim);">upcoming + past webinars</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_webinars rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">parse /webinars /events</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.34</td><td style="padding:8px 12px;">Conversion path per ICP</td><td style="padding:8px 12px;color:var(--text-dim);">signup → activation flow per ICP</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_conversion_paths rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">manual trace + Playwright</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.35</td><td style="padding:8px 12px;">Pricing page conversion elements</td><td style="padding:8px 12px;color:var(--text-dim);">CTAs, social proof, guarantees</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.pricing_conversion_elements jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">pricing page audit</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.36</td><td style="padding:8px 12px;">Recurring revenue signal strength</td><td style="padding:8px 12px;color:var(--text-dim);">subscription vs one-time vs usage</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.recurring_revenue_signal populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">derived from Phase 4</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.37</td><td style="padding:8px 12px;">Churn signal inference</td><td style="padding:8px 12px;color:var(--text-dim);">reviews mentioning cancellation / churn</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.churn_signals jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">review mining</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.38</td><td style="padding:8px 12px;">NPS / CSAT claims</td><td style="padding:8px 12px;color:var(--text-dim);">any NPS or CSAT numbers publicly claimed</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.nps_claims jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">parse marketing pages + PRs</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.39</td><td style="padding:8px 12px;">Customer advocacy program</td><td style="padding:8px 12px;color:var(--text-dim);">customer advisory board / advocate program</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.advocacy_program populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">parse /advocates /insider</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.40</td><td style="padding:8px 12px;">Content velocity vs competitors</td><td style="padding:8px 12px;color:var(--text-dim);">posts/month vs peer group</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.content_velocity_peer_rank populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">comparative analysis</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.41</td><td style="padding:8px 12px;">Content evergreen vs trend ratio</td><td style="padding:8px 12px;color:var(--text-dim);">evergreen posts vs timely posts</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.content_mix jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">content classification</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.42</td><td style="padding:8px 12px;">Video content inventory</td><td style="padding:8px 12px;color:var(--text-dim);">YouTube + embedded video audit</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_videos rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">YouTube API + embedded video scan</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.43</td><td style="padding:8px 12px;">Podcast presence (their own)</td><td style="padding:8px 12px;color:var(--text-dim);">branded podcast if any</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.branded_podcast populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">apple podcasts + spotify search</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.44</td><td style="padding:8px 12px;">Community presence</td><td style="padding:8px 12px;color:var(--text-dim);">Slack / Discord / Circle community</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.community_presence jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">check known community platforms</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.45</td><td style="padding:8px 12px;">User-generated content signals</td><td style="padding:8px 12px;color:var(--text-dim);">UGC hashtags / review requests</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.ugc_signals jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">social listening</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.46</td><td style="padding:8px 12px;">Influencer partnerships (explicit)</td><td style="padding:8px 12px;color:var(--text-dim);">named influencer collabs</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_influencers rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">social + press mining</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.47</td><td style="padding:8px 12px;">PR agency signal</td><td style="padding:8px 12px;color:var(--text-dim);">press release distribution wire</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.pr_agency_signal populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">PR Newswire / BusinessWire search</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.48</td><td style="padding:8px 12px;">Analyst coverage (Gartner / Forrester / IDC)</td><td style="padding:8px 12px;color:var(--text-dim);">analyst reports mentioning them</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_analyst_mentions rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">analyst report search</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.49</td><td style="padding:8px 12px;">Awards + recognitions</td><td style="padding:8px 12px;color:var(--text-dim);">industry awards</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_awards rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">parse /about /press + press release wire</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.50</td><td style="padding:8px 12px;">Founders as thought leaders (content volume)</td><td style="padding:8px 12px;color:var(--text-dim);">founder posts per month</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.founder_content_volume jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">LinkedIn + Twitter post count</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.51</td><td style="padding:8px 12px;">Sales team size + growth</td><td style="padding:8px 12px;color:var(--text-dim);">headcount trajectory for sales</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.sales_team_size jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">LinkedIn filter by role</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.52</td><td style="padding:8px 12px;">Customer success team size</td><td style="padding:8px 12px;color:var(--text-dim);">CS headcount</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.cs_team_size populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">LinkedIn filter</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.53</td><td style="padding:8px 12px;">Marketing team size</td><td style="padding:8px 12px;color:var(--text-dim);">marketing headcount</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.marketing_team_size populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">LinkedIn filter</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.54</td><td style="padding:8px 12px;">Engineering team size</td><td style="padding:8px 12px;color:var(--text-dim);">engineering headcount</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.eng_team_size populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">LinkedIn filter</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.55</td><td style="padding:8px 12px;">Revenue per employee estimate</td><td style="padding:8px 12px;color:var(--text-dim);">ARR / headcount</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.revenue_per_employee populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">derived calculation</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.56</td><td style="padding:8px 12px;">Burn rate estimate</td><td style="padding:8px 12px;color:var(--text-dim);">funding total / months since last round</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.burn_rate_estimate populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">derived from Phase 1</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.57</td><td style="padding:8px 12px;">Runway estimate</td><td style="padding:8px 12px;color:var(--text-dim);">months remaining at current burn</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.runway_estimate_months populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">derived</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.58</td><td style="padding:8px 12px;">Fundraising signal (next round proximity)</td><td style="padding:8px 12px;color:var(--text-dim);">hiring senior finance + PR cadence + LinkedIn signals</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.next_raise_signal populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">signal aggregation</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.59</td><td style="padding:8px 12px;">Phase 8 summary row written</td><td style="padding:8px 12px;color:var(--text-dim);">summary jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.phase_8_summary populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">synthesis</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">8.60</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> LLM visibility (GEO — generative engine optimization)</td><td style="padding:8px 12px;color:var(--text-dim);">ChatGPT + Claude + Perplexity + Gemini brand mention frequency</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.llm_visibility jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">run 10 seed prompts in each LLM, count brand mentions</td></tr>
+    </tbody>
+  </table>
+
+  <!-- PHASE 9 -->
+  <div class="section-header">
+    <div class="section-num">9</div>
+    <h2>Phase 9 · Layer 5 · Feature Extraction + Patent Claim Mapping</h2>
+  </div>
+  <p class="section-subhead">Every feature discovered in phases 1–8 becomes a row with patent claim impact. +2 v1.2 deltas for velocity + roadmap signals. — <strong>7 checkpoints</strong> (5 v1 + 2 v1.2 delta).</p>
+
+  <table style="width:100%;border-collapse:collapse;margin:16px 0 28px;font-size:12px;">
+    <thead>
+      <tr style="background:var(--bg-raised);border-bottom:2px solid var(--border);">
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;width:60px;">ID</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Checkpoint</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Artifact</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Evidence path</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Verify</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">9.1</td><td style="padding:8px 12px;">Every feature discovered in phases 1–8 written as row</td><td style="padding:8px 12px;color:var(--text-dim);">feature rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_features rows</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">aggregation from prior phases</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">9.2</td><td style="padding:8px 12px;">Each feature has evidence_url + evidence_path</td><td style="padding:8px 12px;color:var(--text-dim);">URLs + bucket paths</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_features.evidence_url, evidence_path NOT NULL</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">SQL NOT NULL check</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">9.3</td><td style="padding:8px 12px;">Each feature mapped to our patent claims (0–12)</td><td style="padding:8px 12px;color:var(--text-dim);">claim mapping per feature</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_features.patent_claim_id populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">LLM-assisted + manual</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">9.4</td><td style="padding:8px 12px;">Winner designation per feature (them/us/tie)</td><td style="padding:8px 12px;color:var(--text-dim);">winner flag per feature</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_features.winner enum</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">comparative assessment</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">9.5</td><td style="padding:8px 12px;">patent_claim_impacts JSONB populated per feature</td><td style="padding:8px 12px;color:var(--text-dim);">impact assessment JSONB</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_features.patent_claim_impacts populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">LLM-assisted analysis</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">9.6</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> Feature velocity (commit cadence proxy)</td><td style="padding:8px 12px;color:var(--text-dim);">feature releases per month trend</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.feature_velocity jsonb</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">changelog / release notes parse</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">9.7</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> Roadmap signal scraping</td><td style="padding:8px 12px;color:var(--text-dim);">public roadmap if exists</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossiers.public_roadmap populated</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">parse /roadmap /changelog /what's-new</td></tr>
+    </tbody>
+  </table>
+
+  <!-- PHASE 10 -->
+  <div class="section-header">
+    <div class="section-num">10</div>
+    <h2>Phase 10 · EG14 Gate Execution</h2>
+  </div>
+  <p class="section-subhead">14-point enterprise gate. 14/14 required to promote. +1 v1.2 delta for post-fix re-run evidence retention. — <strong>6 checkpoints</strong> (5 v1 + 1 v1.2 delta).</p>
+
+  <table style="width:100%;border-collapse:collapse;margin:16px 0 28px;font-size:12px;">
+    <thead>
+      <tr style="background:var(--bg-raised);border-bottom:2px solid var(--border);">
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;width:60px;">ID</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Checkpoint</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Artifact</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Evidence path</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Verify</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">10.1</td><td style="padding:8px 12px;">Run eg14_ci_dossier evaluator script</td><td style="padding:8px 12px;color:var(--text-dim);">EG14 run log</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_eg14_runs row created</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">eg14-dossier-gate.py execution</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">10.2</td><td style="padding:8px 12px;">Insert row into ci_dossier_eg14_runs</td><td style="padding:8px 12px;color:var(--text-dim);">row with 14 point results</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">SELECT FROM ci_dossier_eg14_runs WHERE slug='&lt;slug&gt;'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">SQL insert + verify</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">10.3</td><td style="padding:8px 12px;">If any criterion fails: enter regression-fix loop</td><td style="padding:8px 12px;color:var(--text-dim);">fix applied + re-run</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_eg14_runs has iteration &gt; 1 if needed</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">AUTOLOOP V2 signal_detector → evolver → redeploy</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">10.4</td><td style="padding:8px 12px;">Final verdict = 'pass' before proceeding</td><td style="padding:8px 12px;color:var(--text-dim);">final row has verdict='pass'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_eg14_runs.final_verdict='pass'</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">SQL check</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">10.5</td><td style="padding:8px 12px;">Telegram notification on verdict</td><td style="padding:8px 12px;color:var(--text-dim);">Telegram message sent</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">bot response confirms delivery</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">curl Telegram bot API</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">10.6</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> Post-fix re-run evidence preserved</td><td style="padding:8px 12px;color:var(--text-dim);">diff between failed and passing run saved</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci-evidence/&lt;slug&gt;/eg14/iteration-&lt;n&gt;/ exists per iteration</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">bucket listing check</td></tr>
+    </tbody>
+  </table>
+
+  <!-- PHASE 11 -->
+  <div class="section-header">
+    <div class="section-num">11</div>
+    <h2>Phase 11 · Deliverables (regenerated from Supabase, not in-memory)</h2>
+  </div>
+  <p class="section-subhead">Every deliverable is regenerated from SQL queries, not held in session memory. +1 v1.2 delta for LinkedIn post draft. — <strong>6 checkpoints</strong> (5 v1 + 1 v1.2 delta).</p>
+
+  <table style="width:100%;border-collapse:collapse;margin:16px 0 28px;font-size:12px;">
+    <thead>
+      <tr style="background:var(--bg-raised);border-bottom:2px solid var(--border);">
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;width:60px;">ID</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Checkpoint</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Artifact</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Evidence path</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Verify</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">11.1</td><td style="padding:8px 12px;">Patent Appendix regenerated from SQL queries</td><td style="padding:8px 12px;color:var(--text-dim);">Markdown file</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">deliverables/&lt;slug&gt;/patent-appendix.md exists</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">SQL → template render</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">11.2</td><td style="padding:8px 12px;">Battle card HTML regenerated from SQL queries</td><td style="padding:8px 12px;color:var(--text-dim);">HTML file</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">deliverables/&lt;slug&gt;/battle-card.html exists</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">SQL → template render</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">11.3</td><td style="padding:8px 12px;">Executive summary JSON generated from SQL</td><td style="padding:8px 12px;color:var(--text-dim);">JSON file</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">deliverables/&lt;slug&gt;/exec-summary.json exists</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">SQL → JSON render</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">11.4</td><td style="padding:8px 12px;">All deliverables link to evidence paths in ci-evidence</td><td style="padding:8px 12px;color:var(--text-dim);">every evidence citation resolves</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">curl check for each evidence URL returns 200</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">link checker</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">11.5</td><td style="padding:8px 12px;">Deliverables saved to /mnt/user-data/outputs/</td><td style="padding:8px 12px;color:var(--text-dim);">files in outputs dir</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ls /mnt/user-data/outputs/&lt;slug&gt;/* nonempty</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ls check</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:rgba(245,158,11,0.04);"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">11.6</td><td style="padding:8px 12px;"><span style="color:var(--orange);font-weight:800" title="v1.2 delta">✦</span> LinkedIn bake-off post draft generated</td><td style="padding:8px 12px;color:var(--text-dim);">one-post markdown draft</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">deliverables/&lt;slug&gt;/linkedin-post.md exists</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">template render</td></tr>
+    </tbody>
+  </table>
+
+  <!-- PHASE 12 -->
+  <div class="section-header">
+    <div class="section-num">12</div>
+    <h2>Phase 12 · Memory Update + Session Close</h2>
+  </div>
+  <p class="section-subhead">Session bookkeeping. No v1.2 delta. — <strong>4 checkpoints</strong> (4 v1 + 0 v1.2 delta).</p>
+
+  <table style="width:100%;border-collapse:collapse;margin:16px 0 28px;font-size:12px;">
+    <thead>
+      <tr style="background:var(--bg-raised);border-bottom:2px solid var(--border);">
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;width:60px;">ID</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Checkpoint</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Artifact</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Evidence path</th>
+        <th style="text-align:left;padding:10px 12px;color:var(--orange);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;">Verify</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">12.1</td><td style="padding:8px 12px;">Memory edit: add or update competitor profile</td><td style="padding:8px 12px;color:var(--text-dim);">memory_user_edits call</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">memory_user_edits view shows the new entry</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">view memory after write</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">12.2</td><td style="padding:8px 12px;">Session checkpoint to daily_action_plans table</td><td style="padding:8px 12px;color:var(--text-dim);">row inserted</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">SELECT FROM daily_action_plans WHERE source='chat_intelligence' AND created_at=today</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">SQL</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">12.3</td><td style="padding:8px 12px;">Telegram summary posted</td><td style="padding:8px 12px;color:var(--text-dim);">Telegram message sent</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">bot response confirms</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">curl Telegram bot API</td></tr>
+      <tr style="border-bottom:1px solid var(--border);background:transparent;"><td style="padding:8px 12px;font-family:JetBrains Mono,monospace;color:var(--text-dim);white-space:nowrap;">12.4</td><td style="padding:8px 12px;">Credits consumed logged</td><td style="padding:8px 12px;color:var(--text-dim);">credits row</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">ci_dossier_credit_log row</td><td style="padding:8px 12px;color:var(--text-dim);font-family:JetBrains Mono,monospace;font-size:11px;">SQL insert</td></tr>
+    </tbody>
+  </table>
+
+  <footer>
+    CI Protocol v1.2 · 195 checkpoints · 13 phases · 2026-04-12 · v1 base 173 verbatim from cli-anything-biddeed/docs/plans/CI-DOSSIER-CHECKPOINT-PROTOCOL-v1.md · v1.2 delta +22 (marked ✦) INFERRED from gaps — needs Ariel ratification · Format inherited from Dono.ai v5 canonical template · PAIRING RULE enforced · Honesty Protocol Enforced · Total rows rendered: 195
+  </footer>
+
+</div>
+
+</body>
+</html>
