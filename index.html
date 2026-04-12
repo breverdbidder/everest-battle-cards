@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Everest Battle Cards — Competitive Intelligence Dashboard</title>
+<meta name="description" content="BidDeed.AI + ZoneWise.AI competitive intelligence battle cards. Live teardowns of 11 PropTech competitors.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1E3A5F;
+    --navy-dark: #0F1E33;
+    --orange: #F59E0B;
+    --orange-bright: #FBB534;
+    --bg: #020617;
+    --bg-card: #0B1221;
+    --text: #E2E8F0;
+    --text-dim: #94A3B8;
+    --border: #1E293B;
+    --green: #10B981;
+    --yellow: #EAB308;
+    --slate: #475569;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  a { color: var(--orange); text-decoration: none; }
+  a:hover { color: var(--orange-bright); }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(180deg, var(--navy-dark) 0%, var(--bg) 100%);
+    border-bottom: 2px solid var(--orange);
+    padding: 60px 0 50px;
+  }
+  .brand-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .brand-badge {
+    background: var(--orange);
+    color: var(--navy-dark);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .brand-badge.navy { background: var(--navy); color: var(--text); }
+  header h1 {
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    margin-bottom: 16px;
+  }
+  header h1 .orange { color: var(--orange); }
+  header .sub {
+    font-size: 18px;
+    color: var(--text-dim);
+    max-width: 760px;
+    margin-bottom: 24px;
+  }
+  .pair-rule {
+    display: inline-block;
+    background: rgba(245,158,11,0.08);
+    border: 1px solid rgba(245,158,11,0.3);
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--orange);
+    font-weight: 600;
+  }
+
+  /* STATS */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-top: 40px;
+  }
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .stat-card .label {
+    font-size: 11px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+  }
+  .stat-card .value {
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--orange);
+    margin-top: 4px;
+  }
+  .stat-card .note {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+
+  /* SECTIONS */
+  section { padding: 60px 0; }
+  .section-title {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+  .section-sub {
+    color: var(--text-dim);
+    font-size: 15px;
+    margin-bottom: 32px;
+  }
+
+  /* COMPETITOR GRID */
+  .comp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+  }
+  .comp-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .comp-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--slate);
+    transition: background 0.2s;
+  }
+  .comp-card.status-complete::before { background: var(--green); }
+  .comp-card.status-active::before { background: var(--orange); }
+  .comp-card.status-pending::before { background: var(--slate); }
+  .comp-card:hover {
+    border-color: var(--orange);
+    transform: translateY(-2px);
+  }
+
+  .comp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    gap: 10px;
+  }
+  .comp-num {
+    font-size: 11px;
+    color: var(--text-dim);
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-family: 'Inter', monospace;
+  }
+  .comp-status {
+    font-size: 10px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+  .status-complete .comp-status { background: rgba(16,185,129,0.15); color: var(--green); }
+  .status-active .comp-status { background: rgba(245,158,11,0.15); color: var(--orange); }
+  .status-pending .comp-status { background: rgba(71,85,105,0.2); color: var(--text-dim); }
+
+  .comp-card h3 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .comp-desc {
+    color: var(--text-dim);
+    font-size: 14px;
+    margin-bottom: 12px;
+    flex-grow: 1;
+  }
+  .comp-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  .comp-tag {
+    background: rgba(30,58,95,0.5);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .comp-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--orange);
+    color: var(--navy-dark);
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: background 0.2s;
+    align-self: flex-start;
+  }
+  .comp-cta:hover { background: var(--orange-bright); color: var(--navy-dark); }
+  .comp-cta.disabled {
+    background: var(--border);
+    color: var(--text-dim);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  .comp-cta::after { content: '→'; font-weight: 900; }
+
+  /* MOAT SECTION */
+  .moat-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    margin-top: 32px;
+  }
+  .moat-section h3 {
+    color: var(--orange);
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 16px;
+  }
+  .moat-section p { color: var(--text-dim); font-size: 15px; margin-bottom: 10px; }
+  .moat-section strong { color: var(--text); }
+
+  /* PROTOCOL */
+  .protocol-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .protocol-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--orange);
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .protocol-card h4 {
+    color: var(--orange);
+    font-size: 14px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .protocol-card p { color: var(--text-dim); font-size: 14px; }
+
+  footer {
+    background: var(--navy-dark);
+    border-top: 2px solid var(--orange);
+    padding: 40px 0;
+    text-align: center;
+    margin-top: 80px;
+  }
+  footer .brand {
+    color: var(--orange);
+    font-size: 20px;
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+  footer .sub {
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+  footer a { margin: 0 8px; }
+
+  @media (max-width: 768px) {
+    header { padding: 40px 0 30px; }
+    section { padding: 40px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="brand-row">
+      <span class="brand-badge">BidDeed.AI</span>
+      <span class="brand-badge navy">ZoneWise.AI</span>
+      <span class="brand-badge">Everest Capital USA</span>
+    </div>
+    <h1>
+      Competitive Intelligence<br>
+      <span class="orange">Battle Cards</span>
+    </h1>
+    <p class="sub">
+      Deep-dive teardowns of 11 PropTech competitors. Every card = 13-category Dono.ai v5 review with verified tech stack, pricing, moat analysis, and a documented path to beat them. Updated by the Everest Sentinel autonomous CI pipeline.
+    </p>
+    <div class="pair-rule">
+      ⚡ PAIRING RULE: BidDeed.AI (foreclosures) + ZoneWise.AI (tax deeds) — always measured together, always sold together.
+    </div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div class="label">Competitors Tracked</div>
+        <div class="value">11</div>
+        <div class="note">PropTech, zoning, auctions</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Cards Complete</div>
+        <div class="value">1</div>
+        <div class="note">Dono.ai v5 canonical</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">In Progress</div>
+        <div class="value">1</div>
+        <div class="note">Algoma (SUMMIT #406)</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Shapira V3.1 Claims</div>
+        <div class="value">12</div>
+        <div class="note">Patent moat, priority Apr 26</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="cards">
+  <div class="container">
+    <h2 class="section-title">The 11 Competitors</h2>
+    <p class="section-sub">Click any card to open its full battle card. Status pills show completion state.</p>
+
+    <div class="comp-grid">
+
+      <!-- 1. DONO.AI -->
+      <div class="comp-card status-complete">
+        <div class="comp-header">
+          <span class="comp-num">01 · CANONICAL</span>
+          <span class="comp-status">✓ Complete</span>
+        </div>
+        <h3>Dono.ai</h3>
+        <p class="comp-desc">Established PropTech data platform. The v5 battle card template — 13 categories, 6 sections, Ariel-approved Apr 11. All subsequent cards derive from this structure.</p>
+        <div class="comp-meta">
+          <span class="comp-tag">Template</span>
+          <span class="comp-tag">v5 Canonical</span>
+          <span class="comp-tag">13 Categories</span>
+        </div>
+        <a class="comp-cta" href="./dono-ai/">Open Battle Card</a>
+      </div>
+
+      <!-- 2. ALGOMA -->
+      <div class="comp-card status-active">
+        <div class="comp-header">
+          <span class="comp-num">02 · NEXT DISPATCH</span>
+          <span class="comp-status">⚡ Active</span>
+        </div>
+        <h3>Algoma</h3>
+        <p class="comp-desc">VC-funded Harvard team. Mapbox GL v3 with WASM 3D massing. Mass timber construction arm. Feasibility → pro-forma → massing pipeline. SUMMIT #406 dispatched.</p>
+        <div class="comp-meta">
+          <span class="comp-tag">VC-Funded</span>
+          <span class="comp-tag">3D Massing</span>
+          <span class="comp-tag">Seed Stage</span>
+        </div>
+        <a class="comp-cta disabled" href="#">Pending SUMMIT #406</a>
+      </div>
+
+      <!-- 3. PROPZONE -->
+      <div class="comp-card status-pending">
+        <div class="comp-header">
+          <span class="comp-num">03</span>
+          <span class="comp-status">Queued</span>
+        </div>
+        <h3>PropZone</h3>
+        <p class="comp-desc">63 KPI zoning database. Enterprise sales motion ($24–48K/yr contracts). Priced out of SMB. Our counter: 298 KPIs at $49–599/mo.</p>
+        <div class="comp-meta">
+          <span class="comp-tag">Enterprise</span>
+          <span class="comp-tag">Zoning DB</span>
+          <span class="comp-tag">63 KPIs</span>
+        </div>
+        <a class="comp-cta disabled" href="#">Queued</a>
+      </div>
+
+      <!-- 4. GRIDICS -->
+      <div class="comp-card status-pending">
+        <div class="comp-header">
+          <span class="comp-num">04</span>
+          <span class="comp-status">Queued</span>
+        </div>
+        <h3>Gridics</h3>
+        <p class="comp-desc">Miami/FL zoning data with direct municipality partnerships. Strong relationships moat. Our counter: scrape + normalize 369 FL jurisdictions at scale.</p>
+        <div class="comp-meta">
+          <span class="comp-tag">FL Focus</span>
+          <span class="comp-tag">Muni Partnerships</span>
+        </div>
+        <a class="comp-cta disabled" href="#">Queued</a>
+      </div>
+
+      <!-- 5. PROPERTYONION -->
+      <div class="comp-card status-pending">
+        <div class="comp-header">
+          <span class="comp-num">05</span>
+          <span class="comp-status">Queued</span>
+        </div>
+        <h3>PropertyOnion</h3>
+        <p class="comp-desc">Florida foreclosure + tax deed data. 245K+ rows across 46 FL counties. Already reverse-engineered into multi_county_auctions SSOT.</p>
+        <div class="comp-meta">
+          <span class="comp-tag">FL Auctions</span>
+          <span class="comp-tag">46 Counties</span>
+          <span class="comp-tag">Reversed</span>
+        </div>
+        <a class="comp-cta disabled" href="#">Queued</a>
+      </div>
+
+      <!-- 6. REVENTURE -->
+      <div class="comp-card status-pending">
+        <div class="comp-header">
+          <span class="comp-num">06</span>
+          <span class="comp-status">Queued</span>
+        </div>
+        <h3>Reventure</h3>
+        <p class="comp-desc">Consumer-facing housing market intelligence. Free choropleth + paid tiers. Confirmed as GTM flywheel blueprint for ZoneWise.AI lead magnet.</p>
+        <div class="comp-meta">
+          <span class="comp-tag">GTM Blueprint</span>
+          <span class="comp-tag">Choropleth</span>
+          <span class="comp-tag">Freemium</span>
+        </div>
+        <a class="comp-cta disabled" href="#">Queued</a>
+      </div>
+
+      <!-- 7 to 11 — placeholders -->
+      <div class="comp-card status-pending">
+        <div class="comp-header">
+          <span class="comp-num">07</span>
+          <span class="comp-status">Queued</span>
+        </div>
+        <h3>Competitor 07</h3>
+        <p class="comp-desc">To be assigned by next CI dispatch cycle. Template inherits Dono.ai v5 structure automatically.</p>
+        <div class="comp-meta"><span class="comp-tag">TBA</span></div>
+        <a class="comp-cta disabled" href="#">Queued</a>
+      </div>
+
+      <div class="comp-card status-pending">
+        <div class="comp-header">
+          <span class="comp-num">08</span>
+          <span class="comp-status">Queued</span>
+        </div>
+        <h3>Competitor 08</h3>
+        <p class="comp-desc">To be assigned by next CI dispatch cycle. Template inherits Dono.ai v5 structure automatically.</p>
+        <div class="comp-meta"><span class="comp-tag">TBA</span></div>
+        <a class="comp-cta disabled" href="#">Queued</a>
+      </div>
+
+      <div class="comp-card status-pending">
+        <div class="comp-header">
+          <span class="comp-num">09</span>
+          <span class="comp-status">Queued</span>
+        </div>
+        <h3>Competitor 09</h3>
+        <p class="comp-desc">To be assigned by next CI dispatch cycle. Template inherits Dono.ai v5 structure automatically.</p>
+        <div class="comp-meta"><span class="comp-tag">TBA</span></div>
+        <a class="comp-cta disabled" href="#">Queued</a>
+      </div>
+
+      <div class="comp-card status-pending">
+        <div class="comp-header">
+          <span class="comp-num">10</span>
+          <span class="comp-status">Queued</span>
+        </div>
+        <h3>Competitor 10</h3>
+        <p class="comp-desc">To be assigned by next CI dispatch cycle. Template inherits Dono.ai v5 structure automatically.</p>
+        <div class="comp-meta"><span class="comp-tag">TBA</span></div>
+        <a class="comp-cta disabled" href="#">Queued</a>
+      </div>
+
+      <div class="comp-card status-pending">
+        <div class="comp-header">
+          <span class="comp-num">11</span>
+          <span class="comp-status">Queued</span>
+        </div>
+        <h3>Competitor 11</h3>
+        <p class="comp-desc">To be assigned by next CI dispatch cycle. Template inherits Dono.ai v5 structure automatically.</p>
+        <div class="comp-meta"><span class="comp-tag">TBA</span></div>
+        <a class="comp-cta disabled" href="#">Queued</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="moat">
+  <div class="container">
+    <h2 class="section-title">The BidDeed + ZoneWise Counter-Moat</h2>
+    <p class="section-sub">The four layers no competitor on this list currently matches.</p>
+
+    <div class="moat-section">
+      <h3>12 Shapira V3.1 Patent Claims · Priority Apr 26, 2026</h3>
+      <p><strong>1. 14-Agent Orchestration</strong> — autonomous multi-agent pipeline with supervised handoffs.</p>
+      <p><strong>2. Shapira RL Engine</strong> — self-improving reinforcement learning on deal outcomes.</p>
+      <p><strong>3. Self-Healing Infrastructure</strong> — Everest Sentinel auto-remediation layer.</p>
+      <p><strong>4. Self-Improving Skills</strong> — skill performance feedback loop.</p>
+      <p><strong>5. Three-Horizon Planning</strong> — short / medium / long horizon deal strategy.</p>
+      <p><strong>6. Asymmetric RL Reward</strong> — outcome-weighted reward shaping.</p>
+      <p><strong>7. CMA Agent</strong> — comparable market analysis agent.</p>
+      <p><strong>8. XGBoost Scoring</strong> — property and operator scoring system.</p>
+      <p><strong>9. Cross-Auction FC + TD</strong> — unified foreclosure and tax deed auction model.</p>
+      <p><strong>10. Behavioral Match (BuyBox + PostHog)</strong> — buyer intent signal integration.</p>
+      <p><strong>11. Compounding EDP</strong> — execution data platform compounding deal flow.</p>
+      <p><strong>12. Adaptive Price + BuyZone</strong> — dynamic pricing with geographic intelligence.</p>
+    </div>
+  </div>
+</section>
+
+<section id="protocol">
+  <div class="container">
+    <h2 class="section-title">Delivery Protocol</h2>
+    <p class="section-sub">How a battle card gets from SUMMIT dispatch to this dashboard.</p>
+
+    <div class="protocol-grid">
+      <div class="protocol-card">
+        <h4>1. Dispatch</h4>
+        <p>SUMMIT fires via claude-code-direct.yml on cli-anything-biddeed with issue number. Managed Agent Teams execute on Hetzner tmux.</p>
+      </div>
+      <div class="protocol-card">
+        <h4>2. Phased Execution</h4>
+        <p>195-checkpoint v1.2 protocol. Phase-by-phase Ariel review. ≥90% green benchmark. No advance without approval.</p>
+      </div>
+      <div class="protocol-card">
+        <h4>3. Dono.ai v5 Template</h4>
+        <p>Every card inherits the 13-category review structure: moat, stack, pricing, quality parity, pipeline, 3-approach verification.</p>
+      </div>
+      <div class="protocol-card">
+        <h4>4. EG14 Gate</h4>
+        <p>14-point enterprise gate polls 30s, 15min timeout, 3 outcome branches. No Telegram until verdict. WIP &lt; 14 = 0.</p>
+      </div>
+      <div class="protocol-card">
+        <h4>5. Push to Pages</h4>
+        <p>Final HTML pushed to this repo under /{slug}/. GitHub Pages auto-deploys. Index dashboard updated with status.</p>
+      </div>
+      <div class="protocol-card">
+        <h4>6. Share URL</h4>
+        <p>Shareable URL fuels LinkedIn bake-off content, investor decks, internal CI review, and SEO via canonical linking.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="brand">EVEREST BATTLE CARDS</div>
+    <div class="sub">
+      Built by the Everest Capital Claude ecosystem · Updated autonomously by SUMMIT + Sentinel<br>
+      <a href="https://github.com/breverdbidder/everest-battle-cards">GitHub</a> ·
+      <a href="https://zonewise.ai">ZoneWise.AI</a> ·
+      <a href="https://biddeed.ai">BidDeed.AI</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
