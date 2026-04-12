@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Research Intake — Everest Capital</title>
+<meta name="description" content="Research intake funnel: transcripts, repos, articles, and threads evaluated against the Everest stack.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1E3A5F;
+    --navy-light: #2a4f7f;
+    --orange: #F59E0B;
+    --orange-bright: #fbbf24;
+    --bg: #020617;
+    --bg-raised: #0a1220;
+    --bg-card: #0f1a2e;
+    --border: #1e293b;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --text-faint: #64748b;
+    --green: #10b981;
+    --red: #ef4444;
+    --yellow: #eab308;
+    --blue: #3b82f6;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(30,58,95,0.25) 0%, transparent 50%),
+      radial-gradient(circle at 85% 90%, rgba(245,158,11,0.08) 0%, transparent 50%);
+  }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 24px 0;
+    background: rgba(2,6,23,0.85);
+    backdrop-filter: blur(12px);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .brand {
+    display: flex; align-items: center; gap: 12px;
+    font-weight: 800; font-size: 18px; letter-spacing: -0.02em;
+  }
+  .brand-mark {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--orange) 100%);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 800; font-size: 14px;
+  }
+  .brand-meta { color: var(--text-faint); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; }
+  nav { display: flex; gap: 28px; font-size: 14px; font-weight: 500; }
+  nav a { color: var(--text-dim); text-decoration: none; transition: color 0.15s; }
+  nav a:hover { color: var(--orange); }
+
+  .hero { padding: 80px 0 60px; border-bottom: 1px solid var(--border); }
+  .eyebrow {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    color: var(--orange);
+    text-transform: uppercase; letter-spacing: 0.15em;
+    padding: 6px 12px;
+    border: 1px solid var(--orange);
+    border-radius: 100px;
+    margin-bottom: 24px;
+  }
+  h1 {
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin-bottom: 20px;
+  }
+  h1 span { color: var(--orange); }
+  .lede { font-size: 18px; color: var(--text-dim); max-width: 640px; margin-bottom: 32px; }
+  .stats { display: flex; gap: 40px; flex-wrap: wrap; padding-top: 24px; border-top: 1px dashed var(--border); }
+  .stat-num { font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 700; color: var(--text); }
+  .stat-label { font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
+
+  .section { padding: 64px 0; }
+  .section-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 32px; flex-wrap: wrap; gap: 16px; }
+  h2 {
+    font-size: 13px; font-weight: 600;
+    color: var(--orange);
+    text-transform: uppercase; letter-spacing: 0.18em;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .section-sub { color: var(--text-faint); font-size: 13px; }
+
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+  .chip {
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 12px;
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: transparent;
+  }
+  .chip:hover { border-color: var(--orange); color: var(--orange); }
+  .chip.active { background: var(--orange); color: var(--bg); border-color: var(--orange); font-weight: 600; }
+
+  .entries { display: flex; flex-direction: column; gap: 2px; border-top: 1px solid var(--border); }
+  .entry {
+    display: grid;
+    grid-template-columns: 110px 1fr auto;
+    gap: 24px;
+    padding: 24px 16px;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s;
+    align-items: start;
+  }
+  .entry:hover { background: var(--bg-raised); padding-left: 24px; }
+  .entry-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-faint); }
+  .entry-date { display: block; color: var(--text-dim); margin-bottom: 4px; }
+  .entry-type {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .entry-type.transcript { color: var(--blue); border-color: rgba(59,130,246,0.3); }
+  .entry-type.repo { color: var(--green); border-color: rgba(16,185,129,0.3); }
+  .entry-type.article { color: var(--yellow); border-color: rgba(234,179,8,0.3); }
+  .entry-type.thread { color: var(--orange); border-color: rgba(245,158,11,0.3); }
+  .entry-title { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 6px; }
+  .entry-source { font-size: 13px; color: var(--text-dim); margin-bottom: 10px; }
+  .entry-deltas { display: flex; gap: 6px; flex-wrap: wrap; }
+  .delta-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    background: rgba(30,58,95,0.4);
+    border: 1px solid var(--navy-light);
+    color: var(--text-dim);
+  }
+  .entry-verdict {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .verdict-adopt    { background: rgba(16,185,129,0.15); color: var(--green); border: 1px solid rgba(16,185,129,0.4); }
+  .verdict-confirm  { background: rgba(59,130,246,0.15); color: var(--blue); border: 1px solid rgba(59,130,246,0.4); }
+  .verdict-delta    { background: rgba(245,158,11,0.15); color: var(--orange); border: 1px solid rgba(245,158,11,0.4); }
+  .verdict-reject   { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid rgba(239,68,68,0.4); }
+
+  .funnel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .funnel-card {
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-raised) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .funnel-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--navy), var(--orange));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .funnel-card:hover::before { transform: scaleX(1); }
+  .funnel-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--orange);
+    margin-bottom: 12px;
+  }
+  .funnel-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+  .funnel-desc { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+
+  footer { padding: 48px 0; border-top: 1px solid var(--border); color: var(--text-faint); font-size: 12px; }
+  footer .container { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  footer code { font-family: 'JetBrains Mono', monospace; color: var(--text-dim); }
+
+  @media (max-width: 700px) {
+    .entry { grid-template-columns: 1fr; gap: 12px; }
+    .entry-verdict { justify-self: start; }
+    nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container header-inner">
+    <div class="brand">
+      <div class="brand-mark">E</div>
+      <div>Everest Research<div class="brand-meta">Intake Funnel</div></div>
+    </div>
+    <nav>
+      <a href="#latest">Latest</a>
+      <a href="#funnel">How it works</a>
+      <a href="../">Battle Cards</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <span class="eyebrow">◆ Research Intake v1</span>
+    <h1>Every signal, <span>evaluated</span>.</h1>
+    <p class="lede">Transcripts, repos, articles, and threads land here first. Each one gets a verdict against the existing Everest stack — ADOPT, CONFIRM, DELTA, or REJECT — with concrete deltas, not vibes.</p>
+    <div class="stats">
+      <div><div class="stat-num">2</div><div class="stat-label">Entries</div></div>
+      <div><div class="stat-num">1</div><div class="stat-label">Adopted</div></div>
+      <div><div class="stat-num">4</div><div class="stat-label">Pending deltas</div></div>
+      <div><div class="stat-num">0</div><div class="stat-label">Rejected</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="latest">
+  <div class="container">
+    <div class="section-head">
+      <h2>// Latest intake</h2>
+      <div class="section-sub">Sorted by most recent</div>
+    </div>
+
+    <div class="filters">
+      <button class="chip active">All</button>
+      <button class="chip">Transcripts</button>
+      <button class="chip">Repos</button>
+      <button class="chip">Articles</button>
+      <button class="chip">Threads</button>
+    </div>
+
+    <div class="entries">
+      <a class="entry" href="transcripts/karpathy-skills-review/">
+        <div class="entry-meta">
+          <span class="entry-date">2026-04-12</span>
+          <span class="entry-type transcript">Transcript</span>
+        </div>
+        <div>
+          <div class="entry-title">Karpathy's CLAUDE.md Discipline Layer</div>
+          <div class="entry-source">forrestchang/andrej-karpathy-skills · 14k★ · MIT · REPOEVAL 92</div>
+          <div class="entry-deltas">
+            <span class="delta-pill">+surgical diff constraint</span>
+            <span class="delta-pill">+CLAUDE.md merge</span>
+            <span class="delta-pill">AUTOLOOP evolver fix</span>
+          </div>
+        </div>
+        <div class="entry-verdict verdict-adopt">ADOPT + MERGE</div>
+      </a>
+      <a class="entry" href="transcripts/dylan-extraction-funnel/">
+        <div class="entry-meta">
+          <span class="entry-date">2026-04-12</span>
+          <span class="entry-type transcript">Transcript</span>
+        </div>
+        <div>
+          <div class="entry-title">The AI Document Extraction Funnel</div>
+          <div class="entry-source">Dylan Cleppe · YouTube · 15 min</div>
+          <div class="entry-deltas">
+            <span class="delta-pill">+source_quote column</span>
+            <span class="delta-pill">+extraction_status enum</span>
+            <span class="delta-pill">validates 3x penalty</span>
+          </div>
+        </div>
+        <div class="entry-verdict verdict-confirm">CONFIRM + DELTA</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="funnel">
+  <div class="container">
+    <div class="section-head">
+      <h2>// The funnel</h2>
+      <div class="section-sub">How intake becomes action</div>
+    </div>
+    <div class="funnel">
+      <div class="funnel-card">
+        <div class="funnel-num">STAGE 01</div>
+        <div class="funnel-title">Ingest</div>
+        <div class="funnel-desc">Drop a URL: transcript, repo, article, or thread. Auto-routed to the right subtree.</div>
+      </div>
+      <div class="funnel-card">
+        <div class="funnel-num">STAGE 02</div>
+        <div class="funnel-title">Extract</div>
+        <div class="funnel-desc">Supadata for video. REPOEVAL for code. Structured insights pulled under HONESTY PROTOCOL.</div>
+      </div>
+      <div class="funnel-card">
+        <div class="funnel-num">STAGE 03</div>
+        <div class="funnel-title">Verdict</div>
+        <div class="funnel-desc">ADOPT / CONFIRM / DELTA / REJECT against the current Everest stack. No vibes, only deltas.</div>
+      </div>
+      <div class="funnel-card">
+        <div class="funnel-num">STAGE 04</div>
+        <div class="funnel-title">Cross-pollinate</div>
+        <div class="funnel-desc">Deltas ship as SUMMIT tasks. Confirmations get logged. Rejections archived with reason.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div>Everest Capital USA · Research Intake · <code>breverdbidder/everest-battle-cards/research</code></div>
+    <div>Rendered via GitHub Pages</div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.chip').forEach(c => {
+    c.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
+      c.classList.add('active');
+      const filter = c.textContent.toLowerCase();
+      document.querySelectorAll('.entry').forEach(e => {
+        const type = e.querySelector('.entry-type').textContent.toLowerCase();
+        e.style.display = (filter === 'all' || filter.startsWith(type)) ? '' : 'none';
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
