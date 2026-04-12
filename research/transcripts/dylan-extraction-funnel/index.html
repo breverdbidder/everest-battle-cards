@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>The AI Document Extraction Funnel — Research Intake</title>
+<meta name="description" content="Dylan Cleppe's document extraction funnel independently validates Everest's HONESTY PROTOCOL 3x penalty. Two concrete deltas identified.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1E3A5F;
+    --navy-light: #2a4f7f;
+    --orange: #F59E0B;
+    --bg: #020617;
+    --bg-raised: #0a1220;
+    --bg-card: #0f1a2e;
+    --border: #1e293b;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --text-faint: #64748b;
+    --green: #10b981;
+    --red: #ef4444;
+    --yellow: #eab308;
+    --blue: #3b82f6;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(30,58,95,0.25) 0%, transparent 50%),
+      radial-gradient(circle at 85% 90%, rgba(245,158,11,0.08) 0%, transparent 50%);
+  }
+  .container { max-width: 820px; margin: 0 auto; padding: 0 24px; }
+  .wide { max-width: 1100px; }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 20px 0;
+    background: rgba(2,6,23,0.85);
+    backdrop-filter: blur(12px);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
+  .breadcrumb { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-faint); }
+  .breadcrumb a { color: var(--text-dim); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--orange); }
+  .breadcrumb span { color: var(--orange); }
+  .home-link {
+    font-size: 12px; color: var(--text-dim); text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .home-link:hover { color: var(--orange); }
+
+  article { padding: 60px 0 80px; }
+
+  .post-meta {
+    display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+    margin-bottom: 24px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.1em;
+  }
+  .type-badge {
+    padding: 4px 10px;
+    background: rgba(59,130,246,0.15);
+    color: var(--blue);
+    border: 1px solid rgba(59,130,246,0.4);
+    border-radius: 4px;
+  }
+  .verdict-badge {
+    padding: 4px 10px;
+    background: rgba(245,158,11,0.15);
+    color: var(--orange);
+    border: 1px solid rgba(245,158,11,0.4);
+    border-radius: 4px;
+    font-weight: 600;
+  }
+
+  h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    margin-bottom: 20px;
+  }
+  .dek {
+    font-size: 19px; color: var(--text-dim);
+    margin-bottom: 32px; line-height: 1.5;
+  }
+  .source-box {
+    padding: 20px 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--orange);
+    border-radius: 6px;
+    margin-bottom: 48px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+  }
+  .source-field { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-faint); font-family: 'JetBrains Mono', monospace; margin-bottom: 4px; }
+  .source-val { font-size: 14px; color: var(--text); }
+  .source-val a { color: var(--orange); text-decoration: none; }
+  .source-val a:hover { text-decoration: underline; }
+
+  h2 {
+    font-size: 13px; font-weight: 600;
+    color: var(--orange);
+    text-transform: uppercase; letter-spacing: 0.18em;
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 56px;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--border);
+  }
+  h3 {
+    font-size: 22px; font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-top: 36px;
+    margin-bottom: 14px;
+    color: var(--text);
+  }
+  p { margin-bottom: 18px; color: var(--text-dim); font-size: 16px; }
+  p strong { color: var(--text); font-weight: 600; }
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88em;
+    background: var(--bg-card);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: var(--orange);
+    border: 1px solid var(--border);
+  }
+  ul, ol { margin: 16px 0 24px 20px; color: var(--text-dim); }
+  li { margin-bottom: 10px; }
+  li strong { color: var(--text); }
+
+  .tldr {
+    padding: 24px 28px;
+    background: linear-gradient(180deg, rgba(245,158,11,0.08) 0%, rgba(30,58,95,0.15) 100%);
+    border: 1px solid rgba(245,158,11,0.3);
+    border-radius: 8px;
+    margin: 32px 0 48px;
+  }
+  .tldr-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em;
+    color: var(--orange); margin-bottom: 12px;
+  }
+  .tldr p { margin-bottom: 0; color: var(--text); font-size: 17px; line-height: 1.6; }
+
+  .rules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin: 24px 0 32px;
+  }
+  .rule-card {
+    padding: 22px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    position: relative;
+  }
+  .rule-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--orange);
+    margin-bottom: 8px;
+  }
+  .rule-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+  .rule-desc { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+
+  .mapping-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0 32px;
+    font-size: 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .mapping-table th {
+    text-align: left;
+    padding: 14px 18px;
+    background: var(--bg-raised);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--orange);
+    text-transform: uppercase; letter-spacing: 0.1em;
+    border-bottom: 1px solid var(--border);
+  }
+  .mapping-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-dim);
+    vertical-align: top;
+  }
+  .mapping-table tr:last-child td { border-bottom: none; }
+  .mapping-table td:first-child { color: var(--text); font-weight: 500; }
+
+  .verdict-banner {
+    padding: 28px 32px;
+    background: linear-gradient(135deg, rgba(59,130,246,0.12) 0%, rgba(245,158,11,0.08) 100%);
+    border: 1px solid rgba(59,130,246,0.3);
+    border-radius: 10px;
+    margin: 40px 0;
+  }
+  .verdict-banner-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em;
+    color: var(--blue); margin-bottom: 10px;
+  }
+  .verdict-banner h3 { margin-top: 0; font-size: 24px; }
+  .verdict-banner p { font-size: 15px; }
+
+  .actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+    margin: 24px 0 32px;
+  }
+  .action {
+    padding: 18px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    border-radius: 6px;
+  }
+  .action-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--green); text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .action-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .action-desc { font-size: 13px; color: var(--text-dim); }
+
+  footer { padding: 48px 0; border-top: 1px solid var(--border); color: var(--text-faint); font-size: 12px; text-align: center; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="breadcrumb">
+      <a href="../../">research</a> / <a href="../">transcripts</a> / <span>dylan-extraction-funnel</span>
+    </div>
+    <a class="home-link" href="../../">← back to intake</a>
+  </div>
+</header>
+
+<article>
+  <div class="container">
+
+    <div class="post-meta">
+      <span class="type-badge">Transcript</span>
+      <span class="verdict-badge">CONFIRM + DELTA</span>
+      <span>2026-04-12</span>
+      <span>15 min read</span>
+    </div>
+
+    <h1>The AI Document Extraction Funnel</h1>
+    <p class="dek">A consulting tutorial independently lands on the same 3× wrong-answer penalty Everest has been running for months. Validation of the HONESTY PROTOCOL — plus two concrete schema deltas worth shipping.</p>
+
+    <div class="source-box">
+      <div>
+        <div class="source-field">Source</div>
+        <div class="source-val">Dylan Cleppe (YouTube)</div>
+      </div>
+      <div>
+        <div class="source-field">URL</div>
+        <div class="source-val"><a href="https://youtu.be/h58OFb4xfZQ" target="_blank" rel="noopener">youtu.be/h58OFb4xfZQ</a></div>
+      </div>
+      <div>
+        <div class="source-field">Duration</div>
+        <div class="source-val">~15 min</div>
+      </div>
+      <div>
+        <div class="source-field">Classification</div>
+        <div class="source-val">Pattern, not repo</div>
+      </div>
+    </div>
+
+    <div class="tldr">
+      <div class="tldr-label">◆ TL;DR</div>
+      <p>Dylan's "AI funnel" validates the HONESTY PROTOCOL's 3× penalty verbatim and contributes a cleaner field-level completeness taxonomy (<code>extracted / inferred / missing / ambiguous</code>) that is <strong>orthogonal</strong> to Everest's existing claim-confidence axis (<code>VERIFIED / UNTESTED / INFERRED</code>). Both should coexist. Two schema deltas worth shipping.</p>
+    </div>
+
+    <h2>// Core thesis</h2>
+    <p>Chaos in (PDFs, scans, emails of arbitrary shape) → AI funnel → consistent template out. Three-step build: <strong>define output → set rules → build &amp; test</strong>. The output is the thing most people skip, and it's the most important.</p>
+
+    <h3>1. Output-first design</h3>
+    <p>Pull fields from the existing template: name, type (text/date/number), required/optional. No template? Feed 3–5 completed examples to a high-reasoning model and have it reverse-engineer the schema. Aliases absorb client naming variance ("vendor name aka X, Y, Z").</p>
+
+    <h3>2. Three anti-hallucination rules</h3>
+    <div class="rules-grid">
+      <div class="rule-card">
+        <div class="rule-num">RULE 01</div>
+        <div class="rule-title">Grounding</div>
+        <div class="rule-desc">Base extraction only in the uploaded document. No internet. No prior knowledge.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">RULE 02</div>
+        <div class="rule-title">Incentive flip</div>
+        <div class="rule-desc">"Any wrong answer is 3× worse than a blank answer." Rewards the model for admitting absence.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">RULE 03</div>
+        <div class="rule-title">Force evidence</div>
+        <div class="rule-desc">Every extracted value must include the exact source quote from the document for fast audit.</div>
+      </div>
+    </div>
+
+    <h3>3. Audit table schema</h3>
+    <p>Dylan's output format before the final deliverable is a four-column audit table:</p>
+    <p><code>field_name | value | source_quote | status</code></p>
+    <p>Where status is one of: <code>extracted</code> (word-for-word match), <code>inferred</code> (AI admits guessing — double-check these), <code>missing</code> (blank), or <code>ambiguous</code> (conflicting source signals).</p>
+
+    <h3>4. Self-improvement loop</h3>
+    <p>When the AI makes a mistake, log it to an <code>errors.md</code> file in the project folder. On a weekly or monthly cadence, ask the AI to review the error file, identify themes, and make a <strong>"minimal, surgical"</strong> update to the system prompt to systematically fix the class of error. Critical warning: emphasize <em>minimal and surgical</em>, or the AI over-engineers the prompt into bloat and makes things worse.</p>
+
+    <h3>5. Browser → desktop agent migration</h3>
+    <p>Move from Claude/GPT/Gemini projects to Claude Code / Cowork / Codex when processing exceeds ~8–10 files per day. Desktop agents unlock folder-scale processing (50–100+ files), persistent error logs, self-healing prompt updates, and tool/connector creation for downstream system integration.</p>
+
+    <h2>// Cross-pollination to the Everest stack</h2>
+
+    <table class="mapping-table">
+      <thead>
+        <tr><th>Dylan's pattern</th><th>Everest equivalent</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>3× wrong-answer penalty</td>
+          <td>HONESTY PROTOCOL (already running)</td>
+          <td>External validation. No change.</td>
+        </tr>
+        <tr>
+          <td>status enum: extracted / inferred / missing / ambiguous</td>
+          <td>VERIFIED / UNTESTED / INFERRED (claim confidence)</td>
+          <td>Orthogonal axis. Add both.</td>
+        </tr>
+        <tr>
+          <td>source_quote audit column</td>
+          <td>No direct equivalent in OSINT events</td>
+          <td>Add source_quote column.</td>
+        </tr>
+        <tr>
+          <td>errors.md → surgical prompt refinement</td>
+          <td>AUTOLOOP V2 (deploy → verify → RCA → evolver)</td>
+          <td>Delta check: does AUTOLOOP's RCA layer strictly dominate, or does the surgical constraint add something?</td>
+        </tr>
+        <tr>
+          <td>Reverse-engineer template → Claude Skill → pixel-perfect output</td>
+          <td>Dono v5 battle card template replication</td>
+          <td>Already doing this. Confirmation only.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>// Verdict</h2>
+
+    <div class="verdict-banner">
+      <div class="verdict-banner-label">◆ CONFIRM + DELTA</div>
+      <h3>Pattern — not a repo. Nothing to fork.</h3>
+      <p>The value is external validation of HONESTY PROTOCOL's 3× rule plus a cleaner per-field completeness vocabulary that fills a real gap. Two schema deltas earn their keep; the rest is confirmation of existing practice.</p>
+    </div>
+
+    <h2>// Concrete actions</h2>
+    <div class="actions">
+      <div class="action">
+        <div class="action-tag">SCHEMA · P1</div>
+        <div class="action-title">Add source_quote column</div>
+        <div class="action-desc">osint_events, zw_parcels extraction outputs. ~15 min Supabase migration.</div>
+      </div>
+      <div class="action">
+        <div class="action-tag">SCHEMA · P1</div>
+        <div class="action-title">Add extraction_status enum</div>
+        <div class="action-desc">Values: extracted, inferred, missing, ambiguous. Coexists with VERIFIED/UNTESTED/INFERRED — different axis.</div>
+      </div>
+      <div class="action">
+        <div class="action-tag">REVIEW · P3</div>
+        <div class="action-title">AUTOLOOP "minimal surgical" check</div>
+        <div class="action-desc">Audit whether AUTOLOOP's evolver constrains prompt updates to minimal/surgical diffs. If not, add the constraint.</div>
+      </div>
+      <div class="action">
+        <div class="action-tag">CONTENT · P2</div>
+        <div class="action-title">LinkedIn validation post</div>
+        <div class="action-desc">"A consultant just independently landed on the 3× rule Everest has run for 4 months." PAIRING RULE applies.</div>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+<footer>
+  <div class="container">
+    Everest Capital USA · Research Intake · <code>breverdbidder/everest-battle-cards</code>
+  </div>
+</footer>
+
+</body>
+</html>
