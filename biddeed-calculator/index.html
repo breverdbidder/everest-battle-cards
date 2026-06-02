@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BidDeed.AI — MCP Pricing Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1E3A5F; --navy-2:#16304f; --orange:#F59E0B; --bg:#020617;
+    --panel:#0b1628; --line:#1e3450; --txt:#e7eef7; --muted:#8aa0bd; --good:#22c55e; --bad:#f87171;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 600px at 80% -10%,#0c2036 0,var(--bg) 60%);
+       color:var(--txt);font-family:Inter,system-ui,sans-serif;padding:22px;line-height:1.45}
+  h1{font-size:22px;font-weight:800;margin:0 0 2px;letter-spacing:-.02em}
+  h1 .o{color:var(--orange)}
+  .sub{color:var(--muted);font-size:12.5px;margin-bottom:20px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:780px){.grid{grid-template-columns:1fr}}
+  .card{background:linear-gradient(180deg,var(--panel),#0a1424);border:1px solid var(--line);
+        border-radius:14px;padding:16px 16px 14px}
+  .card h2{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);
+           margin:0 0 12px;font-weight:700}
+  .row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:5px 0}
+  .row label{font-size:13px;color:var(--txt)}
+  .row .hint{font-size:11px;color:var(--muted)}
+  input[type=number]{width:108px;background:#06101f;border:1px solid var(--line);color:var(--orange);
+        font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;text-align:right;
+        border-radius:8px;padding:6px 9px;outline:none}
+  input[type=number]:focus{border-color:var(--orange);box-shadow:0 0 0 2px rgba(245,158,11,.18)}
+  .out{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--txt)}
+  .divider{height:1px;background:var(--line);margin:10px 0}
+  table{width:100%;border-collapse:collapse;margin-top:4px}
+  th,td{padding:7px 6px;font-size:12.5px;text-align:right}
+  th{color:var(--muted);font-weight:600;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;
+     border-bottom:1px solid var(--line)}
+  td:first-child,th:first-child{text-align:left}
+  td input{width:82px}
+  tr.tot td{border-top:1px solid var(--line);font-weight:700;color:var(--txt);padding-top:9px}
+  .big{display:flex;flex-direction:column;gap:3px;background:#06101f;border:1px solid var(--line);
+       border-radius:12px;padding:14px 16px;margin-top:12px}
+  .big .k{font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+  .big .v{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:700;color:var(--orange)}
+  .verdict{margin-top:10px;border-radius:10px;padding:11px 14px;font-weight:700;font-size:14px;text-align:center}
+  .verdict.good{background:rgba(34,197,94,.12);color:var(--good);border:1px solid rgba(34,197,94,.4)}
+  .verdict.bad{background:rgba(248,113,113,.1);color:var(--bad);border:1px solid rgba(248,113,113,.4)}
+  .sens{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:6px}
+  .sens .c{background:#06101f;border:1px solid var(--line);border-radius:10px;padding:9px 6px;text-align:center}
+  .sens .c .n{font-size:11px;color:var(--muted)}
+  .sens .c .a{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;margin-top:3px}
+  .note{color:var(--muted);font-size:11px;margin-top:12px;line-height:1.5}
+  .blue{color:var(--orange)}
+</style>
+</head>
+<body>
+  <h1>BidDeed<span class="o">.AI</span> — MCP Pricing Calculator</h1>
+  <div class="sub">Live unit-economics model. Edit any <span class="blue">orange field</span>. MCP = Model Context Protocol (channel) · revenue billed by you via Stripe.</div>
+
+  <div class="grid">
+    <!-- LEFT: inputs -->
+    <div class="card">
+      <h2>1 · Cost Inputs ($/mo)</h2>
+      <div class="row"><label>Infrastructure (Supabase + CF/Vercel)</label><input type="number" id="f1" value="45"></div>
+      <div class="row"><label>AI subscriptions + inference baseline</label><input type="number" id="f2" value="200"></div>
+      <div class="row"><label>Data / scraping / APIs</label><input type="number" id="f3" value="80"></div>
+      <div class="row"><label>Stripe + tooling</label><input type="number" id="f4" value="25"></div>
+      <div class="row"><label>Misc / contingency</label><input type="number" id="f5" value="25"></div>
+      <div class="divider"></div>
+      <div class="row"><label><b>Total fixed</b></label><span class="out" id="fixedTot">—</span></div>
+      <div class="divider"></div>
+      <div class="row"><label>Variable cost / scored report</label><input type="number" id="varc" value="0.25" step="0.05"></div>
+      <div class="row"><label>Paid AI placement budget</label><input type="number" id="ad" value="0"></div>
+      <div class="row"><label>Target monthly NET profit</label><input type="number" id="target" value="12000"></div>
+
+      <h2 style="margin-top:18px">2 · Per-unit margin</h2>
+      <div class="row"><label class="hint">Gross margin @ $99 / $499 / $4,999</label><span class="out" id="gm">—</span></div>
+    </div>
+
+    <!-- RIGHT: P&L -->
+    <div class="card">
+      <h2>3 · Customer-Mix P&amp;L — the engine</h2>
+      <table id="mix">
+        <thead><tr><th>Tier</th><th>Price</th><th>#Cust</th><th>Rpts</th><th>Contribution</th></tr></thead>
+        <tbody>
+          <tr data-t><td>Free (lead magnet)</td><td><input type="number" class="p" value="0"></td><td><input type="number" class="c" value="200"></td><td><input type="number" class="r" value="3"></td><td class="contrib out">—</td></tr>
+          <tr data-t><td>B2C self-serve</td><td><input type="number" class="p" value="99"></td><td><input type="number" class="c" value="60"></td><td><input type="number" class="r" value="20"></td><td class="contrib out">—</td></tr>
+          <tr data-t><td>Prosumer</td><td><input type="number" class="p" value="499"></td><td><input type="number" class="c" value="10"></td><td><input type="number" class="r" value="60"></td><td class="contrib out">—</td></tr>
+          <tr data-t data-fund><td>Fund / Team</td><td><input type="number" class="p" value="4999"></td><td><input type="number" class="c" value="3"></td><td><input type="number" class="r" value="300"></td><td class="contrib out">—</td></tr>
+          <tr data-t><td>Enterprise (/mo)</td><td><input type="number" class="p" value="8333"></td><td><input type="number" class="c" value="1"></td><td><input type="number" class="r" value="1000"></td><td class="contrib out">—</td></tr>
+          <tr class="tot"><td>Totals</td><td></td><td id="custTot">—</td><td></td><td id="contribTot" class="out">—</td></tr>
+        </tbody>
+      </table>
+
+      <div class="big"><span class="k">Net monthly profit</span><span class="v" id="netMo">—</span></div>
+      <div class="big"><span class="k">Net annual profit · Gross ARR</span><span class="v" id="netYr">—</span></div>
+      <div class="verdict" id="verdict">—</div>
+    </div>
+  </div>
+
+  <!-- Sensitivity -->
+  <div class="card" style="margin-top:16px">
+    <h2>4 · Sensitivity — Net Annual Profit vs # Fund customers (your biggest lever)</h2>
+    <div class="sens" id="sens"></div>
+  </div>
+
+  <div class="note">
+    Defaults are <b>illustrative and optimistic</b> — dial the counts to your real ramp. Variable cost ($0.25/report) is an estimate; refine from compute logs.
+    Revenue is billed by <b>you</b> via Stripe (subscriptions + per-report); LLM providers do not pay per interaction. Paid AI placement is an expense, $0 at launch.
+    Planning model, not financial advice.
+  </div>
+
+<script>
+  const $=id=>document.getElementById(id);
+  const fmt=n=>(n<0?'-$':'$')+Math.abs(Math.round(n)).toLocaleString();
+  const pct=n=>(n*100).toFixed(1)+'%';
+
+  function recalc(){
+    const fixed=['f1','f2','f3','f4','f5'].reduce((s,id)=>s+(+$(id).value||0),0);
+    const varc=+$('varc').value||0, ad=+$('ad').value||0, target=+$('target').value||0;
+    $('fixedTot').textContent=fmt(fixed);
+
+    const rows=[...document.querySelectorAll('#mix tr[data-t]')];
+    const tier=r=>({p:+r.querySelector('.p').value||0,c:+r.querySelector('.c').value||0,rep:+r.querySelector('.r').value||0});
+    const gmAt=(price)=>{const t=rows.map(tier).find(x=>x.p===price)||{rep:40};return price?(price - t.rep*varc)/price:0;};
+    $('gm').textContent=[99,499,4999].map(p=>pct(gmAt(p))).join('  /  ');
+
+    let sumContrib=0,sumCust=0,base=0,fund=null;
+    rows.forEach(r=>{
+      const t=tier(r); const rev=t.p*t.c; const cogs=t.c*t.rep*varc; const contrib=rev-cogs;
+      r.querySelector('.contrib').textContent=fmt(contrib);
+      sumContrib+=contrib; sumCust+=t.c;
+      if(r.hasAttribute('data-fund')){fund=t;} else {base+=contrib;}
+    });
+    const grossARR=rows.map(tier).reduce((s,t)=>s+t.p*t.c,0)*12;
+    $('custTot').textContent=sumCust.toLocaleString();
+    $('contribTot').textContent=fmt(sumContrib);
+
+    const netMo=sumContrib-fixed-ad;
+    $('netMo').textContent=fmt(netMo)+' /mo';
+    $('netYr').textContent=fmt(netMo*12)+'  ·  ARR '+fmt(grossARR);
+
+    const v=$('verdict');
+    if(netMo>=target){v.className='verdict good';v.textContent='✓ CLEARS TARGET  (+'+fmt(netMo-target)+'/mo)';}
+    else{v.className='verdict bad';v.textContent='✗ SHORT BY '+fmt(target-netMo)+'/mo';}
+
+    const perFund=fund?(fund.p - fund.rep*varc):0;
+    const sens=$('sens');sens.innerHTML='';
+    [1,2,3,5,8].forEach(n=>{
+      const netYr=(base + n*perFund - fixed - ad)*12;
+      const d=document.createElement('div');d.className='c';
+      d.innerHTML='<div class="n">'+n+' fund'+(n>1?'s':'')+'</div><div class="a">'+fmt(netYr)+'</div>';
+      sens.appendChild(d);
+    });
+  }
+  document.querySelectorAll('input').forEach(i=>i.addEventListener('input',recalc));
+  recalc();
+</script>
+</body>
+</html>
