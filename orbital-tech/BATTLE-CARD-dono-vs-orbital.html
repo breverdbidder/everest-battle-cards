@@ -1,1 +1,121 @@
-__HTML__
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Battle Card — Dono ↔ Orbital | Everest CI SSOT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1E3A5F;--orange:#F59E0B;--bg:#020617;--panel:#0B1426;--line:#1E3A5F;
+--ink:#E6EBF2;--mut:#8B98AC;--hi:#22C55E;--lo:#64748B;--red:#EF4444;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-size:14px;line-height:1.5}
+.wrap{max-width:1060px;margin:0 auto;padding:36px 28px 60px}
+.eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--orange);font-weight:700}
+h1{font-size:clamp(28px,4.5vw,44px);font-weight:900;letter-spacing:-.02em;margin:10px 0 6px}
+h1 .vs{color:var(--orange);font-weight:400;padding:0 .15em}
+.sub{color:var(--mut);max-width:74ch;font-size:13px}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:11px;color:var(--mut)}
+.meta b{color:var(--ink)}
+.diverge{margin:34px 0 8px;position:relative}
+.diverge svg{width:100%;height:84px;display:block}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.col{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.col-h{padding:16px 18px;border-bottom:1px solid var(--line)}
+.col-h .name{font-size:20px;font-weight:800}
+.col-h .path{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-top:2px}
+.dono .path{color:var(--orange)} .orb .path{color:#7DA2D8}
+.threat{float:right;font-size:10px;font-weight:800;letter-spacing:.1em;padding:4px 9px;border-radius:99px;margin-top:2px}
+.t-high{background:rgba(239,68,68,.14);color:var(--red);border:1px solid rgba(239,68,68,.4)}
+.t-med{background:rgba(245,158,11,.12);color:var(--orange);border:1px solid rgba(245,158,11,.4)}
+.row{padding:11px 18px;border-bottom:1px solid rgba(30,58,95,.45);display:grid;grid-template-columns:118px 1fr;gap:12px}
+.row:last-child{border-bottom:none}
+.k{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);font-weight:700;padding-top:2px}
+.v{font-size:13px}
+.v b{font-weight:700}.v .m{color:var(--mut);font-size:12px}
+.tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;margin:1px 3px 1px 0;background:rgba(30,58,95,.5);border:1px solid var(--line);color:#AFC2DC}
+.strip{margin:26px 0;background:linear-gradient(90deg,rgba(245,158,11,.10),rgba(2,6,23,0) 60%);border:1px solid var(--orange);border-radius:10px;padding:18px 20px}
+.strip h2{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);font-weight:800;margin-bottom:8px}
+.strip p{font-size:14px;max-width:90ch}
+.strip p b{color:var(--orange)}
+.wedge{background:var(--navy);border-radius:10px;padding:22px;margin-top:8px}
+.wedge h2{font-size:13px;letter-spacing:.18em;text-transform:uppercase;font-weight:800;margin-bottom:14px;color:#fff}
+.wedge h2 span{color:var(--orange)}
+.w-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:760px){.w-grid{grid-template-columns:1fr}}
+.w-cell{background:rgba(2,6,23,.45);border-radius:8px;padding:14px}
+.w-cell .wk{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);font-weight:800;margin-bottom:6px}
+.w-cell p{font-size:12.5px;color:#D7E0EC}
+.foot{margin-top:26px;font-size:10.5px;color:var(--mut);line-height:1.7}
+.foot b{color:#AFC2DC}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Everest Capital USA · CI SSOT · Battle Card · V6.5</div>
+  <h1>Dono<span class="vs">↔</span>Orbital</h1>
+  <p class="sub">Two AI title-record platforms, foreign-founded, attacking the US market — that split at the same fork. Dono went <b>data-side</b>; Orbital went <b>workflow-side</b>. The split, not the size, sets the threat.</p>
+  <div class="meta">
+    <span>Issued <b>Jun 12, 2026</b></span><span>Pairs <b>mapwise · propertyonion · housecanary-mcp</b></span>
+    <span>Sources <b>[V] Apr-2026 Dono dossier · Jun-2026 Orbital dossier</b></span><span>Honesty <b>V3 markers inline</b></span>
+  </div>
+
+  <div class="diverge" aria-hidden="true">
+    <svg viewBox="0 0 1000 84" preserveAspectRatio="none">
+      <path d="M500 6 C500 30 320 38 150 70" fill="none" stroke="#F59E0B" stroke-width="2.5"/>
+      <path d="M500 6 C500 30 680 38 850 70" fill="none" stroke="#7DA2D8" stroke-width="2.5"/>
+      <circle cx="500" cy="6" r="5" fill="#E6EBF2"/>
+      <text x="500" y="34" text-anchor="middle" fill="#8B98AC" font-family="Inter" font-size="11" letter-spacing="2">AI ON TITLE RECORDS</text>
+      <text x="150" y="82" text-anchor="middle" fill="#F59E0B" font-family="Inter" font-size="11" font-weight="700" letter-spacing="2">OWN THE DATA</text>
+      <text x="850" y="82" text-anchor="middle" fill="#7DA2D8" font-family="Inter" font-size="11" font-weight="700" letter-spacing="2">OWN THE WORKFLOW</text>
+    </svg>
+  </div>
+
+  <div class="grid">
+    <div class="col dono">
+      <div class="col-h"><span class="threat t-high">THREAT: HIGH</span>
+        <div class="name">Dono.ai</div><div class="path">Data-side — building a corpus</div></div>
+      <div class="row"><div class="k">Base</div><div class="v">Tel Aviv + <b>Palm Beach, FL</b> · founded 2023 · ~14 staff</div></div>
+      <div class="row"><div class="k">Founders</div><div class="v">Tali Gross (CEO) · Ron Likvornik (CTO, NLP) · Eyal Stern (COO) — Israeli, 0 patents filed</div></div>
+      <div class="row"><div class="k">Capital</div><div class="v"><b>$10.2M</b> <span class="m">lool Ventures + Link Ventures + Alumni; Lemonade/Melio founder angels</span></div></div>
+      <div class="row"><div class="k">Engine</div><div class="v">Multi-LLM extraction over <b>700+ county records</b> · 1,400–1,700 records/hr · 45+ datapoints/record · 100% accuracy guarantee via human loop</div></div>
+      <div class="row"><div class="k">Buyer</div><div class="v">Title agencies + closing attorneys — <b>investor-adjacent</b>, demo-walled enterprise pricing</div></div>
+      <div class="row"><div class="k">Channels</div><div class="v"><span class="tag">Qualia Marketplace</span><span class="tag">SoftPro Sync</span><span class="tag">CATIC (NC)</span><span class="tag">American Eagle Title</span><span class="tag">TECH100 2026</span></div></div>
+      <div class="row"><div class="k">Why it bites</div><div class="v">Florida presence + county-records corpus + distressed-investor overlap. <b>Prior-art HIGH</b> on Shapira claims 7 &amp; 9 — mitigations: narrow to foreclosure-auction CMA inputs and dual-exposure FC+TD correlation</div></div>
+    </div>
+
+    <div class="col orb">
+      <div class="col-h"><span class="threat t-med">THREAT: LOW-MED</span>
+        <div class="name">Orbital</div><div class="path">Workflow-side — renting attorney hours</div></div>
+      <div class="row"><div class="k">Base</div><div class="v">London + NYC (18 W 18th St) · founded 2018 · ~120 staff, doubling</div></div>
+      <div class="row"><div class="k">Founders</div><div class="v">Will Pearce (CEO) · Ed Boulle — ex-space industry, Mishcon MDR Lab</div></div>
+      <div class="row"><div class="k">Capital</div><div class="v"><b>$75M</b> <span class="m">$60M Series B Jan 2026, Brighton Park; RELX/LexisNexis strategic, JLL Spark, Grosvenor</span></div></div>
+      <div class="row"><div class="k">Engine</div><div class="v">Copilot on <b>customer-supplied documents</b> · title &amp; survey review · legal-description→polygon · Doc Restorer OCR · first drafts on firm precedents · <b>insured AI outputs</b></div></div>
+      <div class="row"><div class="k">Buyer</div><div class="v">Am Law 100 + magic circle + title cos — <b>attorneys billing hours</b>, not investors</div></div>
+      <div class="row"><div class="k">Channels</div><div class="v"><span class="tag">A&amp;O Shearman</span><span class="tag">Goodwin</span><span class="tag">Dentons</span><span class="tag">GT</span><span class="tag">V&amp;E</span><span class="tag">200K txns/yr</span></div></div>
+      <div class="row"><div class="k">Why it waits</div><div class="v">No proprietary corpus — value evaporates without client docs. <b>24-mo watch trigger:</b> any Orbital product consuming county official records directly (RELX money + title-co customers make it credible)</div></div>
+    </div>
+  </div>
+
+  <div class="strip">
+    <h2>The asymmetry</h2>
+    <p><b>$10.2M Dono outranks $75M Orbital as a threat.</b> Proximity of corpus and buyer beats size of war chest: Dono is assembling county-records data forty minutes from our market with an investor-adjacent customer; Orbital is renting workflow to lawyers an ocean away from the auction. Threat scales with overlap, not headcount — parity: Dono n/a-HIGH on use case, Orbital 0.38.</p>
+  </div>
+
+  <div class="wedge">
+    <h2>The BidDeed<span> + </span>ZoneWise wedge</h2>
+    <div class="w-grid">
+      <div class="w-cell"><div class="wk">Only full hand</div><p>In the Dono–Orbital–Mapwise–PropertyOnion matrix, BidDeed+ZoneWise alone holds <b>corpus + AI + the investor buyer</b> simultaneously: 356K labeled auction outcomes, 10.5M parcels, Shapira models.</p></div>
+      <div class="w-cell"><div class="wk">Patent race</div><p>Dono: 0 patents despite 18 months shipping. Claims 7 &amp; 9 narrowed to foreclosure-auction specifics survive their prior art. Race remains winnable — filing target TBD.</p></div>
+      <div class="w-cell"><div class="wk">Steal, both-sided</div><p>From Orbital: Doc-Restorer OCR for clerk records, description→polygon for ZoneWise, insured outputs for PENCIL gold. From Dono: channel playbook — marketplace + closing-software integrations.</p></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <b>SSOT refs:</b> ci_v65_dossiers slugs dono-ai · orbital-copilot-us &nbsp;·&nbsp; everest-battle-cards/dono-ai/ (v5 canonical template) · /orbital-tech/ &nbsp;·&nbsp; CI-DOSSIER-CHECKPOINT-PROTOCOL-v1-2.md<br>
+    <b>Self-audit:</b> Dono facts [V] Apr-12-2026 dossier + master row · Orbital facts [V] Jun-12-2026 press/site probe · asymmetry verdict [I] · watch trigger [I]. BLANK&gt;WRONG observed: Dono parity score not in SSOT — not invented here.
+  </div>
+</div>
+</body>
+</html>
