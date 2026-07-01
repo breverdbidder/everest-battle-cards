@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BidDeed.AI — Know Your Max Bid Before the Gavel. Free for 30 Days.</title>
+<meta name="description" content="AI-graded Florida foreclosure & tax-deed auctions across all 67 counties, with ZoneWise.AI zoning intelligence on 10.5M parcels. Free 30-day trial, no credit card.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#020617;
+  --navy:#1E3A5F;
+  --navy-soft:rgba(30,58,95,.35);
+  --orange:#F59E0B;
+  --orange-dim:rgba(245,158,11,.12);
+  --ink:#E8EDF5;
+  --ink-dim:#94A3B8;
+  --line:rgba(148,163,184,.14);
+  --green:#4ADE80;
+  --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--orange);text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0;border-bottom:1px solid var(--line)}
+.logo{font-weight:800;font-size:1.05rem;letter-spacing:-.01em}
+.logo span{color:var(--orange)}
+.logo small{display:block;font-weight:500;font-size:.62rem;color:var(--ink-dim);letter-spacing:.14em;text-transform:uppercase}
+.nav-badge{font-family:var(--mono);font-size:.7rem;color:var(--orange);border:1px solid rgba(245,158,11,.35);border-radius:999px;padding:5px 14px;background:var(--orange-dim)}
+.hero{padding:64px 0 52px;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);margin-bottom:18px}
+h1{font-size:clamp(2rem,4.2vw,3.05rem);line-height:1.12;font-weight:800;letter-spacing:-.025em;margin-bottom:20px}
+h1 em{font-style:normal;color:var(--orange)}
+.sub{color:var(--ink-dim);font-size:1.05rem;max-width:520px;margin-bottom:28px}
+.sub strong{color:var(--ink);font-weight:600}
+.signup{display:flex;gap:10px;flex-wrap:wrap;max-width:520px}
+.signup input{flex:1 1 240px;background:#0A1428;border:1px solid var(--line);border-radius:8px;padding:13px 16px;color:var(--ink);font-family:'Inter',sans-serif;font-size:.92rem}
+.signup input:focus{outline:2px solid var(--orange);outline-offset:1px;border-color:transparent}
+.signup input::placeholder{color:#64748B}
+.btn{display:inline-block;padding:13px 26px;border-radius:8px;font-weight:700;font-size:.93rem;border:none;cursor:pointer;transition:transform .15s ease;font-family:'Inter',sans-serif}
+.btn-primary{background:var(--orange);color:#0B1220;box-shadow:0 0 0 1px rgba(245,158,11,.4),0 8px 30px rgba(245,158,11,.18)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-ghost{border:1px solid var(--line);color:var(--ink);background:transparent}
+.btn-ghost:hover{border-color:var(--orange);color:var(--orange)}
+.trial-note{font-size:.8rem;color:var(--ink-dim);margin-top:14px}
+.trial-note b{color:var(--orange)}
+.form-msg{font-size:.85rem;margin-top:12px;display:none}
+.form-msg.ok{display:block;color:var(--green)}
+.form-msg.err{display:block;color:#F87171}
+.card{background:linear-gradient(160deg,#0A1428 0%,#060B18 100%);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 24px 70px rgba(2,6,23,.8),0 0 0 1px rgba(30,58,95,.5)}
+.card-head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:var(--navy-soft);border-bottom:1px solid var(--line);font-family:var(--mono);font-size:.68rem}
+.card-head .county{color:var(--ink-dim);letter-spacing:.12em;text-transform:uppercase}
+.grade{color:#0B1220;background:var(--orange);font-weight:700;border-radius:6px;padding:3px 10px}
+.card-body{padding:20px 18px}
+.addr{font-weight:700;font-size:1.02rem;margin-bottom:4px}
+.card-meta{font-family:var(--mono);font-size:.72rem;color:var(--ink-dim);margin-bottom:18px}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:12px 18px;font-size:.85rem}
+.kv .k{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim)}
+.kv .v{font-weight:700}
+.kv .v.max{color:var(--orange);font-size:1.15rem}
+.kv .v.ok{color:var(--green)}
+.card-foot{border-top:1px solid var(--line);padding:13px 18px;font-family:var(--mono);font-size:.7rem;color:var(--ink-dim)}
+.card-foot b{color:var(--green);font-weight:600}
+.proof{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:26px 0 0}
+.proof div{background:var(--bg);padding:22px 16px;text-align:center}
+.proof .n{font-weight:800;font-size:1.5rem;color:var(--orange);letter-spacing:-.02em}
+.proof .l{font-size:.72rem;color:var(--ink-dim);margin-top:4px;line-height:1.4}
+section{padding:64px 0}
+.sec-eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);margin-bottom:12px}
+h2{font-size:clamp(1.5rem,3vw,2.1rem);font-weight:800;letter-spacing:-.02em;margin-bottom:14px}
+.lede{color:var(--ink-dim);max-width:640px;margin-bottom:36px}
+.lede strong{color:var(--ink)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.engine{border:1px solid var(--line);border-radius:12px;padding:26px}
+.engine h3{font-size:1.05rem;font-weight:700;margin-bottom:10px}
+.engine h3 span{color:var(--orange)}
+.engine p{font-size:.9rem;color:var(--ink-dim)}
+.engine .tag{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);display:block;margin-bottom:12px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;counter-reset:step}
+.step{border:1px solid var(--line);border-radius:12px;padding:26px;position:relative}
+.step::before{counter-increment:step;content:counter(step,decimal-leading-zero);font-family:var(--mono);color:var(--orange);font-size:.78rem;display:block;margin-bottom:12px}
+.step h3{font-size:.98rem;font-weight:700;margin-bottom:8px}
+.step p{font-size:.86rem;color:var(--ink-dim)}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:760px}
+.plan{border:1px solid var(--line);border-radius:14px;padding:30px}
+.plan.featured{border-color:rgba(245,158,11,.5);box-shadow:0 0 0 1px rgba(245,158,11,.25),0 16px 50px rgba(245,158,11,.08)}
+.plan .name{font-weight:800;font-size:1.1rem}
+.plan .price{font-size:2rem;font-weight:800;letter-spacing:-.02em;margin:10px 0 2px}
+.plan .price small{font-size:.85rem;font-weight:500;color:var(--ink-dim)}
+.plan ul{list-style:none;margin:20px 0 26px}
+.plan li{font-size:.86rem;color:var(--ink-dim);padding:7px 0;border-bottom:1px solid var(--line)}
+.plan li b{color:var(--ink);font-weight:600}
+.plan a.btn{width:100%;text-align:center;display:block}
+.plan .fine{font-size:.72rem;color:var(--ink-dim);margin-top:12px;text-align:center}
+footer{border-top:1px solid var(--line);padding:34px 0;font-size:.78rem;color:var(--ink-dim);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+@media(max-width:860px){
+  .hero{grid-template-columns:1fr;padding:44px 0 40px}
+  .proof{grid-template-columns:repeat(2,1fr)}
+  .pair,.steps,.plans{grid-template-columns:1fr}
+  section{padding:48px 0}
+}
+.btn:focus-visible,a:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <div class="logo">BidDeed<span>.AI</span><small>× ZoneWise.AI — Everest Capital USA</small></div>
+  <div class="nav-badge">FL · 67 COUNTIES · LIVE</div>
+</nav>
+<div class="hero">
+  <div id="start">
+    <div class="eyebrow">Florida Foreclosure + Tax-Deed Intelligence</div>
+    <h1>Know your <em>max bid</em> before the gavel drops.</h1>
+    <p class="sub">Every foreclosure and tax-deed auction in Florida, graded by AI trained on <strong>49,973 real auction outcomes</strong> — with zoning intelligence on every parcel, so you never buy a property you can't use.</p>
+    <div class="signup" id="signup-form">
+      <input type="email" id="email" placeholder="you@example.com" autocomplete="email" aria-label="Email address">
+      <button class="btn btn-primary" id="submit-btn" type="button">Start free trial</button>
+    </div>
+    <p class="form-msg" id="form-msg" role="status"></p>
+    <p class="trial-note"><b>Free for 30 days. No credit card.</b> Full Investor access — we email your activation key.</p>
+  </div>
+  <div class="card" role="img" aria-label="Example of a graded auction property card">
+    <div class="card-head">
+      <span class="county">Brevard County · Tax Deed · Thu 10:00 AM</span>
+      <span class="grade">GRADE A</span>
+    </div>
+    <div class="card-body">
+      <div class="addr">3BR/2BA Single-Family · Palm Bay</div>
+      <div class="card-meta">1,614 sqft heated · built 1989 · no senior liens detected</div>
+      <div class="kv">
+        <div><div class="k">Opening bid</div><div class="v">$38,400</div></div>
+        <div><div class="k">Market value (ZW)</div><div class="v">$284,000</div></div>
+        <div><div class="k">AI max bid</div><div class="v max">$147,000</div></div>
+        <div><div class="k">Zoning</div><div class="v ok">RS-2 · rental OK</div></div>
+      </div>
+    </div>
+    <div class="card-foot">shapira_formula: <b>82.6% historical accuracy</b> · flood zone X · homestead unlikely</div>
+  </div>
+</div>
+<div class="proof">
+  <div><div class="n">67</div><div class="l">FL counties — every foreclosure &amp; tax-deed calendar</div></div>
+  <div><div class="n">10.5M</div><div class="l">parcels with ZoneWise zoning intelligence</div></div>
+  <div><div class="n">82.6%</div><div class="l">Shapira Formula accuracy on 49,973 outcomes</div></div>
+  <div><div class="n">20 yrs</div><div class="l">of FL auction experience behind the models</div></div>
+</div>
+<section id="why">
+  <div class="sec-eyebrow">Why both engines</div>
+  <h2>The auction tells you the price. The zoning tells you the truth.</h2>
+  <p class="lede">Most auction buyers lose money on properties that <strong>looked cheap and turned out unusable</strong> — wrong zoning, senior liens, flood exposure. BidDeed and ZoneWise run together on every property, always.</p>
+  <div class="pair">
+    <div class="engine">
+      <span class="tag">Engine 1 · BidDeed.AI</span>
+      <h3>Auction <span>execution</span></h3>
+      <p>Every upcoming foreclosure and tax-deed sale in all 67 counties, graded A–F with an AI max bid, lien signals, and outcome probabilities from two decades of real sales data.</p>
+    </div>
+    <div class="engine">
+      <span class="tag">Engine 2 · ZoneWise.AI</span>
+      <h3>Zoning <span>intelligence</span></h3>
+      <p>What can this parcel legally become? Zoning district, permitted uses, and land-use context on 10.5M Florida parcels — answered before you bid, not after you own it.</p>
+    </div>
+  </div>
+</section>
+<section id="how">
+  <div class="sec-eyebrow">How it works</div>
+  <h2>From signup to your first graded calendar in minutes.</h2>
+  <div class="steps">
+    <div class="step"><h3>Start your trial</h3><p>Enter your email. No credit card, nothing to cancel. We send your activation key.</p></div>
+    <div class="step"><h3>Pick your counties</h3><p>Follow the counties you actually bid in. Every sale date lands on your calendar, graded.</p></div>
+    <div class="step"><h3>Bid with a number</h3><p>Walk into auction day with an AI max bid and a zoning verdict on every property — not a guess.</p></div>
+  </div>
+</section>
+<section id="pricing">
+  <div class="sec-eyebrow">After your free trial</div>
+  <h2>Two plans. Both free for the first 30 days.</h2>
+  <p class="lede">No sales call, no demo booking, no card up front. The trial <strong>is</strong> the demo — upgrade only if the numbers earn it.</p>
+  <div class="plans">
+    <div class="plan featured">
+      <div class="name">Investor</div>
+      <div class="price">$99<small>/mo after trial</small></div>
+      <ul>
+        <li><b>Graded auction calendar</b> — foreclosures + tax deeds</li>
+        <li><b>AI max bid</b> on every property</li>
+        <li><b>Zoning verdict</b> via ZoneWise on each parcel</li>
+        <li>County monitoring for your market</li>
+      </ul>
+      <a class="btn btn-primary" href="#start">Start free — no card</a>
+      <p class="fine">30 days free · keys emailed same day</p>
+    </div>
+    <div class="plan">
+      <div class="name">Pro</div>
+      <div class="price">$199<small>/mo after trial</small></div>
+      <ul>
+        <li><b>Everything in Investor</b></li>
+        <li><b>More counties</b> monitored simultaneously</li>
+        <li><b>Higher research volume</b> for active bidders</li>
+        <li>Skip-trace credits included</li>
+      </ul>
+      <a class="btn btn-ghost" href="#start">Start free — no card</a>
+      <p class="fine">30 days free · upgrade inside the product</p>
+    </div>
+  </div>
+</section>
+<footer>
+  <div>© 2026 Everest Capital USA · BidDeed.AI × ZoneWise.AI</div>
+  <div>Intelligence, not investment advice. Auction outcomes are never guaranteed.</div>
+</footer>
+</div>
+<script>
+(function(){
+  var API='https://mocerqjnksmhcjzxrewo.supabase.co/rest/v1/b2c_trial_signups';
+  var KEY='sb_publishable_btGVcWgKtRRVFof1FNmrOw_fBcZR1iZ';
+  var btn=document.getElementById('submit-btn');
+  var input=document.getElementById('email');
+  var msg=document.getElementById('form-msg');
+  function show(t,cls){msg.textContent=t;msg.className='form-msg '+cls;}
+  function submit(){
+    var email=(input.value||'').trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){show('Enter a valid email address to start.','err');input.focus();return;}
+    btn.disabled=true;btn.textContent='Starting…';
+    fetch(API,{method:'POST',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({email:email,funnel:'b2c_onepager'})})
+    .then(function(r){
+      if(r.status===201){show('You\u2019re in. Watch your inbox for the activation key.','ok');input.value='';}
+      else if(r.status===409){show('This email is already registered \u2014 your key is on its way.','ok');}
+      else{show('Signup didn\u2019t go through. Try again, or email beta@biddeed.ai.','err');}
+    })
+    .catch(function(){show('Signup didn\u2019t go through. Check your connection and try again.','err');})
+    .finally(function(){btn.disabled=false;btn.textContent='Start free trial';});
+  }
+  btn.addEventListener('click',submit);
+  input.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();submit();}});
+})();
+</script>
+</body>
+</html>
