@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BidDeed.AI — Florida Foreclosure &amp; Tax Deed Intelligence for Solo Investors</title>
+<meta name="description" content="67 Florida counties. Foreclosures and tax deeds, always together. Zoning intelligence on 10.5M parcels. Start your 30-day trial.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#020617;
+  --navy:#1E3A5F;
+  --navy-soft:rgba(30,58,95,.35);
+  --orange:#F59E0B;
+  --orange-dim:rgba(245,158,11,.12);
+  --ink:#E8EDF5;
+  --ink-dim:#94A3B8;
+  --line:rgba(148,163,184,.14);
+  --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--orange);text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* NAV */
+nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0;border-bottom:1px solid var(--line)}
+.logo{font-weight:800;font-size:1.05rem;letter-spacing:-.01em}
+.logo span{color:var(--orange)}
+.logo small{display:block;font-weight:500;font-size:.62rem;color:var(--ink-dim);letter-spacing:.14em;text-transform:uppercase}
+.nav-badge{font-family:var(--mono);font-size:.7rem;color:var(--orange);border:1px solid rgba(245,158,11,.35);border-radius:999px;padding:5px 14px;background:var(--orange-dim)}
+
+/* HERO */
+.hero{padding:72px 0 56px;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);margin-bottom:18px}
+h1{font-size:clamp(2rem,4.2vw,3.1rem);line-height:1.12;font-weight:800;letter-spacing:-.025em;margin-bottom:20px}
+h1 em{font-style:normal;color:var(--orange)}
+.sub{color:var(--ink-dim);font-size:1.05rem;max-width:520px;margin-bottom:30px}
+.sub strong{color:var(--ink);font-weight:600}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-block;padding:13px 26px;border-radius:8px;font-weight:700;font-size:.92rem;transition:transform .15s ease,box-shadow .15s ease}
+.btn-primary{background:var(--orange);color:#0B1220;box-shadow:0 0 0 1px rgba(245,158,11,.4),0 8px 30px rgba(245,158,11,.18)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-ghost{border:1px solid var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--orange);color:var(--orange)}
+.trial-note{font-size:.78rem;color:var(--ink-dim);margin-top:14px}
+.trial-note b{color:var(--orange)}
+
+/* DASHBOARD PREVIEW — signature element (non-dev, outcome-first) */
+.dash{background:linear-gradient(160deg,#0A1428 0%,#060B18 100%);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 24px 70px rgba(2,6,23,.8),0 0 0 1px rgba(30,58,95,.5)}
+.dash-bar{display:flex;align-items:center;gap:8px;padding:11px 16px;background:var(--navy-soft);border-bottom:1px solid var(--line)}
+.dot{width:10px;height:10px;border-radius:50%;background:#334155}
+.dot:first-child{background:var(--orange)}
+.dash-title{margin-left:8px;color:var(--ink-dim);font-size:.7rem;font-family:var(--mono)}
+.dash-body{padding:22px 20px}
+.deal-row{display:flex;justify-content:space-between;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--line)}
+.deal-row:last-child{border-bottom:0}
+.deal-row .county{font-size:.68rem;font-family:var(--mono);color:var(--orange);text-transform:uppercase;letter-spacing:.08em}
+.deal-row .addr{font-weight:600;font-size:.92rem;margin-top:3px}
+.deal-row .meta{font-size:.78rem;color:var(--ink-dim);margin-top:4px}
+.deal-row .bid{text-align:right}
+.deal-row .bid b{display:block;font-size:1.05rem;color:var(--ink)}
+.deal-row .bid span{font-size:.7rem;color:#4ADE80;font-family:var(--mono)}
+
+/* PROOF STRIP */
+.proof{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:8px 0 72px}
+.proof div{padding:22px 18px;border-right:1px solid var(--line);background:rgba(30,58,95,.12)}
+.proof div:last-child{border-right:0}
+.proof b{display:block;font-size:1.5rem;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+.proof span{font-size:.74rem;color:var(--ink-dim);text-transform:uppercase;letter-spacing:.08em}
+
+/* SECTIONS */
+section{padding:56px 0;border-top:1px solid var(--line)}
+h2{font-size:1.6rem;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.lede{color:var(--ink-dim);max-width:640px;margin-bottom:36px}
+
+/* PAIRED ENGINES */
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{border:1px solid var(--line);border-radius:12px;padding:28px;background:rgba(30,58,95,.14)}
+.card h3{font-size:1.08rem;font-weight:700;margin-bottom:6px}
+.card h3 span{color:var(--orange)}
+.card .tag{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);display:block;margin-bottom:14px}
+.card p{color:var(--ink-dim);font-size:.92rem}
+.card ul{list-style:none;margin-top:16px}
+.card li{font-size:.88rem;color:var(--ink);padding:7px 0;border-top:1px solid var(--line)}
+.card li::before{content:"▸";color:var(--orange);margin-right:10px}
+
+/* PRICING */
+.pricing{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.plan{border:1px solid var(--line);border-radius:14px;padding:32px;background:rgba(30,58,95,.14);display:flex;flex-direction:column}
+.plan.featured{border-color:rgba(245,158,11,.5);background:linear-gradient(160deg,rgba(245,158,11,.08),rgba(30,58,95,.2))}
+.plan .badge{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);margin-bottom:10px}
+.plan h3{font-size:1.3rem;font-weight:800;margin-bottom:4px}
+.plan .price{font-size:2.1rem;font-weight:800;letter-spacing:-.02em;margin:12px 0 4px}
+.plan .price span{font-size:.9rem;color:var(--ink-dim);font-weight:500}
+.plan .trial{font-size:.78rem;color:var(--ink-dim);margin-bottom:20px}
+.plan ul{list-style:none;margin-bottom:26px;flex:1}
+.plan li{font-size:.88rem;color:var(--ink);padding:8px 0;border-top:1px solid var(--line)}
+.plan li::before{content:"▸";color:var(--orange);margin-right:10px}
+.plan .btn{text-align:center;width:100%}
+
+/* STEPS */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:8px}
+.step{border:1px solid var(--line);border-radius:10px;padding:22px 20px}
+.step b{color:var(--orange);font-family:var(--mono);font-size:.75rem;display:block;margin-bottom:6px}
+.step p{font-size:.85rem;color:var(--ink-dim)}
+.step p strong{color:var(--ink)}
+
+/* SECURITY */
+.sec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.sec{border-left:2px solid var(--orange);padding:6px 0 6px 20px}
+.sec b{display:block;margin-bottom:5px;font-size:.95rem}
+.sec p{font-size:.84rem;color:var(--ink-dim)}
+
+/* FINAL CTA */
+.beta{border:1px solid rgba(245,158,11,.35);background:linear-gradient(160deg,rgba(245,158,11,.08),rgba(30,58,95,.2));border-radius:14px;padding:44px 40px;text-align:center;margin:64px 0}
+.beta .eyebrow{margin-bottom:12px}
+.beta h2{margin-bottom:10px}
+.beta p{color:var(--ink-dim);max-width:520px;margin:0 auto 26px}
+.beta .cta-row{justify-content:center}
+
+footer{padding:36px 0 48px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:.78rem;color:var(--ink-dim)}
+footer b{color:var(--ink)}
+
+@media(max-width:860px){
+  .hero{grid-template-columns:1fr;gap:40px;padding-top:48px}
+  .proof{grid-template-columns:repeat(2,1fr)}
+  .proof div:nth-child(2){border-right:0}
+  .pair,.sec-grid,.steps,.pricing{grid-template-columns:1fr}
+}
+a:focus-visible,.btn:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav>
+  <div class="logo">BidDeed<span>.AI</span> × ZoneWise<span>.AI</span><small>Everest Capital USA</small></div>
+  <div class="nav-badge">SELF-SERVE · 30-DAY TRIAL</div>
+</nav>
+
+<div class="hero">
+  <div>
+    <div class="eyebrow">Florida Foreclosure &amp; Tax Deed Intelligence</div>
+    <h1>Know which Florida auctions are <em>actually worth bidding on</em> — before auction day.</h1>
+    <p class="sub">BidDeed.AI tracks foreclosure <strong>and</strong> tax deed auctions across all 67 Florida counties — always together, never one without the other — and pairs every case with ZoneWise zoning intelligence on 10.5M parcels, so you know what the dirt can become, not just what it costs.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="{{STRIPE_LINK_INVESTOR}}">Start 30-day trial — $99/mo after →</a>
+      <a class="btn btn-ghost" href="{{STRIPE_LINK_PRO}}">Pro plan — $199/mo after</a>
+    </div>
+    <p class="trial-note"><b>Card required, cancel anytime.</b> Full access for 30 days, then billed automatically — no separate "activate" step, no demo calls.</p>
+  </div>
+
+  <div class="dash" role="img" aria-label="Example of a scored auction deal shown to an investor">
+    <div class="dash-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dash-title">Brevard County · Tax Deed · next 30 days</span></div>
+    <div class="dash-body">
+      <div class="deal-row">
+        <div>
+          <div class="county">Brevard</div>
+          <div class="addr">Parcel 25-36-XX-XX-XXXXX</div>
+          <div class="meta">Zoning: RU-1-11 · max 6 du/ac · Flood Zone X</div>
+        </div>
+        <div class="bid"><b>$61,400</b><span>max bid · 0.87 confidence</span></div>
+      </div>
+      <div class="deal-row">
+        <div>
+          <div class="county">Duval</div>
+          <div class="addr">Parcel 17-2S-26E-XXXX</div>
+          <div class="meta">Zoning: RLD-A · min lot 6,000 sf</div>
+        </div>
+        <div class="bid"><b>$38,900</b><span>max bid · 0.81 confidence</span></div>
+      </div>
+      <div class="deal-row">
+        <div>
+          <div class="county">Polk</div>
+          <div class="addr">Parcel 24-28-24-XXXXXX</div>
+          <div class="meta">Zoning: RC · surplus funds flagged</div>
+        </div>
+        <div class="bid"><b>$22,150</b><span>max bid · 0.79 confidence</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="proof">
+  <div><b>67</b><span>FL counties tracked</span></div>
+  <div><b>10.5M</b><span>Parcels with zoning</span></div>
+  <div><b>49,973</b><span>Training outcomes</span></div>
+  <div><b>82.6%</b><span>Shapira Formula accuracy</span></div>
+</div>
+
+<section>
+  <h2>Two engines. One edge.</h2>
+  <p class="lede">Every max-bid number is grounded in what the dirt is actually worth — because BidDeed never ships a deal without ZoneWise behind it.</p>
+  <div class="pair">
+    <div class="card">
+      <span class="tag">Engine 1 · Auction Execution</span>
+      <h3>BidDeed<span>.AI</span></h3>
+      <p>Live foreclosure and tax-deed auction data across all 67 Florida counties, held to a fail-closed certification gate before it ever reaches you.</p>
+      <ul>
+        <li>Foreclosures AND tax deeds — always together</li>
+        <li>Historical outcomes: sold, struck, canceled</li>
+        <li>Shapira Formula max-bid scoring (82.6% acc)</li>
+        <li>Lien, judgment &amp; surplus context per case</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag">Engine 2 · Off-Market Intelligence</span>
+      <h3>ZoneWise<span>.AI</span></h3>
+      <p>Parcel-level zoning and land-use intelligence across 10.5M Florida parcels — the layer that tells you what a parcel can become, not just what it costs today.</p>
+      <ul>
+        <li>Zoning district + standards per parcel</li>
+        <li>Density, setbacks, permitted-use lookup</li>
+        <li>Flood zone context</li>
+        <li>Statewide parcel coverage</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <h2>Pick your tier. Start today.</h2>
+  <p class="lede">Both plans start with a 30-day trial. Your card is on file and the plan auto-converts to the monthly rate below — no separate checkout later.</p>
+  <div class="pricing">
+    <div class="plan featured">
+      <div class="badge">Most investors start here</div>
+      <h3>Investor</h3>
+      <div class="price">$99<span>/mo after trial</span></div>
+      <div class="trial">30-day trial, then $99/mo — cancel anytime</div>
+      <ul>
+        <li>All 67 Florida counties</li>
+        <li>Foreclosures + tax deeds, always paired</li>
+        <li>ZoneWise zoning on every parcel</li>
+        <li>Shapira Formula max-bid scoring</li>
+      </ul>
+      <a class="btn btn-primary" href="{{STRIPE_LINK_INVESTOR}}">Start 30-day trial →</a>
+    </div>
+    <div class="plan">
+      <div class="badge">For high-volume bidders</div>
+      <h3>Pro</h3>
+      <div class="price">$199<span>/mo after trial</span></div>
+      <div class="trial">30-day trial, then $199/mo — cancel anytime</div>
+      <ul>
+        <li>Everything in Investor</li>
+        <li>Higher usage limits</li>
+        <li>Priority data refresh</li>
+        <li>Priority support</li>
+      </ul>
+      <a class="btn btn-ghost" href="{{STRIPE_LINK_PRO}}">Start 30-day trial →</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>From sign-up to your first scored deal in minutes</h2>
+  <div class="steps">
+    <div class="step"><b>01 · SUBSCRIBE</b><p>Choose Investor or Pro. Card on file starts your 30-day trial immediately.</p></div>
+    <div class="step"><b>02 · GET MATCHED</b><p>We surface upcoming foreclosure and tax-deed auctions in the counties you care about, scored with ZoneWise zoning.</p></div>
+    <div class="step"><b>03 · BID WITH CONFIDENCE</b><p>Every case ships with a Shapira Formula max-bid and confidence score — <strong>you decide, we don't bid for you.</strong></p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Built for people risking real money at the courthouse steps</h2>
+  <div class="sec-grid">
+    <div class="sec"><b>Fail-closed data gates</b><p>Counties are served only after passing a Gold Standard certification with calendar-parity checks. No silent gaps.</p></div>
+    <div class="sec"><b>Foreclosures AND tax deeds</b><p>We never show you one without the other — a partial auction calendar is worse than none.</p></div>
+    <div class="sec"><b>You stay the operator</b><p>BidDeed is pure intelligence — it never places a bid or moves money on your behalf.</p></div>
+  </div>
+</section>
+
+<div class="beta">
+  <div class="eyebrow">Self-Serve · No Sales Call</div>
+  <h2>Start your 30-day trial now.</h2>
+  <p>Card required, cancel anytime before the trial ends. After 30 days you're billed automatically at the rate for your plan.</p>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="{{STRIPE_LINK_INVESTOR}}">Investor — $99/mo after trial →</a>
+    <a class="btn btn-ghost" href="{{STRIPE_LINK_PRO}}">Pro — $199/mo after trial</a>
+  </div>
+</div>
+
+<footer>
+  <div><b>BidDeed.AI × ZoneWise.AI</b> · Everest Capital USA · Satellite Beach, FL</div>
+  <div>Also building for AI agents? <a href="/biddeed-mcp/">See the MCP server →</a> · © 2026</div>
+</footer>
+
+</div>
+</body>
+</html>
