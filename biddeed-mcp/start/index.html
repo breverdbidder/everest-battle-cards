@@ -222,7 +222,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:.78rem;color:va
     var email=(input.value||'').trim();
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){show('Enter a valid email address to start.','err');input.focus();return;}
     btn.disabled=true;btn.textContent='Starting…';
-    fetch(API,{method:'POST',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({email:email,funnel:'b2c_onepager'})})
+    fetch(API,{method:'POST',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({email:email,funnel:'b2c_onepager',locale:(navigator.language||'en')})})
     .then(function(r){
       if(r.status===201){show('You\u2019re in. Watch your inbox for the activation key.','ok');input.value='';}
       else if(r.status===409){show('This email is already registered \u2014 your key is on its way.','ok');}
