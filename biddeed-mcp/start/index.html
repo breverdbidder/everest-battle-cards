@@ -187,6 +187,12 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:.78rem;color:va
     <div class="step"><h3>Bid with a number</h3><p>Walk into auction day with an AI max bid and a zoning verdict on every property — not a guess.</p></div>
   </div>
 </section>
+<section id="connect">
+  <div class="sec-eyebrow">Prefer to ask instead of scroll?</div>
+  <h2>Connect BidDeed.AI in Claude — no waiting on a directory listing.</h2>
+  <p class="lede">Add BidDeed as a custom connector in your Claude.ai settings and ask for graded auctions, max bids, and zoning verdicts directly in chat — in English, Hebrew, or Spanish. Works on every Claude plan today.</p>
+  <a class="btn btn-primary" href="./connect/">See the 3-minute setup guide →</a>
+</section>
 <section id="pricing">
   <div class="sec-eyebrow">After your free trial</div>
   <h2>Two plans. Both free for the first 30 days.</h2>
@@ -231,7 +237,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:.78rem;color:va
   var input=document.getElementById('email');
   var msg=document.getElementById('form-msg');
   var locale=navigator.language||'en';
-  function show(t,cls){msg.textContent=t;msg.className='form-msg '+cls;}
+  function show(t,cls){msg.innerHTML=t;msg.className='form-msg '+cls;}
   function phCapture(name,props){try{if(window.posthog&&typeof window.posthog.capture==='function'){window.posthog.capture(name,props);}}catch(e){}}
   function submit(){
     var email=(input.value||'').trim();
@@ -240,8 +246,8 @@ footer{border-top:1px solid var(--line);padding:34px 0;font-size:.78rem;color:va
     phCapture('b2c_signup_submitted',{locale:locale});
     fetch(API,{method:'POST',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({email:email,funnel:'b2c_onepager',locale:locale})})
     .then(function(r){
-      if(r.status===201){show('You\u2019re in. Watch your inbox for the activation key.','ok');input.value='';phCapture('b2c_signup_success',{locale:locale,already_registered:false});}
-      else if(r.status===409){show('This email is already registered \u2014 your key is on its way.','ok');phCapture('b2c_signup_success',{locale:locale,already_registered:true});}
+      if(r.status===201){show('You\u2019re in. Watch your inbox for the activation key. <a href="./connect/">Connect it in Claude now \u2192</a>','ok');input.value='';phCapture('b2c_signup_success',{locale:locale,already_registered:false});}
+      else if(r.status===409){show('This email is already registered \u2014 your key is on its way. <a href="./connect/">Connect it in Claude \u2192</a>','ok');phCapture('b2c_signup_success',{locale:locale,already_registered:true});}
       else{show('Signup didn\u2019t go through. Try again, or email beta@biddeed.ai.','err');}
     })
     .catch(function(){show('Signup didn\u2019t go through. Check your connection and try again.','err');})

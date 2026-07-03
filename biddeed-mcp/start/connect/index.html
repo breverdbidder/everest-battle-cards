@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connect BidDeed.AI in Claude — Custom Connector Setup (3 minutes)</title>
+<meta name="description" content="Step-by-step: add BidDeed.AI as a custom connector in Claude.ai Settings, no directory listing required. Works on every Claude plan today.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#020617;
+  --navy:#1E3A5F;
+  --navy-soft:rgba(30,58,95,.35);
+  --orange:#F59E0B;
+  --orange-dim:rgba(245,158,11,.12);
+  --ink:#E8EDF5;
+  --ink-dim:#94A3B8;
+  --line:rgba(148,163,184,.14);
+  --green:#4ADE80;
+  --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--orange);text-decoration:none}
+.wrap{max-width:880px;margin:0 auto;padding:0 24px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0;border-bottom:1px solid var(--line)}
+.logo{font-weight:800;font-size:1.05rem;letter-spacing:-.01em}
+.logo span{color:var(--orange)}
+.logo small{display:block;font-weight:500;font-size:.62rem;color:var(--ink-dim);letter-spacing:.14em;text-transform:uppercase}
+.crumb{font-family:var(--mono);font-size:.72rem;color:var(--ink-dim)}
+.crumb a{color:var(--ink-dim)}
+.crumb a:hover{color:var(--orange)}
+.hero{padding:52px 0 20px}
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);margin-bottom:16px}
+h1{font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.14;font-weight:800;letter-spacing:-.025em;margin-bottom:16px}
+h1 em{font-style:normal;color:var(--orange)}
+.sub{color:var(--ink-dim);font-size:1.02rem;max-width:620px;margin-bottom:20px}
+.sub strong{color:var(--ink);font-weight:600}
+.badge-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.badge{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;border:1px solid rgba(245,158,11,.35);border-radius:999px;padding:5px 12px;color:var(--orange);background:var(--orange-dim)}
+.status-note{border:1px solid var(--line);border-left:3px solid var(--orange);border-radius:8px;padding:14px 16px;background:#0A1428;font-size:.86rem;color:var(--ink-dim);margin:28px 0}
+.status-note b{color:var(--ink)}
+section{padding:36px 0}
+h2{font-size:1.4rem;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.sec-eyebrow{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);margin-bottom:10px}
+.lede{color:var(--ink-dim);font-size:.92rem;max-width:640px;margin-bottom:24px}
+.steps{display:flex;flex-direction:column;gap:14px}
+.step{border:1px solid var(--line);border-radius:12px;padding:22px;display:grid;grid-template-columns:40px 1fr;gap:18px}
+.step-n{font-family:var(--mono);color:var(--orange);font-weight:800;font-size:1.1rem;background:var(--orange-dim);border:1px solid rgba(245,158,11,.35);border-radius:8px;width:40px;height:40px;display:flex;align-items:center;justify-content:center}
+.step h3{font-size:1rem;font-weight:700;margin-bottom:6px}
+.step p{font-size:.88rem;color:var(--ink-dim)}
+.step p code{background:#0A1428;border:1px solid var(--line);border-radius:4px;padding:2px 6px;font-family:var(--mono);font-size:.82em;color:var(--ink)}
+/* faux UI mockup */
+.mock{margin-top:14px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#0A1428}
+.mock-bar{display:flex;gap:6px;align-items:center;padding:8px 12px;background:#060B18;border-bottom:1px solid var(--line)}
+.mock-bar span{width:8px;height:8px;border-radius:50%;background:#334155}
+.mock-title{font-family:var(--mono);font-size:.68rem;color:var(--ink-dim);margin-left:6px}
+.mock-body{padding:16px}
+.mock-field{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:10px;font-family:var(--mono);font-size:.78rem}
+.mock-field .k{color:var(--ink-dim)}
+.mock-field .v{color:var(--ink);font-weight:600}
+.mock-url{display:flex;align-items:center;gap:8px;border:1px solid rgba(245,158,11,.4);border-radius:8px;padding:10px 12px;background:var(--orange-dim);font-family:var(--mono);font-size:.8rem;color:var(--ink);word-break:break-all}
+.mock-btn{display:inline-block;margin-top:12px;background:var(--orange);color:#0B1220;font-weight:700;font-size:.8rem;padding:9px 18px;border-radius:6px}
+.copy-row{display:flex;gap:8px;align-items:center;margin-top:12px}
+.copy-btn{font-family:var(--mono);font-size:.75rem;border:1px solid var(--line);border-radius:6px;padding:8px 12px;background:transparent;color:var(--ink);cursor:pointer}
+.copy-btn:hover{border-color:var(--orange);color:var(--orange)}
+.copy-btn.copied{border-color:var(--green);color:var(--green)}
+/* query examples */
+.q-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.q-card{border:1px solid var(--line);border-radius:12px;padding:18px;background:#0A1428}
+.q-lang{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;display:flex;justify-content:space-between}
+.q-bubble{background:var(--navy-soft);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:.88rem;color:var(--ink)}
+.q-bubble[dir="rtl"]{text-align:right;font-family:'Inter',system-ui,sans-serif}
+.q-reply{font-size:.78rem;color:var(--ink-dim);margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.q-reply b{color:var(--green);font-weight:600}
+.faq{border-top:1px solid var(--line);padding-top:8px}
+.faq-item{border-bottom:1px solid var(--line);padding:16px 0}
+.faq-item h3{font-size:.92rem;font-weight:700;margin-bottom:6px}
+.faq-item p{font-size:.86rem;color:var(--ink-dim)}
+.cta-final{border:1px solid rgba(245,158,11,.4);border-radius:14px;padding:30px;text-align:center;background:linear-gradient(160deg,rgba(245,158,11,.06),transparent)}
+.cta-final h2{margin-bottom:10px}
+.btn{display:inline-block;padding:13px 26px;border-radius:8px;font-weight:700;font-size:.92rem;background:var(--orange);color:#0B1220;box-shadow:0 0 0 1px rgba(245,158,11,.4),0 8px 30px rgba(245,158,11,.18)}
+footer{border-top:1px solid var(--line);padding:34px 0;font-size:.78rem;color:var(--ink-dim);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+@media(max-width:760px){
+  .q-grid{grid-template-columns:1fr}
+  .step{grid-template-columns:32px 1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <div class="logo">BidDeed<span>.AI</span><small>× ZoneWise.AI — Everest Capital USA</small></div>
+  <div class="crumb"><a href="../">Start</a> / Connect</div>
+</nav>
+
+<div class="hero">
+  <div class="badge-row">
+    <span class="badge">CLAUDE.AI · CUSTOM CONNECTOR</span>
+    <span class="badge">NO DIRECTORY LISTING NEEDED</span>
+  </div>
+  <div class="eyebrow">Setup guide</div>
+  <h1>Connect BidDeed.AI in <em>Claude</em> — about 3 minutes.</h1>
+  <p class="sub">BidDeed.AI runs as a <strong>Model Context Protocol (MCP)</strong> server. Add it as a custom connector in your Claude.ai settings and every foreclosure, tax-deed, and zoning tool becomes something you can just <strong>ask for</strong> — in whatever language you already think in.</p>
+  <div class="status-note">
+    <b>Beta rollout note:</b> the custom-connector endpoint is finishing production rollout on our side. If "Add custom connector" doesn't respond within a minute of connecting, wait a few minutes and retry — this page will drop the note the moment it's fully live. Don't have a key yet? <a href="../">Start your free 30-day trial</a> first (no card required).
+  </div>
+</div>
+
+<section id="steps">
+  <div class="sec-eyebrow">Step by step</div>
+  <h2>Add the connector</h2>
+  <p class="lede">Works today on <strong>every Claude plan</strong> — Free, Pro, Team, Enterprise. No admin approval, no waiting on a directory review.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-n">1</div>
+      <div>
+        <h3>Open Claude.ai → Settings → Connectors</h3>
+        <p>Click your profile in the bottom-left, then <code>Settings</code> → <code>Connectors</code>.</p>
+        <div class="mock">
+          <div class="mock-bar"><span></span><span></span><span></span><div class="mock-title">claude.ai/settings/connectors</div></div>
+          <div class="mock-body">
+            <div class="mock-field"><span class="k">Connectors</span><span class="v">Manage</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">2</div>
+      <div>
+        <h3>Click "Add custom connector"</h3>
+        <p>Scroll to the bottom of the Connectors list — the custom-connector option is below the directory-listed apps.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">3</div>
+      <div>
+        <h3>Paste the BidDeed MCP URL</h3>
+        <p>Name it <code>BidDeed.AI</code> and paste this exact URL into the connector URL field:</p>
+        <div class="mock">
+          <div class="mock-bar"><span></span><span></span><span></span><div class="mock-title">Add custom connector</div></div>
+          <div class="mock-body">
+            <div class="mock-url" id="mcp-url">https://biddeed.ai/api/mcp</div>
+            <div class="copy-row">
+              <button class="copy-btn" id="copy-btn" type="button">Copy URL</button>
+            </div>
+            <a class="mock-btn">Add</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">4</div>
+      <div>
+        <h3>Sign in when prompted (OAuth)</h3>
+        <p>Claude opens a sign-in window handled by our auth provider, <b style="color:var(--ink)">WorkOS</b>. Sign in with the same email you used for your trial, approve access, and you're bounced back to Claude — connected.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">5</div>
+      <div>
+        <h3>Turn the connector on in a chat</h3>
+        <p>Start a new chat, click the <code>+</code> / tools menu, and toggle <code>BidDeed.AI</code> on. Claude now calls BidDeed tools directly when your question needs them.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="examples">
+  <div class="sec-eyebrow">Try it</div>
+  <h2>First query examples — in your language</h2>
+  <p class="lede">The connector understands the question, not just the keywords. Same tools, three languages, so the whole household — or a bilingual partner — can use it.</p>
+  <div class="q-grid">
+    <div class="q-card">
+      <div class="q-lang">English<span>EN</span></div>
+      <div class="q-bubble">"What's the max bid on tomorrow's Brevard County tax deed auctions, and does zoning allow rentals?"</div>
+      <div class="q-reply">Calls <b>search_auctions</b> + <b>check_zoning</b> → graded list with AI max bid and rental-legal flag per property.</div>
+    </div>
+    <div class="q-card">
+      <div class="q-lang"><span>עברית</span><span>HE</span></div>
+      <div class="q-bubble" dir="rtl" lang="he">"מה גובה ההצעה המקסימלית במכירה הפומבית הקרובה במחוז ברוארד, והאם יש חובות קודמים על הנכס?"</div>
+      <div class="q-reply">Calls <b>get_auction_detail</b> + <b>get_lien_stack</b> → same tool output, rendered back in Hebrew.</div>
+    </div>
+    <div class="q-card">
+      <div class="q-lang">Español<span>ES</span></div>
+      <div class="q-bubble" lang="es">"Busca propiedades en Orange County con descuento Shapira sobre el 60% y valor de mercado bajo ZoneWise."</div>
+      <div class="q-reply">Calls <b>browse_deals</b> + <b>get_zip_market_data</b> → scored deal list, answered in Spanish.</div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="sec-eyebrow">If something's off</div>
+  <h2>Troubleshooting</h2>
+  <div class="faq">
+    <div class="faq-item">
+      <h3>Claude says it can't reach the connector</h3>
+      <p>The endpoint is in production rollout (see the note above). Retry in a few minutes. Still stuck? Email <a href="mailto:beta@biddeed.ai">beta@biddeed.ai</a> and we'll check it live.</p>
+    </div>
+    <div class="faq-item">
+      <h3>The sign-in window doesn't return me to Claude</h3>
+      <p>Make sure pop-ups aren't blocked for claude.ai, then retry step 4. This is a one-time sign-in per device.</p>
+    </div>
+    <div class="faq-item">
+      <h3>I use Claude Desktop or Claude Code instead of claude.ai</h3>
+      <p>Those support a local config file with your API key directly — see the <a href="https://github.com/breverdbidder/cli-anything-biddeed/blob/main/packages/biddeed-mcp/README.md" target="_blank" rel="noopener">full MCP reference</a> for the <code>stdio</code> config.</p>
+    </div>
+  </div>
+</section>
+
+<section id="get-started">
+  <div class="cta-final">
+    <h2>No trial key yet?</h2>
+    <p class="lede" style="margin:0 auto 18px">30 days free, full Investor access, no credit card. Takes under a minute.</p>
+    <a class="btn" href="../">Start free trial →</a>
+  </div>
+</section>
+
+<footer>
+  <div>© 2026 Everest Capital USA · BidDeed.AI × ZoneWise.AI</div>
+  <div><a href="../">← Back to signup</a></div>
+</footer>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('copy-btn');
+  var url=document.getElementById('mcp-url').textContent.trim();
+  if(!btn) return;
+  btn.addEventListener('click',function(){
+    function done(){btn.textContent='Copied ✓';btn.classList.add('copied');setTimeout(function(){btn.textContent='Copy URL';btn.classList.remove('copied');},1800);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(done).catch(done);}
+    else{done();}
+  });
+})();
+</script>
+</body>
+</html>
