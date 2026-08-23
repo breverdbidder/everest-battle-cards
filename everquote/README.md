@@ -1,0 +1,2 @@
+# SummitLeads vs EverQuote
+Full card delivered directly to Ariel (self-contained HTML). NASDAQ: EVER, $692.5M revenue 2025 (+38% YoY), 100% P&C insurance. Gatsby stack, 1,817-page programmatic SEO footprint, the only company of 4 with a real curated llms.txt (strongest GEO/AEO investment found). Third-party pricing: $14-28 shared life / $28-55 exclusive life (SalesPulse 2026).
