@@ -1,0 +1,2 @@
+# Lead Templates & KPIs — 4-Company Teardown → SummitLeads Framework
+Full doc delivered directly to Ariel. Covers lead data fields and KPI/reporting frameworks for MediaAlpha, QuinStreet/QRP, EverQuote, Datalot/Centerfield, each sourced from the company's own agent-facing content. Synthesizes into a recommended SummitLeads lead template and a 5-tier KPI framework (funnel CPL/CPQ/CPB, lead-lifecycle status taxonomy, step-level drop-off, speed-to-contact decay curve, consent-integrity %). Cross-references issue #19390 (TrustedForm/TCPA cert) as the consent-integrity tier.
