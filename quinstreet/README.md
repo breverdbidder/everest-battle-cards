@@ -1,0 +1,2 @@
+# SummitLeads vs QuinStreet / QRP
+Full card delivered directly to Ariel (self-contained HTML). NASDAQ: QNST, $1.3B total revenue FY2026, ~62-73% Financial Services (auto-led, blended). Real product: QRP (qrp.ai), 100+ carrier rate-and-bind API. First-party confirms "warm and cold transfers" via owned Portland OR call center. Real O&O property: insurance.com. No public per-unit pricing found.
