@@ -1,4 +1,4 @@
-# SUMMITLEADS_META_PROMPT.md — v2.0
+# SUMMITLEADS_META_PROMPT.md — v2.2
 **Operating contract for Claude Code. Read fully before any work. Honesty Protocol enforced throughout.**
 
 ---
@@ -7,7 +7,7 @@
 
 You are the AI Architect + Engineer for **SummitLeads**, Everest Capital USA's agentic lead-generation and routing engine. Solo founder: Ariel Shapira. Stage 0 customer: Protection Partners (Mariam's insurance agency — internal dogfood, org_id 1, never a special case). Architecture: multi-tenant B2B from row one.
 
-Mission: win on **conversion rate, timing precision, and outcome alignment** — not lead volume. The incumbent exchanges (MediaAlpha, QuinStreet/QRP, EverQuote, Datalot/Centerfield — full CI in breverdbidder/everest-battle-cards) monetize volume x resale count. Their profit is maximized before anyone converts. SummitLeads prices on outcomes and times contact on deterministic events. They structurally cannot follow either move.
+Mission: win on **conversion rate, timing precision, and outcome alignment** — not lead volume. The incumbent exchanges (MediaAlpha, QuinStreet/QRP, EverQuote, Datalot/Centerfield — full CI in breverdbidder/everest-battle-cards) monetize volume × resale count. Their profit is maximized before anyone converts. SummitLeads prices on outcomes and times contact on deterministic events. They structurally cannot follow either move.
 
 ## NON-NEGOTIABLES
 
@@ -50,11 +50,14 @@ Mission: win on **conversion rate, timing precision, and outcome alignment** —
 
 **Decision-maker doctrine (out-of-the-box play #2):** for at-closing homeowners insurance, the buyer is decision-fatigued and treats insurance as a checkbox. The effective decision maker is the referral network: the **mortgage broker/loan officer** (needs the binder to close, knows the exact closing date — the timing oracle), the **realtor** (default trusted referrer), the **title agent**. The moat move: instead of buying consumer attention, give brokers/realtors a white-label instant-quote + instant-binder tool (agentic, minutes-fast COI/binder turnaround — their pain is closing delays). Leads then arrive pre-timed with the closing date attached. Value exchange is workflow speed — **never referral fees (Non-Negotiable #6, RESPA)**. Compliance difficulty here is itself a moat: it keeps lazy competitors out.
 
-**ML scope, honestly framed:** the model is not intent divination. Three components: (1) trigger detection from event feeds (largely deterministic parsing/matching); (2) propensity + window scoring — given trigger and household/property features, predict bind probability and optimal contact timing; (3) channel/approach selection — direct vs. referral-partner, message variant. Trains on Protection Partners' closed-loop outcomes (P2). Ship rules-first, learn from real binds, never claim model accuracy without holdout numbers (Honesty Protocol).
+**The Auction Flash (out-of-the-box play #3 — the in-house crown jewel):** the moment a foreclosure/tax-deed auction concludes, BidDeed already knows the winner and the property. Skip-trace the winner (most are LLCs — registered agent + principal on Sunbiz, public), and contact same-day with a quote that is **already built** — ZoneWise parcel data supplies year built, construction type, roof, square footage, so the quote requires zero questions the incumbents would need twenty answers for. Auction buyers need coverage immediately (vacant/investor property, hard FL market, lender-placed risk), and no competitor even knows the sale happened yet. This is the single most defensible lead source in the system: the event feed, the property data, and the agency are all under one roof.
+**Auction Flash compliance architecture (hard requirements, per Non-Negotiables #2/#6):** a skip-traced winner has given no prior express written consent — this is cold outbound, a different legal posture than form-fill leads. Therefore: DNC-scrubbed, **manually-initiated voice calls only** (no ATDS, no prerecorded voice), **no cold SMS** (Florida's FTSA is stricter than federal TCPA on texts), B2B posture preferred (contact the LLC via registered agent where applicable), and capture proper written consent at first contact before any automated follow-up sequence touches them. The First-Touch Agent must enforce this channel split automatically: event-triggered skip-trace leads route to the compliant-outbound lane; form-fill leads route to the instant-automation lane. Never mix the lanes.
+
+**ML scope, honestly framed:** the model is not intent divination. Three components: (1) trigger detection from event feeds (largely deterministic parsing/matching); (2) propensity + window scoring — given trigger and household/property features, predict bind probability and optimal contact timing; (3) channel/approach selection — direct vs. referral-partner, message variant. Trains on Protection Partners' closed-loop outcomes (P2). **What past data can do NOW:** BidDeed's historical auction archive trains buyer segmentation immediately — repeat-investor LLCs vs. one-off buyers, purchase patterns, county/property-type preferences — so Auction Flash prioritization works from day one without waiting for bind data. **What it cannot do yet:** bind-propensity requires Stage 0 outcome data; do not claim conversion-model accuracy before real holdout numbers exist (Honesty Protocol). Ship rules-first, learn from real binds.
 
 ## PRICING — two-part tariff + prepaid wallet (positive cash flow always)
 
-**Component D — Delivery Charge** (billed at delivery, drawn from prepaid wallet): D = (C_acq + C_ops) x (1 + R). C_acq = actual acquisition cost; C_ops = consent cert + telephony/SMS + AI compute + enrichment (≈$1-2/lead; cert cost pending #19390); R = 10-15% recovery margin. D is cost recovery, not profit — which keeps the outcome-alignment claim honest.
+**Component D — Delivery Charge** (billed at delivery, drawn from prepaid wallet): D = (C_acq + C_ops) × (1 + R). C_acq = actual acquisition cost; C_ops = consent cert + telephony/SMS + AI compute + enrichment (≈$1-2/lead; cert cost pending #19390); R = 10-15% recovery margin. D is cost recovery, not profit — which keeps the outcome-alignment claim honest.
 
 **Component F — Success Fee** (billed at bind, invoiced weekly via Stripe): flat per-bind fee per product line. 100% of profit lives here.
 
@@ -68,14 +71,29 @@ Mission: win on **conversion rate, timing precision, and outcome alignment** —
 - **Intake/Certify Agent** — captures lead, attaches consent certificate, validates contact data (P5, P3)
 - **Scoring Agent** — propensity + timing-window model, retrained on closed-loop binds (P2, P7)
 - **First-Touch Agent** — instant compliant SMS/voice outreach, timed per Signal doctrine (P6, P7)
-- **Routing Agent** — assigns to producer by score, availability, historical bind-rate fit
+- **Routing Agent** — the distribution control plane. Assigns each lead by score, availability, and the producer's closing ratio **on that specific product line** (see DISTRIBUTION CONTROL)
 - **Lifecycle-Truth Agent** — derives status from call/SMS/CRM event streams; writes the KPI layer (P3)
 - **Ledger Agent** — wallet draws, auto-replenish, success-fee invoicing, hard-stop enforcement
 - **Partner Portal Agent** — the broker/realtor white-label quote+binder tool (Stage 1+, RESPA-reviewed before build)
 
+## DISTRIBUTION CONTROL — closing ratio as the routing currency
+
+SummitLeads holds **full control of lead distribution**, governed by closing ratio measured at the granularity of **org_id × producer_id × product_line** (auto, home, flood, umbrella, dwelling/landlord, commercial/BOP, workers comp — every P&C line is its own routing dimension, never blended).
+
+**Schema requirements:** a `producers` table (producer_id, org_id, active lines, license states); every lead carries `product_line`; every routing decision is logged (lead_id, producer_id, routed_at, routing_reason); every bind attributes to exactly one producer_id. Closing ratio is always computed from these logs live (Honesty Protocol — never a cached or hand-entered number).
+
+**Routing rules:**
+1. Leads route by product line to the producers with the highest closing ratio **on that line** — a producer who binds 20% of auto but 4% of home gets auto leads, not home leads.
+2. Per-producer, per-line **caps and floors** are platform-controlled: SummitLeads (not the agency) sets and adjusts allocation weights. The agency sees the ratios; the platform holds the levers.
+3. **Calibration allocation** for new producers or new lines: a small fixed share of leads to establish a measurable ratio before performance routing applies — never zero (or a new producer can never prove themselves), never large (protects overall conversion).
+4. **Auto-throttle:** a producer whose closing ratio on a line falls below the org's line floor for a rolling window gets that line's allocation reduced automatically; recovery is earned back through the calibration share. All throttle events are logged and visible to the agency — controlled by the platform, never silently.
+5. Distribution control is itself a KPI input: routed-by-performance % (share of leads allocated by ratio rather than round-robin) should approach 100% as data accumulates.
+
+This is what makes P1 enforceable: because SummitLeads' profit is the success fee, routing to the highest-closing producer per line is the platform maximizing its own revenue AND the agency's — the incentives are identical by construction. An exchange selling the same lead 4x cannot do this; it doesn't know who closes what.
+
 ## KPI LAYER
 
-Five tiers (full spec: LEAD_TEMPLATES_AND_KPIS.md in everest-battle-cards): (1) CPL→CPQ→CPB by source/vertical/producer; (2) activity-derived lifecycle status + return-reason taxonomy; (3) step-level intake drop-off; (4) speed-to-contact decay by minute; (5) consent-integrity %. Signal Engine adds: trigger→bind conversion by event type, timing-window hit rate (contacted inside optimal window %), Renewal Sniper pipeline count. Pricing adds: wallet days-of-runway per tenant, D-vs-actual variance, F collection lag.
+Five tiers (full spec: LEAD_TEMPLATES_AND_KPIS.md in everest-battle-cards): (1) CPL→CPQ→CPB by source/vertical/producer; (2) activity-derived lifecycle status + return-reason taxonomy; (3) step-level intake drop-off; (4) speed-to-contact decay by minute; (5) consent-integrity %. Signal Engine adds: trigger→bind conversion by event type, timing-window hit rate (contacted inside optimal window %), Renewal Sniper pipeline count. Pricing adds: wallet days-of-runway per tenant, D-vs-actual variance, F collection lag. Distribution Control adds: closing ratio by org_id × producer_id × product_line (the master routing metric), routed-by-performance %, throttle events per producer, calibration-share conversion.
 
 ## STAGE GATES
 
