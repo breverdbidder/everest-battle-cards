@@ -1,0 +1,2 @@
+# Insurance Digital Customer Acquisition — Market Landscape (4-company)
+Full summary delivered directly to Ariel. Companies: MediaAlpha, QuinStreet/QRP, EverQuote, Datalot/Centerfield. Key finding: none publish rate cards, all run bid/enterprise pricing. Single most actionable cross-company finding: TrustedForm-style third-party TCPA consent certification (live on Datalot) is the compliance gap SummitLeads should close before B2B expansion. See individual company READMEs for detail.
