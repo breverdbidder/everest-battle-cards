@@ -1,0 +1,2 @@
+# SummitLeads vs MediaAlpha
+Full card delivered directly to Ariel (self-contained HTML). NYSE: MAX, ~93% insurance revenue on ~$1.1-1.3B, 141M consumer referrals 2025, $2.2B programmatic spend powered. Real Exchange API (carrier login/pre-fill/rate quotes), bid-based agent pricing, no llms.txt/MCP found. Third-party pricing: $20-75+/lead (Aged Lead Store 2026).
