@@ -7,19 +7,20 @@
 <meta name="description" content="BidDeed.AI + ZoneWise.AI competitive intelligence battle cards. Live teardowns of 11 PropTech competitors.">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
+  /* biddeed.ai SSOT palette (scripts/palette-gate.mjs) — dark set. Light seven: #FFFFFF #E6F0FA #1A1A1A #0A2540 #D7E3F1 #005EB8 #004A92 */
   :root {
-    --navy: #1E3A5F;
-    --navy-dark: #0F1E33;
-    --orange: #F59E0B;
-    --orange-bright: #FBB534;
-    --bg: #020617;
-    --bg-card: #0B1221;
-    --text: #E2E8F0;
-    --text-dim: #94A3B8;
-    --border: #1E293B;
-    --green: #10B981;
-    --yellow: #EAB308;
-    --slate: #475569;
+    --navy: #1B2737;
+    --navy-dark: #0B1119;
+    --orange: #1A90FF;
+    --orange-bright: #4DA6FF;
+    --bg: #0B1119;
+    --bg-card: #111B27;
+    --text: #EDEDED;
+    --text-dim: #9EB2C7;
+    --border: #24344C;
+    --green: #4DA6FF;
+    --yellow: #1A90FF;
+    --slate: #24344C;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -74,8 +75,8 @@
   }
   .pair-rule {
     display: inline-block;
-    background: rgba(245,158,11,0.08);
-    border: 1px solid rgba(245,158,11,0.3);
+    background: rgba(26,144,255,0.12);
+    border: 1px solid rgba(26,144,255,0.4);
     padding: 10px 18px;
     border-radius: 6px;
     font-size: 13px;
@@ -184,9 +185,9 @@
     letter-spacing: 1px;
     white-space: nowrap;
   }
-  .status-complete .comp-status { background: rgba(16,185,129,0.15); color: var(--green); }
-  .status-active .comp-status { background: rgba(245,158,11,0.15); color: var(--orange); }
-  .status-pending .comp-status { background: rgba(71,85,105,0.2); color: var(--text-dim); }
+  .status-complete .comp-status { background: rgba(77,166,255,0.18); color: var(--green); }
+  .status-active .comp-status { background: rgba(26,144,255,0.18); color: var(--orange); }
+  .status-pending .comp-status { background: rgba(36,52,76,0.6); color: var(--text-dim); }
 
   .comp-card h3 {
     font-size: 22px;
@@ -207,7 +208,7 @@
     margin-bottom: 16px;
   }
   .comp-tag {
-    background: rgba(30,58,95,0.5);
+    background: rgba(27,39,55,0.8);
     border: 1px solid var(--border);
     color: var(--text-dim);
     font-size: 11px;
@@ -317,7 +318,7 @@
       <span class="orange">Battle Cards</span>
     </h1>
     <p class="sub">
-      Deep-dive teardowns of 11 PropTech competitors. Every card = 13-category Dono.ai v5 review with verified tech stack, pricing, moat analysis, and a documented path to beat them. Updated by the Everest Sentinel autonomous CI pipeline.
+      Deep-dive teardowns of 11 PropTech competitors. Every card = 13-category Dono.ai v5 review with verified tech stack, pricing, moat analysis, and a documented path to beat them. Palette = the biddeed.ai SSOT seven (light) / eight (dark). Updated by the Everest Sentinel autonomous CI pipeline.
     </p>
     <div class="pair-rule">
       ⚡ PAIRING RULE: BidDeed.AI (foreclosures) + ZoneWise.AI (tax deeds) — always measured together, always sold together.
@@ -331,13 +332,13 @@
       </div>
       <div class="stat-card">
         <div class="label">Cards Complete</div>
-        <div class="value">2</div>
-        <div class="note">Dono.ai v5 + Algoma</div>
+        <div class="value">3</div>
+        <div class="note">Dono.ai v5 · Algoma · ATTOM Intelligence</div>
       </div>
       <div class="stat-card">
         <div class="label">In Progress</div>
-        <div class="value">0</div>
-        <div class="note">Next: MapWise (SUMMIT #407)</div>
+        <div class="value">1</div>
+        <div class="note">PropertyOnion (title-search card live)</div>
       </div>
       <div class="stat-card">
         <div class="label">Shapira V3.1 Claims</div>
@@ -419,10 +420,10 @@
       </div>
 
       <!-- 5. PROPERTYONION -->
-      <div class="comp-card status-pending">
+      <div class="comp-card status-active">
         <div class="comp-header">
-          <span class="comp-num">05</span>
-          <span class="comp-status">Queued</span>
+          <span class="comp-num">05 · TITLE SEARCH</span>
+          <span class="comp-status">⚡ Partial</span>
         </div>
         <h3>PropertyOnion</h3>
         <p class="comp-desc">Florida foreclosure + tax deed data. 245K+ rows across 46 FL counties. Already reverse-engineered into multi_county_auctions SSOT.</p>
@@ -430,8 +431,9 @@
           <span class="comp-tag">FL Auctions</span>
           <span class="comp-tag">46 Counties</span>
           <span class="comp-tag">Reversed</span>
+          <span class="comp-tag">Title Search Card Live</span>
         </div>
-        <a class="comp-cta disabled" href="#">Queued</a>
+        <a class="comp-cta" href="./propertyonion-title-search/">Open Title Search Card</a>
       </div>
 
       <!-- 6. REVENTURE -->
@@ -450,17 +452,24 @@
         <a class="comp-cta disabled" href="#">Queued</a>
       </div>
 
-      <!-- 7 to 11 — placeholders -->
-      <div class="comp-card status-pending">
+      <!-- 7. ATTOM INTELLIGENCE -->
+      <div class="comp-card status-complete">
         <div class="comp-header">
-          <span class="comp-num">07</span>
-          <span class="comp-status">Queued</span>
+          <span class="comp-num">07 · ATTOM PARITY</span>
+          <span class="comp-status">✓ Complete</span>
         </div>
-        <h3>Competitor 07</h3>
-        <p class="comp-desc">To be assigned by next CI dispatch cycle. Template inherits Dono.ai v5 structure automatically.</p>
-        <div class="comp-meta"><span class="comp-tag">TBA</span></div>
-        <a class="comp-cta disabled" href="#">Queued</a>
+        <h3>ATTOM Intelligence</h3>
+        <p class="comp-desc">Three AI agents (Property &amp; Place Insights · Data Analyst · Report Generation, Aug 18 2026) over MCP + A2A on a 160M-property national plant. Mapped KPI-by-KPI onto the 18-section SIGNAL$ Property Report with live HAVE / PARTIAL / GAP / OURS status. They answer what the house is; we answer what to bid, which liens survive, what the dirt can become.</p>
+        <div class="comp-meta">
+          <span class="comp-tag">National Plant</span>
+          <span class="comp-tag">3 Agents</span>
+          <span class="comp-tag">KPI Matrix</span>
+          <span class="comp-tag">Parity Kit</span>
+        </div>
+        <a class="comp-cta" href="./attom-intelligence/">Open Battle Card</a>
       </div>
+
+      <!-- 8 to 11 — placeholders -->
 
       <div class="comp-card status-pending">
         <div class="comp-header">
