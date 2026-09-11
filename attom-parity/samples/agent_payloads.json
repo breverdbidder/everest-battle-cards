@@ -97,10 +97,10 @@
       {"section_key": "transaction_history", "label": "8", "title": "Transaction History", "band_color": "navy", "status": "partial"},
       {"section_key": "property_record", "label": "9-10", "title": "Property Record & Listing Details", "band_color": "navy", "status": "delivered"},
       {"section_key": "context_layers", "label": "11-14", "title": "Context Layers — Neighborhood · Schools · Flood · Market Grade", "band_color": "navy", "status": "partial", "data": {"flood": "X (not SFHA)", "schools": "Pending", "poi": "Pending"}},
-      {"section_key": "shapira_ml", "label": "ML", "title": "Shapira Models — Third-Party Purchase Classifier", "band_color": "navy", "status": "withheld", "data": {"model_version": "v5b.0-xgb-verified-zonewise-20260911", "probability": "WITHHELD — OOT validation on verified outcomes not passed"}},
+      {"section_key": "shapira_ml", "label": "ML", "title": "SIGNAL$ Models — Third-Party Purchase Classifier", "band_color": "navy", "status": "withheld", "data": {"model_version": "v5b.0-xgb-verified-zonewise-20260911", "probability": "WITHHELD — OOT validation on verified outcomes not passed"}},
       {"section_key": "rehab_estimate", "label": "REHAB", "title": "Rehab Cost Estimate", "band_color": "navy", "status": "pending"},
       {"section_key": "zonewise", "label": "ZW", "title": "ZoneWise.AI Land & Zoning Intelligence", "band_color": "orange", "status": "partial", "data": {"dor_land_use": "0100 SINGLE FAMILY", "district": "PENDING — district layer not built for this county"}},
-      {"section_key": "bid_card", "label": "15", "title": "Bid Card — Opinion of Price", "band_color": "navy", "status": "delivered", "data": {"entry_bid": 152000, "signal_max_bid": 172000, "walk_away": 172000, "verdict": "REVIEW"}},
+      {"section_key": "bid_card", "label": "15", "title": "SIGNAL$ Bid Card — Opinion of Price", "band_color": "navy", "status": "delivered", "data": {"entry_bid": 152000, "signal_max_bid": 172000, "walk_away": 172000, "verdict": "REVIEW"}},
       {"section_key": "judgment_encumbrance", "label": "16", "title": "Judgment & Encumbrance Summary", "band_color": "navy", "status": "partial", "data": {"lien_hierarchy": [
         {"position": "FORECLOSING", "instrument": "Mortgage 2019 (illustrative)", "holder": "SAMPLE BANK TRUST", "statute": "Fla. Stat. §45.031", "joinder": "n/a"},
         {"position": "JUNIOR", "instrument": "HOA claim of lien (illustrative)", "holder": "SAMPLE PALMS HOA", "statute": "Fla. Stat. §720.3085", "joinder": "UNRESOLVED — not in LP party list"},
@@ -121,7 +121,7 @@
     "provenance": {
       "generated_at": "2026-09-11T18:30:00Z", "effective_date": "2026-09-11",
       "sources": ["multi_county_auctions", "fl_parcels (DOR NAL)", "context_layer_cache", "rpc/title_search_snapshot", "rpc/title_lien_priority"],
-      "model_disclosure": "Shapira Models — probability withheld until out-of-time validation on verified outcomes passes.",
+      "model_disclosure": "SIGNAL$ Models — probability withheld until out-of-time validation on verified outcomes passes.",
       "certification_disclosure": "Illustrative sample; certification does not apply.",
       "snapshot_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
       "honesty": ["executive_summary Pending", "rehab Pending", "ML probability WITHHELD", "district PENDING", "HOA joinder UNRESOLVED", "outcome Pending"],
