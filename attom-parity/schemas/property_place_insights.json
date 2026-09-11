@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://biddeed.ai/schemas/property_place_insights.json",
+  "title": "property_place_insights — SIGNAL$ twin of ATTOM's Property & Place Insights agent",
+  "description": "One-parcel Q&A payload. Every field is either a value with provenance or an explicit Pending/UNRESOLVED string. Sources: multi_county_auctions, fl_parcels / zw_parcels (DOR NAL), context_layer_cache (FEMA NFHL, Census ACS), rpc/title_search_snapshot. Nothing is inferred; absent = 'Pending — <reason>'.",
+  "type": "object",
+  "required": ["identity", "ownership", "characteristics", "value_and_tax", "transactions", "neighborhood", "environmental", "nearby_places", "schools", "provenance"],
+  "properties": {
+    "identity": {
+      "type": "object",
+      "required": ["address", "county", "parcel_id", "stable_id"],
+      "properties": {
+        "address": {"type": "string"},
+        "county": {"type": "string", "description": "county slug, lower-case"},
+        "parcel_id": {"type": ["string", "null"]},
+        "legal_description": {"type": ["string", "null"], "description": "from title snapshot subject.legal_description when a stack exists, else null"},
+        "lat": {"type": ["number", "null"]},
+        "lon": {"type": ["number", "null"]},
+        "stable_id": {"type": "object", "description": "our analogue of a vendor stable id: no single key, four public keys",
+          "properties": {"mca_id": {"type": "string"}, "case_number": {"type": ["string", "null"]}, "parcel_id": {"type": ["string", "null"]}, "dor_co_no": {"type": ["integer", "null"]}}},
+        "sale_type": {"type": ["string", "null"], "enum": ["foreclosure", "tax_deed", null]},
+        "auction_date": {"type": ["string", "null"], "format": "date"}
+      }
+    },
+    "ownership": {
+      "type": "object",
+      "properties": {
+        "owner_of_record": {"type": ["string", "null"]},
+        "owner_estate_flag": {"type": "boolean"},
+        "homestead_status": {"type": ["string", "null"]},
+        "vesting_per_appraiser": {"type": ["object", "null"], "properties": {"sale_date": {}, "sale_price": {}, "book_page": {}, "grantor": {}}},
+        "owner_since": {"type": ["string", "null"], "description": "date of last arm's-length deed; null → Pending"},
+        "occupancy": {"type": "string", "const": "Pending — no occupancy source; homestead status is the printed proxy"}
+      }
+    },
+    "characteristics": {
+      "type": "object",
+      "properties": {
+        "property_type": {"type": ["string", "null"]},
+        "dor_land_use": {"type": ["string", "null"]},
+        "beds": {"type": ["number", "null"]},
+        "baths": {"type": ["number", "null"]},
+        "living_area_sqft": {"type": ["number", "null"]},
+        "lot_size_acres": {"type": ["number", "null"]},
+        "year_built": {"type": ["integer", "null"]},
+        "stories": {"type": ["integer", "string", "null"], "description": "not in DOR NAL → 'Pending — not in county roll'"},
+        "construction": {"type": ["string", "null"], "description": "not in DOR NAL → 'Pending — not in county roll'"}
+      }
+    },
+    "value_and_tax": {
+      "type": "object",
+      "properties": {
+        "just_value": {"type": ["number", "null"]},
+        "assessed_value": {"type": ["number", "null"]},
+        "taxable_value": {"type": ["number", "null"]},
+        "exemptions": {"type": ["string", "null"]},
+        "tax_amount": {"type": ["number", "string", "null"], "description": "Lane C; until live: 'Pending — tax collector lane'"},
+        "tax_payment_status": {"type": ["string", "null"]},
+        "tax_certificates_of_record": {"type": "array", "items": {}},
+        "signal_value_estimate": {
+          "type": "object",
+          "description": "the beat: two bands, not one AVM",
+          "properties": {
+            "clearing_band": {"$ref": "#/$defs/band"},
+            "market_band": {"$ref": "#/$defs/band"},
+            "spread": {"type": ["number", "null"]},
+            "signal_max_bid": {"type": ["number", "null"]},
+            "verdict": {"type": ["string", "null"], "enum": ["BID", "REVIEW", "SKIP", null]}
+          }
+        }
+      }
+    },
+    "transactions": {
+      "type": "object",
+      "properties": {
+        "prior_sales": {"type": "array", "items": {"type": "object", "properties": {"date": {}, "price": {}, "doc_type": {}, "book_page": {}, "source": {"type": "string"}}}},
+        "chain_of_title_status": {"type": "string", "description": "'delivered' or the Pending string from the title engine"}
+      }
+    },
+    "neighborhood": {
+      "type": "object",
+      "properties": {
+        "available": {"type": "boolean"},
+        "median_income": {"type": ["number", "null"]},
+        "ownership_rate": {"type": ["number", "null"]},
+        "poverty_rate": {"type": ["number", "null"]},
+        "median_rent": {"type": ["number", "null"]},
+        "population": {"type": ["number", "null"]},
+        "source": {"type": ["string", "null"], "description": "'Census ACS 5-year 2022, ZCTA'"},
+        "reason": {"type": ["string", "null"]},
+        "appreciation": {"type": "string", "description": "Layer 3; 'Pending — live market layer not available for this geography' until B1 re-lands"}
+      }
+    },
+    "environmental": {
+      "type": "object",
+      "properties": {
+        "flood": {"type": "object", "properties": {"available": {"type": "boolean"}, "zone": {}, "sfha": {}, "bfe": {}, "source": {"type": ["string", "null"], "description": "'FEMA NFHL public REST'"}, "reason": {}}},
+        "other_hazards": {"type": "string", "const": "Pending — not sourced"}
+      }
+    },
+    "nearby_places": {"type": "object", "properties": {"available": {"type": "boolean"}, "items": {"type": "array"}, "reason": {"type": "string"}}},
+    "schools": {"type": "object", "properties": {"available": {"type": "boolean"}, "items": {"type": "array"}, "reason": {"type": "string"}}},
+    "provenance": {
+      "type": "object",
+      "required": ["generated_at", "sources", "honesty"],
+      "properties": {
+        "generated_at": {"type": "string", "format": "date-time"},
+        "sources": {"type": "array", "items": {"type": "string"}},
+        "certification": {"type": ["string", "null"]},
+        "honesty": {"type": "array", "items": {"type": "string"}, "description": "every Pending / UNRESOLVED / withheld field listed once"}
+      }
+    }
+  },
+  "$defs": {
+    "band": {"type": ["object", "null"], "properties": {"low": {}, "midpoint": {}, "high": {}, "confidence": {"enum": ["HIGH", "MEDIUM", "LOW", null]}}}
+  }
+}
