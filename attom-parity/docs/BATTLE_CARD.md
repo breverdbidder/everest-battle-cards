@@ -27,7 +27,7 @@ Pairing rule: BidDeed.AI (foreclosures) + ZoneWise.AI (tax deeds / zoning) — a
 | Title / liens | none published | statute-cited lien hierarchy (§48.23 · §197.122 · §197.552 · §713.07 · §720.3085 · §718.116 · 26 USC §7425); joinder vs LP party list; UNRESOLVED never guessed |
 | Zoning / envelope | none | ZoneWise §8: DOR land use, jurisdiction, district (or PENDING), envelope where built |
 | Outcome loop | none | §18 post-sale writeback grades the report's own call |
-| ML | none published | Shapira Models — probability **WITHHELD** until OOT validation on verified outcomes passes (V4 prod 0.478 / 0.391; v5b candidate 0.63 / 0.885, Sep 11) |
+| ML | none published | SIGNAL$ Models — probability **WITHHELD** until OOT validation on verified outcomes passes (V4 prod 0.478 / 0.391; v5b candidate 0.63 / 0.885, Sep 11) |
 | Delivery | MCP + A2A + chat + workbench | mcp.biddeed.ai (36 tools / 7 streams) + HTML + PDF + JSON; A2A: not yet |
 | Provenance | "grounded exclusively in ATTOM data" | every dollar carries a source; effective date; versioned title snapshot with sha256 |
 
