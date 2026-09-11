@@ -1,0 +1,131 @@
+{
+  "_notice": "ILLUSTRATIVE SAMPLE — fictional subject, fictional numbers. Not official ATTOM output, not licensed ATTOM data, not a BidDeed.AI underwriting. Exists only to show the section shape each SIGNAL$ twin must cover. Do not underwrite from this file.",
+  "property_place_insights": {
+    "identity": {
+      "address": "1234 SAMPLE PALM DR, SAMPLEVILLE FL 32900",
+      "county": "sample",
+      "parcel_id": "00-00-00-SAMPLE-0000",
+      "legal_description": "LOT 12 BLK 3 SAMPLE PALMS UNIT 1 PB 00 PG 00 (illustrative)",
+      "lat": 28.0, "lon": -80.6,
+      "stable_id": {"mca_id": "00000000-0000-0000-0000-000000000000", "case_number": "2026-CA-000000", "parcel_id": "00-00-00-SAMPLE-0000", "dor_co_no": 0},
+      "sale_type": "foreclosure",
+      "auction_date": "2026-10-01"
+    },
+    "ownership": {
+      "owner_of_record": "SAMPLE OWNER (illustrative)",
+      "owner_estate_flag": false,
+      "homestead_status": "Homestead exemption on roll (illustrative)",
+      "vesting_per_appraiser": {"sale_date": "2019-06-14", "sale_price": 189000, "book_page": "0000/0000", "grantor": "SAMPLE GRANTOR"},
+      "owner_since": "2019-06-14",
+      "occupancy": "Pending — no occupancy source; homestead status is the printed proxy"
+    },
+    "characteristics": {
+      "property_type": "Single Family", "dor_land_use": "0100 SINGLE FAMILY",
+      "beds": 3, "baths": 2, "living_area_sqft": 1642, "lot_size_acres": 0.23, "year_built": 1994,
+      "stories": "Pending — not in county roll", "construction": "Pending — not in county roll"
+    },
+    "value_and_tax": {
+      "just_value": 262400, "assessed_value": 231900, "taxable_value": 181900,
+      "exemptions": "HX (illustrative)",
+      "tax_amount": "Pending — tax collector lane",
+      "tax_payment_status": "Pending — tax collector lane",
+      "tax_certificates_of_record": [],
+      "signal_value_estimate": {
+        "clearing_band": {"low": 152000, "midpoint": 165000, "high": 178000, "confidence": "MEDIUM"},
+        "market_band": {"low": 238000, "midpoint": 251000, "high": 264000, "confidence": "MEDIUM"},
+        "spread": 86000,
+        "signal_max_bid": 172000,
+        "verdict": "REVIEW"
+      }
+    },
+    "transactions": {
+      "prior_sales": [
+        {"date": "2019-06-14", "price": 189000, "doc_type": "WD", "book_page": "0000/0000", "source": "DOR NAL sale_prc1 (illustrative)"},
+        {"date": "2006-03-02", "price": 214000, "doc_type": "WD", "book_page": "0000/0000", "source": "DOR NAL sale_prc2 (illustrative)"}
+      ],
+      "chain_of_title_status": "Pending — chain of title not yet pulled for this county"
+    },
+    "neighborhood": {
+      "available": true, "median_income": 61250, "ownership_rate": 0.71, "poverty_rate": 0.09, "median_rent": 1580, "population": 18400,
+      "source": "Census ACS 5-year 2022, ZCTA (illustrative values)",
+      "appreciation": "Pending — live market layer not available for this geography"
+    },
+    "environmental": {
+      "flood": {"available": true, "zone": "X", "sfha": false, "bfe": null, "source": "FEMA NFHL public REST (illustrative)"},
+      "other_hazards": "Pending — not sourced"
+    },
+    "nearby_places": {"available": false, "items": [], "reason": "Pending — POI layer not wired (Lane D)"},
+    "schools": {"available": false, "items": [], "reason": "Pending — school layer not wired (Lane E)"},
+    "provenance": {
+      "generated_at": "2026-09-11T18:30:00Z",
+      "sources": ["multi_county_auctions", "fl_parcels (DOR NAL)", "context_layer_cache: FEMA NFHL, Census ACS", "rpc/title_search_snapshot"],
+      "certification": "Sample county — certification status illustrative",
+      "honesty": ["occupancy Pending", "stories/construction Pending", "tax amount/status Pending (Lane C)", "appreciation Pending (Layer 3)", "POI Pending (Lane D)", "schools Pending (Lane E)", "chain of title Pending"]
+    }
+  },
+  "data_analyst": {
+    "scope": {"geography_level": "county", "geography": "sample", "sale_type": "foreclosure", "since": "2024-01-01", "fallback_note": null},
+    "distressed": {
+      "n_outcomes": 184, "n_upcoming": 49,
+      "median_sold_to_assessed": 0.628, "median_sold_to_judgment": 0.522,
+      "third_party_share": 0.41, "min_n_for_confidence": 10, "confidence": "HIGH",
+      "plaintiff_discount_index": [
+        {"plaintiff": "SAMPLE BANK TRUST (illustrative)", "median_sold_to_judgment": 0.44, "n": 23},
+        {"plaintiff": "SAMPLE SERVICER LLC (illustrative)", "median_sold_to_judgment": 0.61, "n": 17}
+      ]
+    },
+    "retail": {"n_sales": 412, "median_sale_price": 289000, "median_price_per_sqft": 176, "since_year": 2024},
+    "live_market": {"available": false, "reason": "Pending — live market layer not available for this geography"},
+    "comparison": [
+      {"geography": "sample", "median_sold_to_assessed": 0.628, "n_outcomes": 184},
+      {"geography": "neighbor-sample", "median_sold_to_assessed": 0.754, "n_outcomes": 14, "confidence": "LOW"}
+    ],
+    "charts": [{"kind": "bar", "title": "Median sold-to-assessed by county (illustrative)", "series": [["sample", 0.628], ["neighbor-sample", 0.754]]}],
+    "provenance": {"generated_at": "2026-09-11T18:30:00Z", "sources": ["multi_county_auctions (verified outcomes)", "fl_parcels", "shapira_formula_params"], "honesty": ["live_market Pending", "neighbor-sample n=14 LOW confidence"]}
+  },
+  "report_generation": {
+    "cover": {
+      "property_address": "1234 SAMPLE PALM DR, SAMPLEVILLE FL 32900", "county": "sample", "case_number": "2026-CA-000000", "parcel_id": "00-00-00-SAMPLE-0000",
+      "sale_type": "foreclosure", "auction_date": "2026-10-01", "verdict": "REVIEW", "investment_grade": "B",
+      "entry_bid": 152000, "shapira_max_bid": 172000, "equity_at_entry_bid": 99000, "equity_at_ceiling": 79000, "cert_status": "Illustrative"
+    },
+    "executive_summary": {"text": null, "status": "Pending — narrative lane not live"},
+    "sections": [
+      {"section_key": "subject_identification", "label": "1", "title": "Subject & Auction Identification", "band_color": "navy", "status": "delivered", "data": {"plaintiff": "SAMPLE BANK TRUST (illustrative)", "judgment_amount": 198400, "plaintiff_max_bid": 150000}},
+      {"section_key": "value_estimate", "label": "2-3", "title": "BidDeed Value Estimate & Components", "band_color": "navy", "status": "delivered", "data": {"clearing_band": [152000, 165000, 178000], "market_band": [238000, 251000, 264000]}},
+      {"section_key": "market_and_comps", "label": "4-7", "title": "Auction-Cleared Market · Comparable Sales · Comp Stats", "band_color": "navy", "status": "delivered", "data": {"layer1_n": 5, "layer2_n": 6, "spread": 86000}},
+      {"section_key": "transaction_history", "label": "8", "title": "Transaction History", "band_color": "navy", "status": "partial"},
+      {"section_key": "property_record", "label": "9-10", "title": "Property Record & Listing Details", "band_color": "navy", "status": "delivered"},
+      {"section_key": "context_layers", "label": "11-14", "title": "Context Layers — Neighborhood · Schools · Flood · Market Grade", "band_color": "navy", "status": "partial", "data": {"flood": "X (not SFHA)", "schools": "Pending", "poi": "Pending"}},
+      {"section_key": "shapira_ml", "label": "ML", "title": "Shapira Models — Third-Party Purchase Classifier", "band_color": "navy", "status": "withheld", "data": {"model_version": "v5b.0-xgb-verified-zonewise-20260911", "probability": "WITHHELD — OOT validation on verified outcomes not passed"}},
+      {"section_key": "rehab_estimate", "label": "REHAB", "title": "Rehab Cost Estimate", "band_color": "navy", "status": "pending"},
+      {"section_key": "zonewise", "label": "ZW", "title": "ZoneWise.AI Land & Zoning Intelligence", "band_color": "orange", "status": "partial", "data": {"dor_land_use": "0100 SINGLE FAMILY", "district": "PENDING — district layer not built for this county"}},
+      {"section_key": "bid_card", "label": "15", "title": "Bid Card — Opinion of Price", "band_color": "navy", "status": "delivered", "data": {"entry_bid": 152000, "signal_max_bid": 172000, "walk_away": 172000, "verdict": "REVIEW"}},
+      {"section_key": "judgment_encumbrance", "label": "16", "title": "Judgment & Encumbrance Summary", "band_color": "navy", "status": "partial", "data": {"lien_hierarchy": [
+        {"position": "FORECLOSING", "instrument": "Mortgage 2019 (illustrative)", "holder": "SAMPLE BANK TRUST", "statute": "Fla. Stat. §45.031", "joinder": "n/a"},
+        {"position": "JUNIOR", "instrument": "HOA claim of lien (illustrative)", "holder": "SAMPLE PALMS HOA", "statute": "Fla. Stat. §720.3085", "joinder": "UNRESOLVED — not in LP party list"},
+        {"position": "SUPER_PRIORITY", "instrument": "Ad valorem taxes", "holder": "Tax Collector", "statute": "Fla. Stat. §197.122", "joinder": "survives"}
+      ]}},
+      {"section_key": "provenance", "label": "17", "title": "Provenance & Honest Limits", "band_color": "navy", "status": "delivered"},
+      {"section_key": "auction_outcome", "label": "18", "title": "Auction Outcome & Prediction Scorecard", "band_color": "green", "status": "pending", "data": {"note": "Pending — auction scheduled 2026-10-01; populates after the sale closes"}}
+    ],
+    "attom_block_map": {
+      "Executive Summary": ["cover", "executive_summary", "judgment_encumbrance.title_search.analyst_summary"],
+      "Property Profile": ["subject_identification", "transaction_history", "property_record", "judgment_encumbrance"],
+      "Maps & Location Intelligence": ["context_layers", "property_record.aerial"],
+      "Comparable Sales": ["market_and_comps"],
+      "Valuation Insights": ["value_estimate", "bid_card"],
+      "Charts & Visualizations": ["market_and_comps.charts", "auction_outcome"]
+    },
+    "formats": ["html", "pdf", "json"],
+    "provenance": {
+      "generated_at": "2026-09-11T18:30:00Z", "effective_date": "2026-09-11",
+      "sources": ["multi_county_auctions", "fl_parcels (DOR NAL)", "context_layer_cache", "rpc/title_search_snapshot", "rpc/title_lien_priority"],
+      "model_disclosure": "Shapira Models — probability withheld until out-of-time validation on verified outcomes passes.",
+      "certification_disclosure": "Illustrative sample; certification does not apply.",
+      "snapshot_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "honesty": ["executive_summary Pending", "rehab Pending", "ML probability WITHHELD", "district PENDING", "HOA joinder UNRESOLVED", "outcome Pending"],
+      "trademark_check": {"attom_mentions": 0}
+    }
+  }
+}
