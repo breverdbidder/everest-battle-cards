@@ -3,7 +3,7 @@
   "$id": "https://biddeed.ai/schemas/signals_18_section.json",
   "title": "SIGNAL$ Property Report — 18 logical sections mapped onto the live render contract and onto ATTOM's 6 report blocks",
   "description": "Two layers. (1) `render_contract` is the LIVE Supabase SSOT public.s5_report_sections (tool predict_auction_outcome, re-queried 2026-09-11 14:15 ET) — 13 band rows, some spanning several logical sections (labels like '2-3', '4-7', '11-14'). This is what pdf.js and S5Report.tsx render. Do NOT renumber it and do NOT fork a renderer. (2) `logical_sections` is the 18-row KPI view used for ATTOM parity: each row names the live section_key it lives in, the ATTOM Report Generation block it twins, and its honest status. Status vocabulary: HAVE (renders live), PARTIAL (renders for some counties / some fields, prints Pending elsewhere), GAP (not built; prints Pending), OURS (no ATTOM twin — the beat), DEFECT (SSOT row with no renderer — prints 'no handler registered').",
-  "version": "2026-09-11",
+  "version": "2026-09-11.2",
   "renderers": {
     "html": "breverdbidder/zonewise-web/components/report/S5Report.tsx",
     "pdf": "breverdbidder/cli-anything-biddeed/packages/biddeed-mcp/src/report/pdf.js",
@@ -12,40 +12,265 @@
     "rule": "Never open a fourth renderer. Map ATTOM's 6 blocks INTO these 18; never delete moat sections to look like 6."
   },
   "render_contract": [
-    {"sort_order": 10,  "section_key": "subject_identification", "label": "1",     "title": "Subject & Auction Identification",                          "report_field": "auction_listing",                    "band": "navy"},
-    {"sort_order": 20,  "section_key": "value_estimate",         "label": "2-3",   "title": "BidDeed Value Estimate & Components",                        "report_field": "value_estimate",                     "band": "navy"},
-    {"sort_order": 30,  "section_key": "market_and_comps",       "label": "4-7",   "title": "Auction-Cleared Market · Comparable Sales · Comp Stats",     "report_field": "county_stats,cma",                   "band": "navy"},
-    {"sort_order": 40,  "section_key": "transaction_history",    "label": "8",     "title": "Transaction History",                                        "report_field": "transaction_history",                "band": "navy"},
-    {"sort_order": 50,  "section_key": "property_record",        "label": "9-10",  "title": "Property Record & Listing Details",                          "report_field": "property_record",                    "band": "navy"},
-    {"sort_order": 60,  "section_key": "context_layers",         "label": "11-14", "title": "Context Layers — Neighborhood · Schools · Flood · Market Grade", "report_field": "context_layers",                 "band": "navy"},
-    {"sort_order": 70,  "section_key": "shapira_ml",             "label": "ML",    "title": "SIGNAL$ Models — Third-Party Purchase Classifier",           "report_field": "context_layers.ml_model",            "band": "navy"},
-    {"sort_order": 75,  "section_key": "rehab_estimate",         "label": "REHAB", "title": "Rehab Cost Estimate",                                        "report_field": "rehab",                              "band": "navy", "status": "DEFECT — no renderer in pdf.js or S5Report.tsx; composer.js never emits report.rehab"},
-    {"sort_order": 80,  "section_key": "zonewise",               "label": "ZW",    "title": "ZoneWise.AI Land & Zoning Intelligence — THE PAIRING",       "report_field": "zoning",                             "band": "orange"},
-    {"sort_order": 90,  "section_key": "bid_card",               "label": "15",    "title": "SIGNAL$ Bid Card — Opinion of Price",                                "report_field": "opinion_of_price_bid_card",          "band": "navy"},
-    {"sort_order": 100, "section_key": "judgment_encumbrance",   "label": "16",    "title": "Judgment & Encumbrance Summary",                             "report_field": "judgment,red_flags,composition,lien_survival,title_tier1,title_chain,title_search", "band": "navy"},
-    {"sort_order": 110, "section_key": "provenance",             "label": "17",    "title": "Provenance & Honest Limits",                                 "report_field": "provenance",                         "band": "navy"},
-    {"sort_order": 120, "section_key": "auction_outcome",        "label": "18",    "title": "Auction Outcome & Prediction Scorecard",                     "report_field": "auction_outcome",                    "band": "green"}
+    {
+      "sort_order": 10,
+      "section_key": "subject_identification",
+      "label": "1",
+      "title": "Subject & Auction Identification",
+      "report_field": "auction_listing",
+      "band": "navy"
+    },
+    {
+      "sort_order": 20,
+      "section_key": "value_estimate",
+      "label": "2-3",
+      "title": "BidDeed Value Estimate & Components",
+      "report_field": "value_estimate",
+      "band": "navy"
+    },
+    {
+      "sort_order": 30,
+      "section_key": "market_and_comps",
+      "label": "4-7",
+      "title": "Auction-Cleared Market · Comparable Sales · Comp Stats",
+      "report_field": "county_stats,cma",
+      "band": "navy"
+    },
+    {
+      "sort_order": 40,
+      "section_key": "transaction_history",
+      "label": "8",
+      "title": "Transaction History",
+      "report_field": "transaction_history",
+      "band": "navy"
+    },
+    {
+      "sort_order": 50,
+      "section_key": "property_record",
+      "label": "9-10",
+      "title": "Property Record & Listing Details",
+      "report_field": "property_record",
+      "band": "navy"
+    },
+    {
+      "sort_order": 60,
+      "section_key": "context_layers",
+      "label": "11-14",
+      "title": "Context Layers — Neighborhood · Schools · Flood · Market Grade",
+      "report_field": "context_layers",
+      "band": "navy"
+    },
+    {
+      "sort_order": 70,
+      "section_key": "shapira_ml",
+      "label": "ML",
+      "title": "SIGNAL$ Models — Third-Party Purchase Classifier",
+      "report_field": "context_layers.ml_model",
+      "band": "navy"
+    },
+    {
+      "sort_order": 75,
+      "section_key": "rehab_estimate",
+      "label": "REHAB",
+      "title": "Rehab Cost Estimate",
+      "report_field": "rehab",
+      "band": "navy",
+      "status": "PARTIAL — honest renderer live in pdf.js (b89233f9) and S5Report.tsx (5f141e36): prints \"Pending — rehab estimate engine not yet producing for this parcel\"; the engine itself is not built"
+    },
+    {
+      "sort_order": 80,
+      "section_key": "zonewise",
+      "label": "ZW",
+      "title": "ZoneWise.AI Land & Zoning Intelligence — THE PAIRING",
+      "report_field": "zoning",
+      "band": "orange"
+    },
+    {
+      "sort_order": 90,
+      "section_key": "bid_card",
+      "label": "15",
+      "title": "SIGNAL$ Bid Card — Opinion of Price",
+      "report_field": "opinion_of_price_bid_card",
+      "band": "navy"
+    },
+    {
+      "sort_order": 100,
+      "section_key": "judgment_encumbrance",
+      "label": "16",
+      "title": "Judgment & Encumbrance Summary",
+      "report_field": "judgment,red_flags,composition,lien_survival,title_tier1,title_chain,title_search",
+      "band": "navy"
+    },
+    {
+      "sort_order": 110,
+      "section_key": "provenance",
+      "label": "17",
+      "title": "Provenance & Honest Limits",
+      "report_field": "provenance",
+      "band": "navy"
+    },
+    {
+      "sort_order": 120,
+      "section_key": "auction_outcome",
+      "label": "18",
+      "title": "Auction Outcome & Prediction Scorecard",
+      "report_field": "auction_outcome",
+      "band": "green"
+    }
   ],
-  "attom_blocks": ["Executive Summary", "Property Profile", "Maps & Location Intelligence", "Comparable Sales", "Valuation Insights", "Charts & Visualizations"],
+  "attom_blocks": [
+    "Executive Summary",
+    "Property Profile",
+    "Maps & Location Intelligence",
+    "Comparable Sales",
+    "Valuation Insights",
+    "Charts & Visualizations"
+  ],
   "logical_sections": [
-    {"n": 1,  "key": "subject_identification", "lives_in": "subject_identification", "attom_block": "Property Profile",          "status": "HAVE",    "beat": "adds case #, sale type, plaintiff, plaintiff max bid, Gold Standard stamp"},
-    {"n": 2,  "key": "value_estimate",         "lives_in": "value_estimate",         "attom_block": "Valuation Insights",        "status": "HAVE",    "beat": "TWO bands — distressed clearing band vs retail ARV band; the spread is the thesis. ATTOM prints one AVM."},
-    {"n": 3,  "key": "market_and_comps",       "lives_in": "market_and_comps",       "attom_block": "Comparable Sales + Charts", "status": "HAVE",    "beat": "Layer 1 auction-cleared comps (sold-to-assessed, sold-to-judgment) + Layer 2 retail comps on one page"},
-    {"n": 4,  "key": "transaction_history",    "lives_in": "transaction_history",    "attom_block": "Property Profile",          "status": "PARTIAL", "note": "DOR roll carries last 2 sales; full deed chain only where the title engine has a stack (25 live OR counties)"},
-    {"n": 5,  "key": "property_record",        "lives_in": "property_record",        "attom_block": "Property Profile",          "status": "HAVE",    "note": "type, beds, baths, GLA, year built, lot, homestead, coordinates. Stories/construction type: not in DOR NAL → Pending"},
-    {"n": 6,  "key": "context_layers",         "lives_in": "context_layers",         "attom_block": "Maps & Location Intelligence", "status": "PARTIAL", "note": "ACS neighborhood (income, ownership, poverty, rent) LIVE; FEMA NFHL LIVE; schools + POI Pending"},
-    {"n": 7,  "key": "shapira_ml",             "lives_in": "shapira_ml",             "attom_block": null,                        "status": "OURS",    "note": "probability WITHHELD — OOT validation on verified outcomes has not passed (shapira_model_validations, Sep 11 2026)"},
-    {"n": 8,  "key": "zonewise",               "lives_in": "zonewise",               "attom_block": null,                        "status": "OURS/PARTIAL", "note": "DOR land use + just value HAVE; district assignment per county PARTIAL"},
-    {"n": 9,  "key": "bid_card",               "lives_in": "bid_card",               "attom_block": null,                        "status": "OURS",    "note": "entry bid · SIGNAL$ Max Bid · walk-away · BID/REVIEW/SKIP, with the legal disclaimer seam"},
-    {"n": 10, "key": "judgment_encumbrance",   "lives_in": "judgment_encumbrance",   "attom_block": "Property Profile (thin)",   "status": "HAVE",    "note": "judgment components + red flags; tax-deed cases never print 'Judgment: Pending'"},
-    {"n": 11, "key": "provenance",             "lives_in": "provenance",             "attom_block": "implicit",                  "status": "HAVE",    "note": "sources, model disclosure, certification gating, liability notes joined from pencil_report_parity_spec"},
-    {"n": 12, "key": "auction_outcome",        "lives_in": "auction_outcome",        "attom_block": null,                        "status": "OURS",    "note": "post-sale writeback grades the report's own call (ceiling held / walked correctly)"},
-    {"n": 13, "key": "neighborhood_poi",       "lives_in": "context_layers",         "attom_block": "Maps & Location Intelligence", "status": "GAP",  "lane": "D — OSM Overpass amenity radii (free), owner: report engine lane"},
-    {"n": 14, "key": "hazards_flood",          "lives_in": "context_layers",         "attom_block": "Maps & Location Intelligence", "status": "HAVE (flood) / GAP (other hazards)", "lane": "FEMA NFHL live; wind/wildfire/sinkhole not sourced"},
-    {"n": 15, "key": "schools",                "lives_in": "context_layers",         "attom_block": "Maps & Location Intelligence", "status": "GAP",  "lane": "E — NCES EDGE school locator + SABS boundaries (free federal), owner: report engine lane; GreatSchools is paid → not used"},
-    {"n": 16, "key": "title_search",           "lives_in": "judgment_encumbrance",   "attom_block": null,                        "status": "OURS/PARTIAL", "note": "rpc/title_search_snapshot; 25 live OR counties, avg parity 30.8%, 55 upcoming at parity (Sep 11 1:29 PM ET); 20 Turnstile counties deferred"},
-    {"n": 17, "key": "lien_hierarchy",         "lives_in": "judgment_encumbrance",   "attom_block": null,                        "status": "OURS",    "note": "rpc/title_lien_priority — FORECLOSING/SENIOR/JUNIOR/RELEASED/SUPER_PRIORITY + statute + joinder; UNRESOLVED never guessed"},
-    {"n": 18, "key": "certification_snapshot", "lives_in": "provenance",             "attom_block": null,                        "status": "OURS/PARTIAL", "note": "title snapshot is versioned + sha256 (title_search_snapshots); whole-report sha256 at purchase is the remaining lane"}
+    {
+      "n": 1,
+      "key": "subject_identification",
+      "lives_in": "subject_identification",
+      "attom_block": "Property Profile",
+      "status": "HAVE",
+      "beat": "adds case #, sale type, plaintiff, plaintiff max bid, Gold Standard stamp"
+    },
+    {
+      "n": 2,
+      "key": "value_estimate",
+      "lives_in": "value_estimate",
+      "attom_block": "Valuation Insights",
+      "status": "HAVE",
+      "beat": "TWO bands — distressed clearing band vs retail ARV band; the spread is the thesis. ATTOM prints one AVM."
+    },
+    {
+      "n": 3,
+      "key": "market_and_comps",
+      "lives_in": "market_and_comps",
+      "attom_block": "Comparable Sales + Charts",
+      "status": "HAVE",
+      "beat": "Layer 1 auction-cleared comps (sold-to-assessed, sold-to-judgment) + Layer 2 retail comps on one page"
+    },
+    {
+      "n": 4,
+      "key": "transaction_history",
+      "lives_in": "transaction_history",
+      "attom_block": "Property Profile",
+      "status": "PARTIAL",
+      "note": "DOR roll carries last 2 sales; full deed chain only where the title engine has a stack (25 live OR counties)"
+    },
+    {
+      "n": 5,
+      "key": "property_record",
+      "lives_in": "property_record",
+      "attom_block": "Property Profile",
+      "status": "HAVE",
+      "note": "type, beds, baths, GLA, year built, lot, homestead, coordinates. Stories/construction type: not in DOR NAL → Pending"
+    },
+    {
+      "n": 6,
+      "key": "context_layers",
+      "lives_in": "context_layers",
+      "attom_block": "Maps & Location Intelligence",
+      "status": "PARTIAL",
+      "note": "ACS neighborhood LIVE; FEMA NFHL LIVE; POI LIVE (D); schools LIVE (E); no map image"
+    },
+    {
+      "n": 7,
+      "key": "shapira_ml",
+      "lives_in": "shapira_ml",
+      "attom_block": null,
+      "status": "OURS",
+      "note": "probability WITHHELD — OOT validation on verified outcomes has not passed (shapira_model_validations, Sep 11 2026). pdf.js hardcoded training rows removed dfc8b87f (E6); twin gate corrected 02a8938d"
+    },
+    {
+      "n": 8,
+      "key": "zonewise",
+      "lives_in": "zonewise",
+      "attom_block": null,
+      "status": "OURS/PARTIAL",
+      "note": "DOR land use + just value HAVE; district assignment per county PARTIAL"
+    },
+    {
+      "n": 9,
+      "key": "bid_card",
+      "lives_in": "bid_card",
+      "attom_block": null,
+      "status": "OURS",
+      "note": "entry bid · SIGNAL$ Max Bid · walk-away · BID/REVIEW/SKIP, with the legal disclaimer seam"
+    },
+    {
+      "n": 10,
+      "key": "judgment_encumbrance",
+      "lives_in": "judgment_encumbrance",
+      "attom_block": "Property Profile (thin)",
+      "status": "HAVE",
+      "note": "judgment components + red flags; tax-deed cases never print 'Judgment: Pending'"
+    },
+    {
+      "n": 11,
+      "key": "provenance",
+      "lives_in": "provenance",
+      "attom_block": "implicit",
+      "status": "HAVE",
+      "note": "sources, model disclosure, certification gating, liability notes joined from pencil_report_parity_spec"
+    },
+    {
+      "n": 12,
+      "key": "auction_outcome",
+      "lives_in": "auction_outcome",
+      "attom_block": null,
+      "status": "OURS",
+      "note": "post-sale writeback grades the report's own call (ceiling held / walked correctly)"
+    },
+    {
+      "n": 13,
+      "key": "neighborhood_poi",
+      "lives_in": "context_layers",
+      "attom_block": "Maps & Location Intelligence",
+      "status": "HAVE (verify after cache refill)",
+      "lane": "D shipped a993c776 + fix 2b22f957 (nwr + shop=supermarket + out center; node-only/amenity=supermarket defect E7); 1 mi, 8 classes, 30-day cache"
+    },
+    {
+      "n": 14,
+      "key": "hazards_flood",
+      "lives_in": "context_layers",
+      "attom_block": "Maps & Location Intelligence",
+      "status": "HAVE (flood) / GAP (other hazards)",
+      "lane": "FEMA NFHL live; wind/wildfire/sinkhole not sourced"
+    },
+    {
+      "n": 15,
+      "key": "schools",
+      "lives_in": "context_layers",
+      "attom_block": "Maps & Location Intelligence",
+      "status": "HAVE (nearest) / PARTIAL (assigned)",
+      "lane": "E shipped 99c5aee4 — NCES EDGE CCD 2024-25 nearest by level within 5 mi + SABS 2015-16 assigned (Pending when 0 or >1 polygons); no ratings"
+    },
+    {
+      "n": 16,
+      "key": "title_search",
+      "lives_in": "judgment_encumbrance",
+      "attom_block": null,
+      "status": "OURS/PARTIAL",
+      "note": "rpc/title_search_snapshot; 25 live OR counties, avg parity 30.8%, 55 upcoming at parity (Sep 11 1:29 PM ET); 20 Turnstile counties deferred"
+    },
+    {
+      "n": 17,
+      "key": "lien_hierarchy",
+      "lives_in": "judgment_encumbrance",
+      "attom_block": null,
+      "status": "OURS",
+      "note": "rpc/title_lien_priority — FORECLOSING/SENIOR/JUNIOR/RELEASED/SUPER_PRIORITY + statute + joinder; UNRESOLVED never guessed"
+    },
+    {
+      "n": 18,
+      "key": "certification_snapshot",
+      "lives_in": "provenance",
+      "attom_block": null,
+      "status": "OURS/PARTIAL",
+      "note": "title snapshot is versioned + sha256 (title_search_snapshots); whole-report sha256 at purchase is the remaining lane"
+    }
   ],
   "acceptance_tests": [
     "ATTOM-equivalent profile + value + tax + history + comps render on one report",
@@ -57,5 +282,17 @@
     "provenance + effective date + sha256",
     "zero ATTOM trademark in customer PDF/HTML",
     "county/market question returns clearing ratio + outcome counts, not only an appreciation sentence"
-  ]
+  ],
+  "executive_summary": {
+    "status": "HAVE",
+    "shipped": "7eba5097 (G #20293)",
+    "shape": "report.executive_summary = { text, status:\"delivered\" }",
+    "rule": "deterministic template over verified fields; every clause skipped when its field is null; ML clause prints WITHHELD when the gate is open; no model calls"
+  },
+  "tax_collector": {
+    "status": "GAP — BLOCKED at the collector wall",
+    "shipped": "4780ccb4 (C #20292)",
+    "evidence": "tax_collector_sources 40 counties, tax_collector_results 66 attempts all blocked (13 cloudflare_turnstile_challenge), 0 ok; CP3 statewide 0.86 unchanged",
+    "prints": "Pending — tax collector not reachable (cloudflare_turnstile_challenge, verified 2026-09-11)"
+  }
 }
