@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://biddeed.ai/schemas/report_generation.json",
+  "title": "report_generation — SIGNAL$ twin of ATTOM's Report Generation agent",
+  "description": "Customer-ready report envelope. ATTOM publishes six blocks; every one exists here, mapped into the 18-section SIGNAL$ Property Report. The production renderers are pdf.js (PDF) and S5Report.tsx (HTML); this envelope is the JSON they both read. Field `attom_block_map` records the mapping so a customer asking for 'a branded report' gets the same jobs plus the bid.",
+  "type": "object",
+  "required": ["cover", "sections", "attom_block_map", "provenance"],
+  "properties": {
+    "cover": {
+      "type": "object",
+      "required": ["property_address", "county", "sale_type", "verdict"],
+      "properties": {
+        "property_address": {"type": "string"},
+        "county": {"type": "string"},
+        "case_number": {"type": ["string", "null"]},
+        "parcel_id": {"type": ["string", "null"]},
+        "sale_type": {"type": "string"},
+        "auction_date": {"type": ["string", "null"]},
+        "verdict": {"type": "string", "enum": ["BID", "REVIEW", "SKIP", "PENDING"]},
+        "investment_grade": {"type": ["string", "null"]},
+        "entry_bid": {},
+        "shapira_max_bid": {"description": "rendered as 'SIGNAL$ Max Bid'"},
+        "equity_at_entry_bid": {},
+        "equity_at_ceiling": {},
+        "cert_status": {"type": ["string", "null"]}
+      }
+    },
+    "executive_summary": {
+      "type": "object",
+      "description": "Lane G — template narrative over verified fields only; no generated claims",
+      "properties": {"text": {"type": ["string", "null"]}, "status": {"type": "string", "description": "'delivered' | 'Pending — narrative lane not live'"}}
+    },
+    "sections": {
+      "type": "array",
+      "description": "ordered exactly as public.v_s5_report_template; one entry per SSOT row",
+      "items": {
+        "type": "object",
+        "required": ["section_key", "label", "title", "status"],
+        "properties": {
+          "section_key": {"type": "string"},
+          "label": {"type": "string"},
+          "title": {"type": "string"},
+          "band_color": {"type": "string"},
+          "status": {"type": "string", "enum": ["delivered", "partial", "pending", "withheld", "no_handler"]},
+          "liability_note": {"type": ["string", "null"]},
+          "data": {"type": "object"}
+        }
+      }
+    },
+    "attom_block_map": {
+      "type": "object",
+      "properties": {
+        "Executive Summary": {"type": "array", "items": {"type": "string"}, "default": ["cover", "executive_summary", "judgment_encumbrance.title_search.analyst_summary"]},
+        "Property Profile": {"type": "array", "default": ["subject_identification", "transaction_history", "property_record", "judgment_encumbrance"]},
+        "Maps & Location Intelligence": {"type": "array", "default": ["context_layers", "property_record.aerial"]},
+        "Comparable Sales": {"type": "array", "default": ["market_and_comps"]},
+        "Valuation Insights": {"type": "array", "default": ["value_estimate", "bid_card"]},
+        "Charts & Visualizations": {"type": "array", "default": ["market_and_comps.charts", "auction_outcome"]}
+      }
+    },
+    "formats": {"type": "array", "items": {"enum": ["html", "pdf", "json"]}, "default": ["html", "pdf", "json"]},
+    "provenance": {
+      "type": "object",
+      "required": ["generated_at", "effective_date", "sources", "model_disclosure", "honesty"],
+      "properties": {
+        "generated_at": {"type": "string"},
+        "effective_date": {"type": ["string", "null"]},
+        "sources": {"type": "array"},
+        "model_disclosure": {"type": "string"},
+        "certification_disclosure": {"type": ["string", "null"]},
+        "snapshot_sha256": {"type": ["string", "null"]},
+        "honesty": {"type": "array"},
+        "trademark_check": {"type": "object", "properties": {"attom_mentions": {"type": "integer", "const": 0}}}
+      }
+    }
+  }
+}
