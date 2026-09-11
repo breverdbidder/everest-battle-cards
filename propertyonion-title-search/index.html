@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Title Search Battle Card</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{--ink:#0B2A4A;--paper:#F6F8FB;--panel:#FFFFFF;--line:#D6DEE8;--mute:#5B6B7C;--text:#182636;--blue:#005EB8;--orange:#E8590C;--orange-soft:#FDEBDD;--good:#1F7A4D;--good-soft:#E3F3EA;--warn:#B7791F;--warn-soft:#FBF1DC;--bad:#B42318;--bad-soft:#FBE4E1;--display:"IBM Plex Sans Condensed",system-ui,sans-serif;--body:"IBM Plex Sans",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--ink:#E7EEF7;--paper:#0E1620;--panel:#152130;--line:#2A3B50;--mute:#9FB0C3;--text:#DCE5F0;--blue:#5AA6F2;--orange:#FF8A4C;--orange-soft:#3A2416;--good:#5FD39A;--good-soft:#12301F;--warn:#F2C263;--warn-soft:#3A2D12;--bad:#FF8B80;--bad-soft:#3F1712}}
+body{margin:0;background:var(--paper);color:var(--text);font-family:var(--body);font-size:15px;line-height:1.5;padding-inline:20px;padding-block:32px 64px}
+.wrap{max-width:1120px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);color:var(--ink);line-height:1.1;margin:0}
+h1{font-size:clamp(28px,4vw,40px);font-weight:700}
+h2{font-size:22px;font-weight:700;margin-block:40px 14px;padding-top:14px;border-top:2px solid var(--ink)}
+h3{font-size:16px;font-weight:600}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);margin-bottom:8px}
+.lede{max-width:70ch;color:var(--mute);margin-top:10px}
+.meta{font-family:var(--mono);font-size:12px;color:var(--mute);margin-top:10px}
+.board{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:16px 18px}
+.card.us{border-color:var(--orange);box-shadow:0 0 0 2px var(--orange-soft)}
+.card .name{font-family:var(--display);font-size:20px;font-weight:700;color:var(--ink)}
+.card .who{color:var(--mute);font-size:13px;margin-bottom:10px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13px}
+.kv dt{color:var(--mute)}.kv dd{margin:0;font-family:var(--mono);font-size:12.5px}
+table{border-collapse:collapse;width:100%;background:var(--panel);font-size:13.5px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:6px}
+th{font-family:var(--display);font-weight:600;text-align:left;background:var(--paper);color:var(--ink);padding:10px 12px;border-bottom:2px solid var(--line);white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.chip{display:inline-block;font-family:var(--mono);font-size:11.5px;font-weight:500;padding:2px 8px;border-radius:3px;white-space:nowrap}
+.have{background:var(--good-soft);color:var(--good)}.part{background:var(--warn-soft);color:var(--warn)}.gap{background:var(--bad-soft);color:var(--bad)}
+.beat{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.beat .card h3{color:var(--orange);margin-bottom:6px}
+.beat p{margin:0;font-size:13.5px}
+.stat{font-family:var(--mono);font-size:12.5px;color:var(--mute)}
+.note{background:var(--orange-soft);border-left:4px solid var(--orange);padding:12px 16px;border-radius:0 4px 4px 0;font-size:13.5px;margin-top:16px}
+.foot{font-family:var(--mono);font-size:11.5px;color:var(--mute);margin-top:40px;line-height:1.6}
+@media (max-width:760px){.board{grid-template-columns:1fr}}
+</style></head><body>
+<div class="wrap">
+  <div class="eyebrow">Competitive intelligence · BidDeed.AI / ZoneWise.AI · SIGNAL$ Property Report §16</div>
+  <h1>Title Search Battle Card</h1>
+  <p class="lede">PropertyOnion's $50 human-abstracted Pre Title Search and Dono.ai's AI title-production platform, measured against the SIGNAL$ title search + lien-hierarchy engine (live in Supabase Sep 11 2026). Every row is scored from live data or a fetched page; nothing is assumed.</p>
+  <p class="meta">Prepared Fri Sep 11 2026 · 11:45 AM ET · engine migration title_search_engine_v1 · coverage numbers re-queryable from v_title_search_coverage · render lane #20254 · harvest lane #20255</p>
+  <div class="board">
+    <div class="card"><div class="name">PropertyOnion Pre Title Search</div><div class="who">Propertyonion LLC, Boca Raton · Florida foreclosure/tax-deed listing site · human abstractors</div>
+      <dl class="kv"><dt>Price</dt><dd>$50 / report · 10-pack $450 · rush +$30 (2021 pricing; $50 still live)</dd><dt>Turnaround</dt><dd>1–2 business days (order ≤4 days pre-sale)</dd><dt>Depth</dt><dd>O&amp;E "pencil search" from last insured deed</dd><dt>Deliverable</dt><dd>2-page summary + 99 pp. of clerk/PA/tax exhibits (sample)</dd><dt>Coverage</dt><dd>Florida only</dd><dt>Liability</dt><dd>capped at report price; no refunds; "not a legal opinion"</dd><dt>Auction logic</dt><dd>narrative comment only ("inferior 2nd place mortgage")</dd></dl></div>
+    <div class="card us"><div class="name">SIGNAL$ Title Search (BidDeed.AI)</div><div class="who">Everest Capital of Brevard · engine live Sep 11 2026 · inside the 18-section SIGNAL$ Property Report</div>
+      <dl class="kv"><dt>Price</dt><dd>included in the $25 one-time report / every subscription tier</dd><dt>Turnaround</dt><dd>instant — pre-harvested T-14/T-21 before the sale</dd><dt>Depth</dt><dd>case-index + owner-name index → statute-cited lien hierarchy</dd><dt>Deliverable</dt><dd>§16 blocks + versioned snapshot (effective date, sha256)</dd><dt>Coverage</dt><dd>10 FL counties live · 73 of 317 upcoming auctions covered (23%)</dd><dt>Liability</dt><dd>counsel-cleared disclosure; statute class only, never $ owed</dd><dt>Auction logic</dt><dd>SIGNAL$ Max Bid net of surviving liens · BID/REVIEW/SKIP</dd></dl></div>
+    <div class="card"><div class="name">Dono.ai Title Search</div><div class="who">Tel Aviv / West Palm Beach · $10.2M raised · sells to title agencies &amp; underwriters (Qualia, SoftPro, Settlor)</div>
+      <dl class="kv"><dt>Price</dt><dd>per search, varies by county — not public; no platform fee</dd><dt>Turnaround</dt><dd>4 h average (AI + title-professional verification)</dd><dt>Depth</dt><dd>chain · encumbrances · judgments · exceptions · assessor · tax bill · probate · plats</dd><dt>Deliverable</dt><dd>commitment/report with hyperlinked exhibits, 45+ data points per record</dd><dt>Coverage</dt><dd>700+ counties, 9–11 states incl. FL</dd><dt>Liability</dt><dd>"liability is on us" — every file verified by a title pro</dd><dt>Auction logic</dt><dd>none — no investor product, no survival analysis</dd></dl></div>
+  </div>
+  <h2>Section-by-section parity</h2>
+  <p class="stat">HAVE = live and rendering from record data · PARTIAL = live for some counties/cases or from a weaker source · GAP = not built · — = competitor does not offer it</p>
+  <div class="tbl"><table><thead><tr><th>Report section</th><th>PropertyOnion</th><th>Dono.ai</th><th>SIGNAL$ §16</th><th>Our source / what is real today</th></tr></thead><tbody>
+<tr><td>Property identification (address, parcel, legal)</td><td><span class="chip have">HAVE</span></td><td><span class="chip have">HAVE</span></td><td><span class="chip have">HAVE</span></td><td>DOR roll 10.5M parcels; legal from PIN-bearing instruments (legal on case filings = #20255)</td></tr>
+<tr><td>Owner of record / vesting</td><td><span class="chip have">HAVE</span></td><td><span class="chip have">HAVE</span></td><td><span class="chip have">HAVE</span></td><td>zw_parcels owner + roll vesting; ESTATE/HEIRS flag (PO does not flag it)</td></tr>
+<tr><td>Chain of title (deed-to-deed)</td><td><span class="chip have">HAVE</span></td><td><span class="chip have">HAVE</span></td><td><span class="chip part">PARTIAL</span></td><td>Tier 3 pulls: 3 (Brevard); tax-deed chain 8,790 rows (Duval); roll vesting statewide — Lane F</td></tr>
+<tr><td>Property tax — values &amp; exemptions</td><td><span class="chip have">HAVE</span></td><td><span class="chip have">HAVE</span></td><td><span class="chip have">HAVE</span></td><td>market / assessed / taxable / exempt from the roll; certificates of record</td></tr>
+<tr><td>Property tax — paid / delinquent status</td><td><span class="chip have">HAVE</span></td><td><span class="chip have">HAVE</span></td><td><span class="chip gap">GAP</span></td><td>tax-collector adapter not built; report prints "Pending — verify with the tax collector" — Lane C</td></tr>
+<tr><td>Mortgages: lender, borrower, amount, book/page</td><td><span class="chip have">HAVE</span></td><td><span class="chip have">HAVE</span></td><td><span class="chip part">PARTIAL</span></td><td>owner-name index live in Duval (103 instruments, 32 auctions); other 9 live counties case-index only — #20255</td></tr>
+<tr><td>Assignment chain → current holder</td><td><span class="chip have">HAVE</span></td><td><span class="chip have">HAVE</span></td><td><span class="chip part">PARTIAL</span></td><td>engine links ASSIGNMENT/MODIFICATION by DocLink, party chain; harvester must stop filtering them out — #20255</td></tr>
+<tr><td>Satisfactions netted against mortgages</td><td><span class="chip have">HAVE</span></td><td><span class="chip have">HAVE</span></td><td><span class="chip part">PARTIAL</span></td><td>engine nets SATISFACTION/RELEASE by DocLink/party; current writer drops them (reported UNRESOLVED, never guessed) — #20255</td></tr>
+<tr><td>Mortgage litigation (lis pendens, final judgment book/page)</td><td><span class="chip have">HAVE</span></td><td><span class="chip part">PARTIAL</span></td><td><span class="chip have">HAVE</span></td><td>case-index LP/FJ in all 10 live counties, attached to the foreclosing mortgage</td></tr>
+<tr><td>Other encumbrances (judgments, HOA, federal/state tax, code-enf, UCC)</td><td><span class="chip have">HAVE</span></td><td><span class="chip have">HAVE</span></td><td><span class="chip part">PARTIAL</span></td><td>29-class instrument dictionary live; depth depends on name search per county</td></tr>
+<tr><td>Lien priority / survival, statute-cited per instrument</td><td><span class="chip part">PARTIAL</span></td><td>—</td><td><span class="chip have">HAVE</span></td><td>title_lien_priority(): FORECLOSING / SENIOR / JUNIOR / RELEASED / SUPER-PRIORITY; §695.01, §48.23, §197.122, §197.552, §713.07, §720.3085, §718.116, 26 USC §7425</td></tr>
+<tr><td>Joinder check (was the junior lienholder named?)</td><td><span class="chip part">PARTIAL</span></td><td>—</td><td><span class="chip have">HAVE</span></td><td>lienholder vs lis-pendens party list; NOT_FOUND → UNRESOLVED with §48.23 citation (PO: attaches docket, no call)</td></tr>
+<tr><td>Foreclosing instrument identified</td><td><span class="chip have">HAVE</span></td><td>—</td><td><span class="chip have">HAVE</span></td><td>mortgagee/assignee/modification match to plaintiff; ASSUMED fallback is labelled as such</td></tr>
+<tr><td>Other-property instruments filtered by legal description</td><td><span class="chip have">HAVE</span></td><td><span class="chip have">HAVE</span></td><td><span class="chip have">HAVE</span></td><td>legal_match PIN/MATCH/OTHER — Duval 16-2025-CA-006431: 22 of 23 name-index mortgages excluded as other properties, disclosed</td></tr>
+<tr><td>Exhibits — recorded document images</td><td><span class="chip have">HAVE</span></td><td><span class="chip have">HAVE</span></td><td><span class="chip gap">GAP</span></td><td>title_document_exhibits registry + portal deep link; fetcher — Lane E</td></tr>
+<tr><td>Court docket (parties, hearings, entries)</td><td><span class="chip have">HAVE</span></td><td><span class="chip part">PARTIAL</span></td><td><span class="chip part">PARTIAL</span></td><td>282 dockets (Brevard BECA); statewide adapter — Lane D</td></tr>
+<tr><td>Effective date + immutable version of what was bought</td><td><span class="chip have">HAVE</span></td><td><span class="chip part">PARTIAL</span></td><td><span class="chip have">HAVE</span></td><td>title_search_snapshots: version, effective_date, sha256 (wired to checkout — #20254)</td></tr>
+<tr><td>Auction decision integration (max bid net of surviving liens, verdict)</td><td>—</td><td>—</td><td><span class="chip have">HAVE</span></td><td>composer.js deducts surviving liens with amount on face; flags undetermined amounts</td></tr>
+<tr><td>Human verification before delivery</td><td><span class="chip have">HAVE</span></td><td><span class="chip have">HAVE</span></td><td><span class="chip gap">GAP</span></td><td>machine-only, every limit disclosed in-line; no accuracy proof yet (owner-acknowledged gate)</td></tr>
+<tr><td>API / agent access</td><td>—</td><td><span class="chip have">HAVE</span></td><td><span class="chip have">HAVE</span></td><td>36-tool MCP at mcp.biddeed.ai; rpc/title_search_snapshot + rpc/title_lien_priority</td></tr>
+<tr><td>Coverage</td><td class="num">FL (manual, any county)</td><td class="num">700+ counties / 9–11 states</td><td class="num">10 FL counties live</td><td>23% of upcoming auctions in live counties have a stack; Duval 78% · Manatee 44% · Flagler 40%</td></tr>
+<tr><td>Price / turnaround</td><td class="num">$50 · 1–2 days</td><td class="num">undisclosed · ~4 h</td><td class="num">$25 all-in · instant</td><td>title search is one of 18 sections, not the product</td></tr>
+  </tbody></table></div>
+  <h2>Where we beat both</h2>
+  <div class="beat">
+    <div class="card"><h3>The only survival engine</h3><p>PropertyOnion writes one analyst sentence; Dono has no investor logic at all. We classify every recorded instrument with the statute that governs it and the recording position that decides it, then feed the SIGNAL$ Max Bid. No competitor prices the lien stack into the bid.</p></div>
+    <div class="card"><h3>Joinder, not just a list</h3><p>A junior mortgage whose holder was not named in the lis pendens is not wiped (§48.23). The engine reads the LP party list and says UNRESOLVED with the citation — the exact defect that costs bidders the most.</p></div>
+    <div class="card"><h3>$25 and instant, before the sale</h3><p>Pre-harvested on a rolling 14–21-day window off our own auction calendar; the report is complete the moment a customer pays, not 1–2 business days later.</p></div>
+    <div class="card"><h3>Honesty as a feature</h3><p>Coverage, sources searched, effective date, sha256, and every UNRESOLVED reason print on the report. PO's fine print says "verify yourself"; we show what was and was not searched.</p></div>
+  </div>
+  <h2>Where they still beat us (and what closes it)</h2>
+  <div class="tbl"><table><thead><tr><th>Gap</th><th>Who has it</th><th>Closes with</th></tr></thead><tbody>
+<tr><td>Owner-name index search in 9 of 10 live counties (mortgages, satisfactions, assignments)</td><td>PO, Dono</td><td>#20255 — owner name from fl_parcels/zw_parcels, write every instrument, schedule all live counties</td></tr>
+<tr><td>Tax payment status (paid/delinquent, certificate sold)</td><td>PO, Dono</td><td>Lane C — Grant Street TaxSys adapter (~40 counties) first</td></tr>
+<tr><td>Recorded document images as exhibits</td><td>PO, Dono</td><td>Lane E — fetcher into bucket title-exhibits; DocLink / pdf.js URL patterns</td></tr>
+<tr><td>Full deed-to-deed chain statewide</td><td>PO, Dono</td><td>Lane F — name-search conveyances + PA sales history into title_chain_*</td></tr>
+<tr><td>Human-verified accuracy</td><td>PO, Dono</td><td>accuracy-proof sample (owner-acknowledged gate); disclosure keeps the liability posture meanwhile</td></tr>
+<tr><td>Counties beyond the live 10 (polk 122 · osceola 78 · seminole 77 · pasco 49 · collier 48 · miami-dade 44 · leon 44 upcoming)</td><td>PO (manual), Dono (700+)</td><td>adapters in volume order; myfloridacounty Turnstile counties need a browser + residential-proxy lane or a FACC data agreement</td></tr>
+  </tbody></table></div>
+  <div class="note"><strong>Positioning line for sales copy:</strong> "PropertyOnion sells you the documents; Dono sells title companies the search; SIGNAL$ tells you which liens you would inherit and takes them out of your max bid — for $25, before the gavel." Never name competitors in customer-facing copy.</div>
+  <p class="foot">Sources: PropertyOnion sample report (file 03162118533185, effective 03/04/21) · propertyonion.com/titlecheck/why-our-search · /titlecheck/about_title_check · /terms · /education/our-new-title-search-report-whats-inside-why-you-need-them-now (Mar 29 2021) · dono.ai (home, /coverage, /ai-title-report, blog Aug–Sep 2026) · BusinessWire Feb 10 2026 · thetitlereport.com Nov 18 2025 · propertyonion.com/education/how-ai-is-automating-title-eyal-stern-of-dono-ai-on-the-live-title-plant (Jul 14 2026) · Supabase live queries Sep 11 2026 (title_tier_coverage, v_title_search_coverage, title_lien_priority on Duval 16-2024-CA-002307 / 16-2025-CA-006431, Bay 24001056CA).</p>
+</div></body></html>
