@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://biddeed.ai/schemas/data_analyst.json",
+  "title": "data_analyst — SIGNAL$ twin of ATTOM's Data Analyst agent",
+  "description": "Market / county / portfolio aggregates. The beat: distressed clearing statistics from verified Florida auction outcomes (sold-to-assessed, sold-to-judgment, third-party share), never only a generic appreciation sentence. Live-market (Layer 3) fields print Pending until public.live_market_metrics exists.",
+  "type": "object",
+  "required": ["scope", "distressed", "provenance"],
+  "properties": {
+    "scope": {
+      "type": "object",
+      "required": ["geography_level", "geography"],
+      "properties": {
+        "geography_level": {"type": "string", "enum": ["county", "zip", "metro", "state"]},
+        "geography": {"type": "string"},
+        "sale_type": {"type": ["string", "null"], "enum": ["foreclosure", "tax_deed", "both", null]},
+        "since": {"type": ["string", "null"], "format": "date"},
+        "fallback_note": {"type": ["string", "null"], "description": "if a coarser geography was used, say so on the face of the answer"}
+      }
+    },
+    "distressed": {
+      "type": "object",
+      "description": "OURS — county clearing statistics",
+      "required": ["n_outcomes"],
+      "properties": {
+        "n_outcomes": {"type": "integer"},
+        "n_upcoming": {"type": ["integer", "null"]},
+        "median_sold_to_assessed": {"type": ["number", "null"]},
+        "median_sold_to_judgment": {"type": ["number", "null"]},
+        "third_party_share": {"type": ["number", "null"], "description": "share of sold lots taken by a non-plaintiff; null when buyer_type fill is below MIN_N"},
+        "min_n_for_confidence": {"type": "integer", "default": 10},
+        "confidence": {"type": "string", "enum": ["HIGH", "MEDIUM", "LOW", "WITHHELD"]},
+        "plaintiff_discount_index": {"type": "array", "items": {"type": "object", "properties": {"plaintiff": {}, "median_sold_to_judgment": {}, "n": {}}}}
+      }
+    },
+    "retail": {
+      "type": "object",
+      "description": "Layer 2 retail ARV statistics from DOR arm's-length sales",
+      "properties": {"n_sales": {}, "median_sale_price": {}, "median_price_per_sqft": {}, "since_year": {}}
+    },
+    "live_market": {
+      "type": "object",
+      "description": "Layer 3 — Zillow Research / Realtor.com research; ADDITIVE to Layers 1-2, never replaces them",
+      "properties": {
+        "available": {"type": "boolean"},
+        "zhvi": {}, "zhvi_yoy": {}, "zhvi_5yr": {}, "zori": {}, "rent_yoy": {},
+        "inventory": {}, "inventory_yoy": {}, "days_on_market": {}, "price_cut_pct": {}, "median_listing_price": {},
+        "geography_used": {"type": ["string", "null"]},
+        "reason": {"type": ["string", "null"], "description": "'Pending — live market layer not available for this geography'"}
+      }
+    },
+    "comparison": {
+      "type": "array",
+      "description": "cross-market rows, same shape as `distressed` per geography",
+      "items": {"type": "object"}
+    },
+    "charts": {
+      "type": "array",
+      "items": {"type": "object", "properties": {"kind": {"enum": ["bar", "line", "sparkline"]}, "title": {}, "series": {}}}
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["generated_at", "sources", "honesty"],
+      "properties": {"generated_at": {"type": "string"}, "sources": {"type": "array"}, "honesty": {"type": "array"}}
+    }
+  }
+}
