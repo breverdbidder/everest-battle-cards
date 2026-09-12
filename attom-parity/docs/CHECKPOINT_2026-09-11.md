@@ -1,4 +1,4 @@
-# SIGNAL$ × ATTOM parity — CHECKPOINT, Fri Sep 11 2026 7:20 PM ET (rows updated 8:55 PM ET — K7/K9/K10/K11 + K4 closed)
+# SIGNAL$ × ATTOM parity — CHECKPOINT, Fri Sep 11 2026 7:20 PM ET (rows updated Sat Sep 12 9:22 AM ET — K16 pdf.js layout fix pushed, PNG verification lane #20419 running)
 
 Board of record: cli-anything-biddeed #20287. Every number below was re-queried at 7:16 PM ET (Supabase mocerqjnksmhcjzxrewo) or read from `main`; nothing is carried from a run badge or an issue comment. Status vocabulary: HAVE · PARTIAL · GAP · BLOCKED · OURS (no ATTOM twin) · DEFECT.
 
@@ -25,7 +25,7 @@ E1 §REHAB renderer (b89233f9) · B1 Layer 3 re-land (50f92d72; 12,775 + 5,452 r
 | K13 | Other hazards — wind / wildfire / sinkhole (A7) | **GAP by decision** | prints "Pending — not sourced" | Only if a customer asks; FEMA flood is live | — |
 | K14 | Occupancy (A2) | **GAP by design** | no source; homestead status is the printed proxy | None — no homeowner-data purchase (compliance rule) | — |
 | K15 | Rehab estimate engine (§REHAB) | **PARTIAL** | both renderers print "Pending — rehab estimate engine not yet producing for this parcel"; no engine | Pro Plus construction-management program (C12) feeds this, not the ATTOM kit | separate program |
-| K16 | pdf.js layout defects (flagged by the kill-list lane, unfixed) | **DEFECT** | cover verdict/KPI strip drawn 44 pt above its band; `renderExecutiveSummary` paints over the verdict rect; `flagBox` writes code + text at the same x; §18 captured branch keys on legacy `outcome.result` the composer never emits → always Pending; `row()` page-break spills one row onto an empty page | One pdf.js layout pass with rendered-PNG proof; do it before the first customer PDF goes out | Architect or CC lane |
+| K16 | pdf.js layout defects (flagged by the kill-list lane) | **FIXED — verifying** (e22b17fe, 9:22 AM ET 9/12) | All 5 fixed directly by the architect: cover KPI strip now anchored to a snapshotted band-top instead of a moving `doc.y` (was landing 44pt above the band); thesis/exec-summary no longer painted over the band; `flagBox` code/detail text on separate lines instead of the same coordinates; §18 `auction_outcome` now reads the real composer fields (`outcome_captured`, `sale_price`, `scorecard.clearing_multiple`, `scorecard.value_band_call`) instead of legacy fields (`outcome.result`) the composer never emits; `row()` page-break now checks the real `doc.page.margins.bottom` instead of a mismatched magic number. `node --check` clean; this sandbox has no npm registry access to run pdfkit itself, so PNG proof is requested from verification-only lane #20419 rather than claimed here | PNG evidence from #20419, then close | Architect (code done) + CC lane #20419 (verifying) |
 | K17 | Grok GitHub write (Mission 0) | **BLOCKED — your side** | both connectors 403 on every write; Grok cannot push | 6 steps in docs/PRIVATE_REPO_HANDOFF.md (GitHub App installation permissions); until then Grok drafts, cc-runner executes | **Ariel** |
 | K18 | biddeed.ai homepage tile for the /answers embed | **OPTIONAL** | page is live and DB-driven; no homepage entry point | biddeed-web PR + your merge | Ariel (merge) |
 
@@ -41,6 +41,6 @@ The cc-runner RLS gate was no longer a pure false-red: it reported **2 new viola
 
 ## What the architect runs next without asking
 
-K16 (pdf.js layout pass with PNG proof) and K5 verification on a rendered report. K3, K4, K7, K9, K10, K11 are closed. The moat sections (two bands, SIGNAL$ Max Bid, statute-cited title stack, §18 writeback) already render.
+K5 verification on a rendered report. K3, K4, K7, K9, K10, K11 are closed; K16's code fix is pushed (e22b17fe) and awaiting PNG verification from lane #20419. The moat sections (two bands, SIGNAL$ Max Bid, statute-cited title stack, §18 writeback) already render.
 
 Pairing rule holds: BidDeed.AI + ZoneWise.AI together. Vendor name count in customer output: 0. Honesty Protocol: every open row above prints Pending / UNRESOLVED / WITHHELD in-line today.
