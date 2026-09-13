@@ -1,7 +1,7 @@
 # Battle card — ATTOM Intelligence vs SIGNAL$ (BidDeed.AI + ZoneWise.AI)
 
 **Internal document.** The vendor's name never appears in customer-facing copy. Customer-facing substitute: *"national property-data plants answer what the house is; we answer what you should bid."*
-Prepared 2026-09-11 (Fri) 2:30 PM ET · sources: attomdata.com agent pages + the 2026-08-18 announcement (fetched today) · live SIGNAL$ state re-queried from Supabase mocerqjnksmhcjzxrewo.
+Prepared 2026-09-11 (Fri) 2:30 PM ET · **refreshed 2026-09-12 (Sat) 11:15 PM ET** to the shipped lane outcomes (statuses re-read from main + Supabase at refresh time) · sources: attomdata.com agent pages + the 2026-08-18 announcement (fetched today) · live SIGNAL$ state re-queried from Supabase mocerqjnksmhcjzxrewo.
 Pairing rule: BidDeed.AI (foreclosures) + ZoneWise.AI (tax deeds / zoning) — always measured together, always shipped together.
 
 ## 1. Who they are (verified from their own pages)
@@ -19,7 +19,7 @@ Pairing rule: BidDeed.AI (foreclosures) + ZoneWise.AI (tax deeds / zoning) — a
 | | ATTOM Intelligence | SIGNAL$ Property Report |
 |---|---|---|
 | Job | *what the house is* (any U.S. parcel) | *what to pay, which liens survive, what the dirt can become* (FL foreclosure + tax-deed auctions; nationwide is the roadmap, Florida the MVP) |
-| Coverage | 160M+ U.S. properties | 10.5M FL parcels (67 counties); auction calendar 1,890 upcoming / 57 county slugs; title engine 25 live OR counties |
+| Coverage | 160M+ U.S. properties | 10.5M FL parcels (67 counties); auction calendar 1,922 upcoming / 59 county slugs (Sep 12 6:39 AM ET); title engine 25 live OR counties |
 | Price / access | enterprise contract, demo-gated | $25 one-time report · Investor $99 · Pro $199 · Pro Plus $399 · self-serve checkout |
 | Speed | "in seconds" after onboarding | instant — pre-harvested T-14 / T-21 before the sale |
 | Valuation | one AVM + confidence | TWO bands: distressed clearing band + retail ARV band; the spread is printed |
@@ -27,16 +27,16 @@ Pairing rule: BidDeed.AI (foreclosures) + ZoneWise.AI (tax deeds / zoning) — a
 | Title / liens | none published | statute-cited lien hierarchy (§48.23 · §197.122 · §197.552 · §713.07 · §720.3085 · §718.116 · 26 USC §7425); joinder vs LP party list; UNRESOLVED never guessed |
 | Zoning / envelope | none | ZoneWise §8: DOR land use, jurisdiction, district (or PENDING), envelope where built |
 | Outcome loop | none | §18 post-sale writeback grades the report's own call |
-| ML | none published | SIGNAL$ Models — probability **WITHHELD** until OOT validation on verified outcomes passes (V4 prod 0.478 / 0.391; v5b candidate 0.63 / 0.885, Sep 11) |
+| ML | none published | SIGNAL$ Models — tax deed PRINTS (td-soldvred-v1: OOT AUC 0.8625 vs 0.4841, n_test 1,624, verified outcomes); foreclosure **WITHHELD** in all three renderers (V4 prod 0.478; v5b 0.63; candidate fc-sold3p-po-v1 0.8765 vs 0.8291 on derived labels fails the DB +0.10 rule, passed=false, not wired — K6, owner decision) |
 | Delivery | MCP + A2A + chat + workbench | mcp.biddeed.ai (36 tools / 7 streams) + HTML + PDF + JSON; A2A: not yet |
 | Provenance | "grounded exclusively in ATTOM data" | every dollar carries a source; effective date; versioned title snapshot with sha256 |
 
 ## 3. Where they win (say it plainly)
 
-1. **Density of context** — schools, POI, non-flood hazards, occupancy, construction details, national coverage. We print Pending on schools and POI today (Lanes D/E name the free federal/open sources that close it).
-2. **Live-market series** — appreciation, inventory, DOM. Our Layer 3 is absent in the DB today (B1 lane; #20115 must re-land).
+1. **Density of context** — national coverage, non-flood hazards (K13, by decision), occupancy (K14, by design — no homeowner-data purchase), construction details not in the DOR roll. Schools (nearest + assigned), POI, aerial, rental estimate, value history, charts and the executive summary shipped Sep 11–12 and are no longer theirs.
+2. **Live-market series** — appreciation, inventory, DOM. Layer 3 re-landed Sep 11 (live_market_metrics 12,775 rows · insurance_premiums 5,452); HAVE the first time it prints on a real report (K5 — no render since Sep 11 12:17 PM ET).
 3. **A2A + workbench** — we have MCP only.
-4. **Tax amount / delinquency** — Lane C (tax collector) not live.
+4. **Tax amount / delinquency** — Lane C shipped but every county tax-collector fetch is Turnstile-walled (66 attempts, 0 ok); prints "Pending — tax collector not reachable" (K1, route decision open).
 
 ## 4. Where we win (and must keep winning)
 
